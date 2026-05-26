@@ -1,13 +1,31 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Fraunces, Instrument_Sans, JetBrains_Mono } from 'next/font/google';
 import { site } from '@/config/site';
 import { Providers } from './providers';
+import { SplashScreen } from '@/components/SplashScreen';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-display',
+  display: 'swap',
+  axes: ['opsz', 'SOFT'],
+});
+
+const instrument = Instrument_Sans({
+  subsets: ['latin'],
+  variable: '--font-body',
+  display: 'swap',
+});
+
+const jetbrains = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
-  title: `${site.name} — ${site.title}`,
+  title: site.name,
   description: site.tagline,
   openGraph: {
     title: `${site.name} — ${site.title}`,
@@ -19,9 +37,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={inter.variable} suppressHydrationWarning>
+    <html
+      lang="pt-BR"
+      className={`${fraunces.variable} ${instrument.variable} ${jetbrains.variable}`}
+      suppressHydrationWarning
+    >
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <SplashScreen />
+          {children}
+        </Providers>
       </body>
     </html>
   );

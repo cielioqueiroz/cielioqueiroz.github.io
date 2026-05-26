@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls \"D:/Ciélio - documentos pessoais/Certificados\" 2>&1 | head -100)",
+      "Read(//d/Ciélio - documentos pessoais/Certificados/**)",
+      "Bash(curl -s \"https://api.github.com/users/cielioqueiroz/repos?per_page=100&sort=updated\")",
+      "Bash(python -c \"import sys, json; data=json.load\\(sys.stdin\\); [print\\(f\\\\\"{r['name']} | {r.get\\('description',''\\)} | lang={r.get\\('language'\\)} | stars={r.get\\('stargazers_count'\\)} | url={r['html_url']} | pages={r.get\\('has_pages'\\)} | homepage={r.get\\('homepage',''\\)}\\\\\"\\) for r in data]\")",
+      "Bash(curl -s \"https://api.github.com/repos/cielioqueiroz/my-personal-portfolio\")",
+      "Bash(python -c \"import sys, json; r=json.load\\(sys.stdin\\); print\\(f\\\\\"name={r.get\\('name'\\)}, default_branch={r.get\\('default_branch'\\)}, pushed_at={r.get\\('pushed_at'\\)}, size={r.get\\('size'\\)}, description={r.get\\('description'\\)}, has_pages={r.get\\('has_pages'\\)}\\\\\"\\)\")",
+      "Bash(curl -s \"https://api.github.com/repos/cielioqueiroz/my-personal-portfolio/contents\")",
+      "Bash(python -c \"import sys, json; data=json.load\\(sys.stdin\\); [print\\(f\\\\\"{r['type']}: {r['name']}\\\\\"\\) for r in data]\")",
+      "Bash(npm install *)",
+      "Bash(npm view *)",
+      "Bash(npm run *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/)",
+      "Bash(git --version)",
+      "Bash(gh --version)",
+      "Bash(gh auth *)",
+      "PowerShell(gh --version 2>&1)",
+      "PowerShell(gh auth status 2>&1)",
+      "PowerShell(\"---\")",
+      "Bash(git init *)",
+      "Bash(git config *)",
+      "Bash(git add *)"
+    ]
+  }
+}

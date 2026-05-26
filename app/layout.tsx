@@ -25,13 +25,21 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: site.name,
+  metadataBase: new URL('https://cielioqueiroz.github.io'),
+  title: `${site.name} — ${site.title}`,
   description: site.tagline,
   openGraph: {
     title: `${site.name} — ${site.title}`,
     description: site.tagline,
+    url: 'https://cielioqueiroz.github.io',
+    siteName: site.name,
     type: 'website',
     locale: 'pt_BR',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${site.name} — ${site.title}`,
+    description: site.tagline,
   },
 };
 

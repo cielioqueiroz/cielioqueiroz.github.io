@@ -1,106 +1,227 @@
-# Portfólio — Cielio Queiroz
+# Ciélio Queiroz — Portfólio
 
-Portfólio pessoal construído com **Next.js 15** + **Tailwind CSS** + **TypeScript**, com deploy estático no **GitHub Pages**.
+Site pessoal e portfólio profissional de **Ciélio Queiroz** — desenvolvedor front-end e entusiasta de dados, com mais de 15 anos de experiência em gestão administrativa e financeira agora aplicada ao desenvolvimento de software.
 
-URL final: **https://cielioqueiroz.github.io**
+🌐 **Online:** [cielioqueiroz.github.io](https://cielioqueiroz.github.io)
+📍 Santana do Araguaia – PA, Brasil
 
-## Stack
+---
 
-- [Next.js 15](https://nextjs.org/) (App Router, static export)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [next-themes](https://github.com/pacocoursey/next-themes) — dark mode com toggle
-- [react-icons](https://react-icons.github.io/react-icons/) — ícones das tecnologias
-- [lucide-react](https://lucide.dev/) — ícones de UI
-- GitHub API — busca dos projetos em tempo de build
+## Sobre o site
 
-## Como rodar localmente
+Página única (one-page) com identidade visual editorial inspirada em revistas de negócio. Cada seção é numerada como uma matéria (`§ 01`, `§ 02`...), com tipografia serif para títulos, sans-serif para corpo e monoespaçada para metadados — combinando o rigor de uma demonstração financeira com a clareza de uma capa de revista.
+
+### Seções
+
+| § | Seção | O que é |
+|---|---|---|
+| 01 | Apresentação | Capa com retrato editorial duotone, nome, tagline e CTAs sociais |
+| 02 | Sobre mim | Trajetória de admin/financeiro para dev, com drop cap e pull quote |
+| 03 | Skills | Inventário tipográfico de tecnologias agrupadas por área |
+| 04 | Credenciais | Lista de 47 certificados (Programação, Dados & BI, IA, Administração) |
+| 05 | Planilhas vivas | DRE empresarial e fluxo de caixa familiar recriados em HTML como prova de domínio em modelagem financeira |
+| 06 | Projetos | Repositórios públicos do GitHub buscados em tempo real via API |
+| 07 | Colofão | Contato e créditos editoriais |
+
+---
+
+## Stack técnico
+
+| Camada | Ferramenta |
+|---|---|
+| Framework | [Next.js 15](https://nextjs.org/) (App Router, static export) |
+| Linguagem | [TypeScript](https://www.typescriptlang.org/) |
+| Estilização | [Tailwind CSS 3](https://tailwindcss.com/) + CSS custom properties |
+| Tema | [next-themes](https://github.com/pacocoursey/next-themes) — light/dark com persistência |
+| Tipografia | Fraunces (display serif), Instrument Sans (body), JetBrains Mono (mono) — via `next/font/google` |
+| Ícones | [lucide-react](https://lucide.dev/) (UI) + [react-icons](https://react-icons.github.io/react-icons/) (tecnologias) |
+| Dados de projetos | [GitHub REST API v3](https://docs.github.com/en/rest) — fetch client-side a cada visita |
+| Hospedagem | [GitHub Pages](https://pages.github.com/) (gratuita, com SSL) |
+| CI/CD | [GitHub Actions](https://github.com/features/actions) — build automático em push para `main` |
+
+### Características técnicas
+
+- **Static export** completo (`output: 'export'`) — site servido como HTML puro, sem servidor Node
+- **First Load JS**: ~113 kB (otimizado, sem libs pesadas como Framer Motion)
+- **Atualização ao vivo** dos projetos: a seção `§ 06` consulta a GitHub API toda vez que alguém abre o site
+- **Splash screen editorial** com contador % animado via CSS `@property` (imune a thread blocking)
+- **Retrato duotone** CSS-only com `mix-blend-mode` + grayscale, hover revela cor original
+- **Responsivo completo** (320 → 1920px) com menu hamburger mobile e drawer fullscreen
+- **Acessível**: `aria-label`, `aria-live`, navegação por teclado, foco visível, respeita `prefers-reduced-motion`
+
+---
+
+## Estrutura do projeto
+
+```
+my-portifolio/
+├── app/
+│   ├── layout.tsx              Layout raiz com fontes e tema
+│   ├── page.tsx                Composição da home
+│   ├── providers.tsx           ThemeProvider
+│   ├── globals.css             Variáveis CSS, tipografia base, splash, portrait
+│   └── icon.svg                Favicon
+├── components/
+│   ├── Navbar.tsx              Masthead + drawer mobile
+│   ├── Hero.tsx                Capa § 01
+│   ├── About.tsx               Sobre § 02
+│   ├── Skills.tsx              Skills § 03
+│   ├── Certificates.tsx        Credenciais § 04
+│   ├── DataShowcase.tsx        Planilhas vivas § 05
+│   ├── Projects.tsx            Projetos § 06 (client-side, fetch ao vivo)
+│   ├── Footer.tsx              Colofão § 07
+│   ├── Portrait.tsx            Retrato editorial com duotone CSS
+│   ├── SplashScreen.tsx        Tela de carregamento
+│   ├── SkillIcon.tsx           Mapeamento de ícones de skill
+│   └── ThemeToggle.tsx         Toggle light/dark
+├── config/
+│   └── site.ts                 Dados pessoais e conteúdo (único lugar a editar)
+├── lib/
+│   └── github.ts               Wrapper da GitHub REST API
+├── public/
+│   ├── portrait.jpg            Foto pessoal
+│   └── (favicon servido por app/icon.svg)
+├── .github/workflows/
+│   └── deploy.yml              CI: build + deploy no Pages
+├── next.config.mjs             output: 'export', trailingSlash
+├── tailwind.config.ts          Paleta editorial + animações
+└── tsconfig.json
+```
+
+---
+
+## Rodando localmente
+
+Pré-requisito: **Node.js 20+**.
 
 ```bash
+git clone https://github.com/cielioqueiroz/cielioqueiroz.github.io.git
+cd cielioqueiroz.github.io
 npm install
 npm run dev
 ```
 
 Abra `http://localhost:3000`.
 
-## Como editar os dados
+### Scripts disponíveis
 
-Tudo de pessoal está em **[`config/site.ts`](./config/site.ts)**:
+| Comando | O que faz |
+|---|---|
+| `npm run dev` | Inicia servidor de desenvolvimento com hot reload |
+| `npm run build` | Gera build estático em `out/` |
+| `npm run start` | Serve build de produção localmente |
+| `npm run lint` | Lint via ESLint |
+
+---
+
+## Como editar o conteúdo
+
+Todo conteúdo pessoal está em **[`config/site.ts`](./config/site.ts)** — único arquivo a tocar para atualizar:
 
 - `name`, `title`, `tagline`, `location`
-- `about` — parágrafos da seção "Sobre mim"
-- `socials` — links GitHub, LinkedIn, Instagram, Email
-- `skills` — agrupadas por categoria
-- `featuredRepos` — nomes de repos que aparecem primeiro
-- `hiddenRepos` — repos a ocultar
+- `about` — array de parágrafos da seção Sobre
+- `socials` — links de redes sociais e e-mail
+- `githubUsername` — usado pelo fetch da API
+- `featuredRepos` — repos que aparecem primeiro na lista
+- `hiddenRepos` — repos a ocultar (forks antigos, perfil readme, etc.)
+- `skills` — agrupadas por categoria, cada item com `name`, `icon`, `color`
+- `certificates` — agrupados por categoria, cada item com `title`, `issuer`
+- `dataCases` — dados das tabelas DRE e fluxo de caixa
 
-Não precisa mexer em nada além disso pra atualizar o conteúdo.
+Trocar a foto do retrato: substituir `public/portrait.jpg` (formato 4:5 vertical funciona melhor; o tratamento duotone é aplicado por CSS).
+
+---
 
 ## Deploy no GitHub Pages
 
-### 1. Crie o repositório no GitHub
+### 1. Criar o repositório
 
-Vá em https://github.com/new e crie um repo público chamado **exatamente**:
+Crie um repo público chamado exatamente:
 
 ```
 cielioqueiroz.github.io
 ```
 
-> O nome precisa ser igual ao seu username + `.github.io` pra URL ficar limpa em `https://cielioqueiroz.github.io`.
+Esse nome especial faz o GitHub publicar diretamente em `https://cielioqueiroz.github.io` sem subpastas.
 
-### 2. Suba este projeto
+### 2. Subir o código
 
-No PowerShell, dentro da pasta do projeto:
-
-```powershell
+```bash
 git init
 git add .
-git commit -m "feat: portfolio inicial"
+git commit -m "feat: portfólio inicial"
 git branch -M main
 git remote add origin https://github.com/cielioqueiroz/cielioqueiroz.github.io.git
 git push -u origin main
 ```
 
-### 3. Ative o GitHub Pages
+### 3. Ativar GitHub Pages
 
-No repositório criado, vá em **Settings → Pages** e em **Source** selecione **GitHub Actions**.
+No repositório criado:
 
-O workflow `.github/workflows/deploy.yml` cuida do build e publica automaticamente a cada push em `main`.
+1. Vá em **Settings → Pages**
+2. Em **Source**, selecione **GitHub Actions**
+3. Salve
 
-Aguarde 1–2 minutos e acesse: **https://cielioqueiroz.github.io**
+O workflow `.github/workflows/deploy.yml` cuida do resto: a cada push em `main`, ele instala dependências, builda e publica. Após 1–2 minutos, o site está no ar.
 
-## Atualizando o portfólio
+### 4. Atualizando o portfólio
 
-Edite, comite e dê push:
-
-```powershell
+```bash
 git add .
-git commit -m "update: nova info"
+git commit -m "update: nova informação"
 git push
 ```
 
-O Actions rebuilda e republica sozinho.
+O GitHub Actions reconstrói e republica sozinho.
 
-## Estrutura
+---
 
+## Customização visual
+
+Toda a paleta usa CSS custom properties em [`app/globals.css`](./app/globals.css):
+
+```css
+:root {
+  --bg: #F2EDE3;        /* papel creme — light */
+  --fg: #1A1815;        /* tinta */
+  --accent: #C9461E;    /* terracota */
+  --accent-2: #3A4A2F;  /* musgo */
+}
+.dark {
+  --bg: #0E0D0B;        /* tinta profunda — dark */
+  --fg: #EBE6DA;        /* creme */
+  --accent: #E8744A;    /* terracota brilhante */
+  --accent-2: #9FB57D;  /* musgo claro */
+}
 ```
-.
-├── app/                    # Páginas (App Router)
-│   ├── layout.tsx
-│   ├── page.tsx
-│   ├── providers.tsx
-│   └── globals.css
-├── components/             # Componentes React
-│   ├── Hero.tsx
-│   ├── About.tsx
-│   ├── Skills.tsx
-│   ├── SkillIcon.tsx
-│   ├── Projects.tsx
-│   ├── Navbar.tsx
-│   ├── Footer.tsx
-│   └── ThemeToggle.tsx
-├── config/site.ts          # ★ TODOS OS DADOS PESSOAIS
-├── lib/github.ts           # Fetch da GitHub API
-├── .github/workflows/      # CI/CD
-└── next.config.mjs         # output: 'export' pra Pages
-```
+
+Trocar a paleta toda é só editar essas variáveis.
+
+---
+
+## Performance
+
+| Métrica | Valor |
+|---|---|
+| First Load JS | ~113 kB |
+| Páginas | 1 (static) |
+| Build time | ~15s |
+| Lighthouse Performance | 95+ |
+| Mobile-friendly | Sim (320–1920px) |
+
+---
+
+## Contato
+
+- **LinkedIn:** [linkedin.com/in/jacielio-queiroz](https://www.linkedin.com/in/jacielio-queiroz/)
+- **GitHub:** [github.com/cielioqueiroz](https://github.com/cielioqueiroz)
+- **Instagram:** [@cielio.queiroz](https://www.instagram.com/cielio.queiroz/)
+- **E-mail:** cielioqueiroz@hotmail.com
+
+---
+
+## Licença
+
+Código deste portfólio: **MIT** — sinta-se à vontade para usar como referência.
+Conteúdo (textos, foto, certificados): © Ciélio Queiroz — todos os direitos reservados.

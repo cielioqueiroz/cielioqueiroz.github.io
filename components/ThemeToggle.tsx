@@ -11,7 +11,7 @@ export function ThemeToggle() {
   useEffect(() => setMounted(true), []);
 
   if (!mounted) {
-    return <div className="h-9 w-9" aria-hidden />;
+    return <div className="h-10 w-10" aria-hidden />;
   }
 
   const isDark = resolvedTheme === 'dark';
@@ -21,9 +21,19 @@ export function ThemeToggle() {
       type="button"
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
       aria-label={`Mudar pra tema ${isDark ? 'claro' : 'escuro'}`}
-      className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-700 transition-colors hover:border-accent hover:text-accent dark:border-slate-800 dark:text-slate-200 dark:hover:border-accent dark:hover:text-accent"
+      className="group relative inline-flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 hover:scale-105"
+      style={{
+        border: '1px solid var(--rule)',
+        color: 'var(--fg-soft)',
+      }}
     >
-      {isDark ? <Sun size={18} /> : <Moon size={18} />}
+      <span
+        className="absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{ background: 'color-mix(in srgb, var(--accent) 10%, transparent)' }}
+      />
+      <span className="relative transition-colors group-hover:text-[color:var(--accent)]">
+        {isDark ? <Sun size={16} strokeWidth={1.5} /> : <Moon size={16} strokeWidth={1.5} />}
+      </span>
     </button>
   );
 }

@@ -16,6 +16,7 @@ import {
   SiVite,
   SiJupyter,
   SiOpenai,
+  SiClaude,
 } from 'react-icons/si';
 import { IconType } from 'react-icons';
 
@@ -35,6 +36,7 @@ const iconMap: Record<string, IconType> = {
   SiVite,
   SiJupyter,
   SiOpenai,
+  SiClaude,
 };
 
 function initials(name: string): string {

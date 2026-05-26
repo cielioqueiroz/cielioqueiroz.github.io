@@ -8,4 +8,5 @@ npm-debug.log*
 .vscode/
 .idea/
 next-env.d.ts
+*.tsbuildinfo
 .claude/

@@ -7,11 +7,52 @@ export const site = {
   tagline:
     'Construindo interfaces, automatizando processos e transformando dados em decisão.',
   location: 'Santana do Araguaia – PA',
+  phone: '+55 (94) 99278-3184',
 
   about: [
     'Sou Jaciélio (Ciélio) Queiroz — administrador de formação com mais de 15 anos em gestão administrativa e financeira, agora mergulhando em desenvolvimento web e ciência de dados.',
     'Minha trajetória uniu contas a pagar/receber, fluxo de caixa e controle fiscal a projetos que tocaram React, Power BI, SQL e automação com n8n — sempre buscando otimizar processos e gerar resultado.',
     'Hoje crio interfaces modernas com React/Next.js e dashboards analíticos, conectando minha visão de negócio à capacidade de construir software que resolve problemas reais.',
+  ],
+
+  experience: [
+    {
+      role: 'Administrador Geral',
+      company: 'Fazenda Três Palmeiras',
+      start: '2020-03',
+      end: '2024-10',
+      achievements: [
+        'Redução de ~15% em custos operacionais',
+        'Reestruturação de processos administrativos',
+        'Coordenação de equipes e melhoria de fluxos internos',
+      ],
+    },
+    {
+      role: 'Analista Administrativo e Financeiro',
+      company: 'Supermercado Buriti',
+      start: '2015-03',
+      end: '2019-12',
+      achievements: [
+        'Contribuição para aumento de ~100% nas vendas em 2 anos',
+        'Gestão de fluxo de caixa, contas a pagar e receber',
+        'Conciliações bancárias e relatórios financeiros gerenciais',
+      ],
+    },
+    {
+      role: 'Assistente Administrativo',
+      company: 'Supermercado Melo',
+      start: '2008-04',
+      end: '2015-02',
+      achievements: [
+        'Controle de estoque e conferência de mercadorias',
+        'Lançamento de notas fiscais',
+        'Suporte a fluxo de caixa e organização documental',
+      ],
+    },
+  ],
+
+  education: [
+    { degree: 'Administração de Empresas', school: 'UNOPAR', year: 2022 },
   ],
 
   socials: {

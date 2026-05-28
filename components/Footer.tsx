@@ -1,6 +1,7 @@
 import { site } from '@/config/site';
 import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
 import { Mail } from 'lucide-react';
+import { VisitorCounter } from './VisitorCounter';
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -98,6 +99,7 @@ export function Footer() {
           </p>
           <p className="md:col-span-4 font-mono text-[10px] uppercase tracking-[0.22em] tabular md:text-right" style={{ color: 'var(--fg-muted)' }}>
             Vol. I · Edição {year}
+            <VisitorCounter />
           </p>
         </div>
       </div>

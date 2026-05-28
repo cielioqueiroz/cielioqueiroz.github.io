@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Fraunces, Instrument_Sans, JetBrains_Mono } from 'next/font/google';
 import { site } from '@/config/site';
 import { Providers } from './providers';
@@ -44,6 +44,13 @@ const personSchema = {
   },
   knowsAbout: ['React', 'Next.js', 'TypeScript', 'Power BI', 'SQL', 'Python', 'n8n'],
   alumniOf: { '@type': 'EducationalOrganization', name: 'UNOPAR' },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#F2EDE3' },
+    { media: '(prefers-color-scheme: dark)', color: '#0E0D0B' },
+  ],
 };
 
 export const metadata: Metadata = {

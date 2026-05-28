@@ -3,6 +3,7 @@ import { Fraunces, Instrument_Sans, JetBrains_Mono } from 'next/font/google';
 import { site } from '@/config/site';
 import { Providers } from './providers';
 import { SplashScreen } from '@/components/SplashScreen';
+import { SkipLink } from '@/components/SkipLink';
 import './globals.css';
 
 const fraunces = Fraunces({
@@ -23,6 +24,27 @@ const jetbrains = JetBrains_Mono({
   variable: '--font-mono',
   display: 'swap',
 });
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.fullName,
+  alternateName: site.shortName,
+  jobTitle: site.title,
+  url: 'https://cielioqueiroz.github.io',
+  image: 'https://cielioqueiroz.github.io/portrait.jpg',
+  email: `mailto:${site.socials.email}`,
+  telephone: site.phone,
+  sameAs: [site.socials.github, site.socials.linkedin, site.socials.instagram],
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Santana do Araguaia',
+    addressRegion: 'PA',
+    addressCountry: 'BR',
+  },
+  knowsAbout: ['React', 'Next.js', 'TypeScript', 'Power BI', 'SQL', 'Python', 'n8n'],
+  alumniOf: { '@type': 'EducationalOrganization', name: 'UNOPAR' },
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://cielioqueiroz.github.io'),
@@ -51,6 +73,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       suppressHydrationWarning
     >
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+        />
+        <SkipLink />
         <Providers>
           <SplashScreen />
           {children}

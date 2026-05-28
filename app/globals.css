@@ -278,6 +278,28 @@
   }
 }
 
+@layer components {
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 200;
+    padding: 0.75rem 1rem;
+    background: var(--bg);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+  }
+
+  .skip-link:focus {
+    left: 0.5rem;
+    top: 0.5rem;
+  }
+}
+
 @layer utilities {
   .stagger-1 { animation-delay: 0.05s; }
   .stagger-2 { animation-delay: 0.15s; }
@@ -604,5 +626,25 @@
   .splash__msg-cursor {
     animation: none !important;
     transition-duration: 0.2s !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-rise,
+  .animate-fade,
+  .animate-ticker,
+  .animate-sweep,
+  .animate-spin,
+  .animate-ping {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }

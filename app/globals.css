@@ -632,9 +632,9 @@
     scroll-behavior: auto;
   }
 
+  /* O ticker (faixa rolante) é mantido de propósito — efeito contínuo do design. */
   .animate-rise,
   .animate-fade,
-  .animate-ticker,
   .animate-sweep,
   .animate-spin,
   .animate-ping {
@@ -645,6 +645,5 @@
   *::before,
   *::after {
     transition-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
   }
 }

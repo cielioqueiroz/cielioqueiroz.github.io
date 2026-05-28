@@ -2,6 +2,8 @@ import { site } from '@/config/site';
 import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
 import { Mail } from 'lucide-react';
 import { VisitorCounter } from './VisitorCounter';
+import { CopyEmailButton } from './CopyEmailButton';
+import { CVFooterRow } from './CVFooterRow';
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -47,6 +49,12 @@ export function Footer() {
             <wbr />
             hotmail<span style={{ color: 'var(--fg-muted)' }}>.com</span>
           </a>
+          <div className="mt-6">
+            <CopyEmailButton
+              label
+              className="inline-flex items-center gap-2 rounded-full border border-[var(--rule)] px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em] transition-colors hover:text-[color:var(--accent)] hover:border-[color:var(--accent)]"
+            />
+          </div>
         </div>
 
 <div className="mt-20 grid gap-10 md:grid-cols-12 md:gap-x-8">
@@ -86,6 +94,9 @@ export function Footer() {
                   </a>
                 </li>
               ))}
+              <li>
+                <CVFooterRow />
+              </li>
             </ul>
           </div>
         </div>

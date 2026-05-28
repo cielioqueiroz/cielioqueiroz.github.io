@@ -2,6 +2,8 @@ import { site } from '@/config/site';
 import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
 import { Mail, ArrowDownRight } from 'lucide-react';
 import { Portrait } from './Portrait';
+import { CVButton } from './CVButton';
+import { CopyEmailButton } from './CopyEmailButton';
 
 const today = new Date().toLocaleDateString('pt-BR', {
   day: '2-digit',
@@ -102,11 +104,12 @@ export function Hero() {
             </div>
 
 <div className="mt-14 flex flex-wrap items-center gap-3 animate-rise stagger-6">
+              <CVButton variant="solid" />
               <a
                 href={site.socials.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="pill-solid group"
+                className="pill group"
               >
                 <FaLinkedin size={14} />
                 LinkedIn
@@ -120,10 +123,24 @@ export function Hero() {
                 <FaInstagram size={14} />
                 Instagram
               </a>
-              <a href={`mailto:${site.socials.email}`} className="pill">
-                <Mail size={14} />
-                Contato
-              </a>
+
+              <div
+                role="group"
+                aria-label="Contato por e-mail"
+                className="inline-flex items-center overflow-hidden rounded-full font-mono text-[12px] uppercase tracking-[0.18em] transition-colors"
+                style={{ border: '1px solid var(--rule)', color: 'var(--fg)' }}
+              >
+                <a
+                  href={`mailto:${site.socials.email}`}
+                  className="inline-flex items-center gap-2 px-4 py-2 transition-colors hover:text-[color:var(--accent)]"
+                >
+                  <Mail size={14} />
+                  Contato
+                </a>
+                <CopyEmailButton
+                  className="inline-flex items-center self-stretch border-l border-[var(--rule)] px-3 transition-colors hover:text-[color:var(--accent)]"
+                />
+              </div>
             </div>
           </div>
         </div>

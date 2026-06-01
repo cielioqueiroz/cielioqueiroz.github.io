@@ -149,7 +149,7 @@ export function DataShowcase() {
                       </td>
                       <td
                         className="px-5 py-3 text-right tabular font-mono text-[13px]"
-                        style={{ color: ahPositive ? 'var(--accent-2)' : '#B5462A' }}
+                        style={{ color: ahPositive ? 'var(--accent-2)' : 'var(--danger)' }}
                       >
                         {fmtSignedPct(r.ah)}
                       </td>
@@ -239,7 +239,7 @@ export function DataShowcase() {
                               className="absolute inset-y-0 left-0 rounded-full"
                               style={{
                                 width: `${barW}%`,
-                                background: isAtencao ? '#B5462A' : 'var(--accent-2)',
+                                background: isAtencao ? 'var(--danger)' : 'var(--accent-2)',
                               }}
                             />
                           </div>
@@ -251,11 +251,11 @@ export function DataShowcase() {
                       <td className="px-5 py-3 text-right">
                         <span
                           className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em]"
-                          style={{ color: isAtencao ? '#B5462A' : 'var(--accent-2)' }}
+                          style={{ color: isAtencao ? 'var(--danger)' : 'var(--accent-2)' }}
                         >
                           <span
                             className="h-1.5 w-1.5 rounded-full"
-                            style={{ background: isAtencao ? '#B5462A' : 'var(--accent-2)' }}
+                            style={{ background: isAtencao ? 'var(--danger)' : 'var(--accent-2)' }}
                           />
                           {r.status}
                         </span>

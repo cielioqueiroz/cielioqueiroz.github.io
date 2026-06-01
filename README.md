@@ -9,13 +9,13 @@ Site pessoal e portfólio profissional de **Ciélio Queiroz** — desenvolvedor 
 
 ## Sobre o site
 
-Página única (one-page) com identidade visual editorial inspirada em revistas de negócio. Cada seção é numerada como uma matéria (`§ 01`, `§ 02`...), com tipografia serif para títulos, sans-serif para corpo e monoespaçada para metadados — combinando o rigor de uma demonstração financeira com a clareza de uma capa de revista.
+Página única (one-page) com identidade visual **_Swiss Luxe_** — minimalismo suíço premium. Cada seção é numerada (`§ 01`, `§ 02`...), com tipografia grotesca para títulos, sans-serif para corpo e monoespaçada para metadados — combinando o rigor de uma demonstração financeira com a sobriedade de um estúdio de design.
 
 ### Seções
 
 | § | Seção | O que é |
 |---|---|---|
-| 01 | Apresentação | Capa com retrato editorial duotone, nome, tagline e CTAs sociais |
+| 01 | Apresentação | Capa com retrato duotone, nome, tagline e CTAs sociais |
 | 02 | Sobre mim | Trajetória de admin/financeiro para dev, com drop cap e pull quote |
 | 03 | Skills | Inventário tipográfico de tecnologias agrupadas por área |
 | 04 | Credenciais | Lista de 47 certificados (Programação, Dados & BI, IA, Administração) |
@@ -33,7 +33,7 @@ Página única (one-page) com identidade visual editorial inspirada em revistas 
 | Linguagem | [TypeScript](https://www.typescriptlang.org/) |
 | Estilização | [Tailwind CSS 3](https://tailwindcss.com/) + CSS custom properties |
 | Tema | [next-themes](https://github.com/pacocoursey/next-themes) — light/dark com persistência |
-| Tipografia | Fraunces (display serif), Instrument Sans (body), JetBrains Mono (mono) — via `next/font/google` |
+| Tipografia | Schibsted Grotesk (display), Hanken Grotesk (body), Geist Mono (mono) — via `next/font/google` |
 | Ícones | [lucide-react](https://lucide.dev/) (UI) + [react-icons](https://react-icons.github.io/react-icons/) (tecnologias) |
 | Dados de projetos | [GitHub REST API v3](https://docs.github.com/en/rest) — fetch client-side a cada visita |
 | Hospedagem | [GitHub Pages](https://pages.github.com/) (gratuita, com SSL) |
@@ -44,8 +44,9 @@ Página única (one-page) com identidade visual editorial inspirada em revistas 
 - **Static export** completo (`output: 'export'`) — site servido como HTML puro, sem servidor Node
 - **First Load JS**: ~113 kB (otimizado, sem libs pesadas como Framer Motion)
 - **Atualização ao vivo** dos projetos: a seção `§ 06` consulta a GitHub API toda vez que alguém abre o site
-- **Splash screen editorial** com contador % animado via CSS `@property` (imune a thread blocking)
+- **Splash screen** com contador % animado via CSS `@property` (imune a thread blocking)
 - **Retrato duotone** CSS-only com `mix-blend-mode` + grayscale, hover revela cor original
+- **Navegação ativa**: scrollspy na navbar (`IntersectionObserver`) e revelação de seções ao rolar via CSS scroll-driven (`animation-timeline: view()`), com fallback e respeito a `prefers-reduced-motion`
 - **Responsivo completo** (320 → 1920px) com menu hamburger mobile e drawer fullscreen
 - **Acessível**: `aria-label`, `aria-live`, navegação por teclado, foco visível, respeita `prefers-reduced-motion`
 
@@ -70,7 +71,7 @@ my-portifolio/
 │   ├── DataShowcase.tsx        Planilhas vivas § 05
 │   ├── Projects.tsx            Projetos § 06 (client-side, fetch ao vivo)
 │   ├── Footer.tsx              Colofão § 07
-│   ├── Portrait.tsx            Retrato editorial com duotone CSS
+│   ├── Portrait.tsx            Retrato com duotone CSS
 │   ├── SplashScreen.tsx        Tela de carregamento
 │   ├── SkillIcon.tsx           Mapeamento de ícones de skill
 │   └── ThemeToggle.tsx         Toggle light/dark
@@ -84,7 +85,7 @@ my-portifolio/
 ├── .github/workflows/
 │   └── deploy.yml              CI: build + deploy no Pages
 ├── next.config.mjs             output: 'export', trailingSlash
-├── tailwind.config.ts          Paleta editorial + animações
+├── tailwind.config.ts          Paleta Swiss Luxe + animações
 └── tsconfig.json
 ```
 
@@ -183,16 +184,16 @@ Toda a paleta usa CSS custom properties em [`app/globals.css`](./app/globals.css
 
 ```css
 :root {
-  --bg: #F2EDE3;        /* papel creme — light */
-  --fg: #1A1815;        /* tinta */
-  --accent: #C9461E;    /* terracota */
-  --accent-2: #3A4A2F;  /* musgo */
+  --bg: #F7F7F4;        /* off-white — light */
+  --fg: #111214;        /* carvão */
+  --accent: #1F4D3D;    /* verde-petróleo */
+  --danger: #B23A2E;    /* tijolo (status) */
 }
 .dark {
-  --bg: #0E0D0B;        /* tinta profunda — dark */
-  --fg: #EBE6DA;        /* creme */
-  --accent: #E8744A;    /* terracota brilhante */
-  --accent-2: #9FB57D;  /* musgo claro */
+  --bg: #0C0D0E;        /* preto neutro — dark */
+  --fg: #ECECEA;        /* branco-gelo */
+  --accent: #4FC59B;    /* menta */
+  --danger: #E0796B;    /* coral (status) */
 }
 ```
 

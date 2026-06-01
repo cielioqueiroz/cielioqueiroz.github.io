@@ -11,33 +11,33 @@ const config: Config = {
     extend: {
       colors: {
         paper: {
-          DEFAULT: '#F2EDE3',
-          deep: '#E8E0CE',
+          DEFAULT: '#F7F7F4',
+          deep: '#EFEFEA',
         },
         ink: {
-          DEFAULT: '#1A1815',
-          soft: '#3D3933',
-          muted: '#6B6557',
+          DEFAULT: '#111214',
+          soft: '#3A3C40',
+          muted: '#76797F',
         },
         cream: {
-          DEFAULT: '#EBE6DA',
-          soft: '#A39C8B',
-          muted: '#8C8475',
+          DEFAULT: '#ECECEA',
+          soft: '#C2C3C1',
+          muted: '#8A8C8A',
         },
         coal: {
-          DEFAULT: '#0E0D0B',
-          raised: '#171511',
-          edge: '#23201B',
+          DEFAULT: '#0C0D0E',
+          raised: '#131517',
+          edge: '#1E2123',
         },
-        terra: {
-          DEFAULT: '#C9461E',
-          dark: '#A83A18',
-          light: '#E8744A',
-          glow: '#F19B73',
+        petrol: {
+          DEFAULT: '#1F4D3D',
+          dark: '#16382C',
+          light: '#4FC59B',
+          glow: '#6FD3B0',
         },
-        moss: {
-          DEFAULT: '#3A4A2F',
-          light: '#9FB57D',
+        danger: {
+          DEFAULT: '#B23A2E',
+          light: '#E0796B',
         },
       },
       fontFamily: {

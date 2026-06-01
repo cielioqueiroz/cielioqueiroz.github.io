@@ -1,25 +1,24 @@
 import type { Metadata, Viewport } from 'next';
-import { Fraunces, Instrument_Sans, JetBrains_Mono } from 'next/font/google';
+import { Schibsted_Grotesk, Hanken_Grotesk, Geist_Mono } from 'next/font/google';
 import { site } from '@/config/site';
 import { Providers } from './providers';
 import { SplashScreen } from '@/components/SplashScreen';
 import { SkipLink } from '@/components/SkipLink';
 import './globals.css';
 
-const fraunces = Fraunces({
+const display = Schibsted_Grotesk({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
-  axes: ['opsz', 'SOFT'],
 });
 
-const instrument = Instrument_Sans({
+const body = Hanken_Grotesk({
   subsets: ['latin'],
   variable: '--font-body',
   display: 'swap',
 });
 
-const jetbrains = JetBrains_Mono({
+const mono = Geist_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
   display: 'swap',
@@ -48,8 +47,8 @@ const personSchema = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#F2EDE3' },
-    { media: '(prefers-color-scheme: dark)', color: '#0E0D0B' },
+    { media: '(prefers-color-scheme: light)', color: '#F7F7F4' },
+    { media: '(prefers-color-scheme: dark)', color: '#0C0D0E' },
   ],
 };
 
@@ -76,7 +75,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="pt-BR"
-      className={`${fraunces.variable} ${instrument.variable} ${jetbrains.variable}`}
+      className={`${display.variable} ${body.variable} ${mono.variable}`}
       suppressHydrationWarning
     >
       <body>

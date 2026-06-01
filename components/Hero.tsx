@@ -115,27 +115,30 @@ export function Hero() {
                 LinkedIn
                 <ArrowDownRight size={14} className="transition-transform group-hover:-rotate-45" />
               </a>
-              <a href={site.socials.github} target="_blank" rel="noopener noreferrer" className="pill">
+              <a href={site.socials.github} target="_blank" rel="noopener noreferrer" className="pill group cursor-pointer">
                 <FaGithub size={14} />
                 GitHub
+                <ArrowDownRight size={14} className="transition-transform group-hover:-rotate-45" />
               </a>
-              <a href={site.socials.instagram} target="_blank" rel="noopener noreferrer" className="pill">
+              <a href={site.socials.instagram} target="_blank" rel="noopener noreferrer" className="pill group cursor-pointer">
                 <FaInstagram size={14} />
                 Instagram
+                <ArrowDownRight size={14} className="transition-transform group-hover:-rotate-45" />
               </a>
 
               <div
                 role="group"
                 aria-label="Contato por e-mail"
-                className="inline-flex items-center overflow-hidden rounded-full font-mono text-[12px] uppercase tracking-[0.18em] transition-colors"
+                className="group inline-flex items-center overflow-hidden rounded-full font-mono text-[12px] uppercase tracking-[0.18em] transition-colors"
                 style={{ border: '1px solid var(--rule)', color: 'var(--fg)' }}
               >
                 <a
                   href={`mailto:${site.socials.email}`}
-                  className="inline-flex items-center gap-2 px-4 py-2 transition-colors hover:text-[color:var(--accent)]"
+                  className="inline-flex cursor-pointer items-center gap-2 px-4 py-2 transition-colors hover:text-[color:var(--accent)]"
                 >
                   <Mail size={14} />
                   Contato
+                  <ArrowDownRight size={14} className="transition-transform group-hover:-rotate-45" />
                 </a>
                 <CopyEmailButton
                   className="inline-flex items-center self-stretch border-l border-[var(--rule)] px-3 transition-colors hover:text-[color:var(--accent)]"

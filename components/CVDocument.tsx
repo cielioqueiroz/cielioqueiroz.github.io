@@ -8,37 +8,39 @@ import {
 } from '@react-pdf/renderer';
 import type { Site } from '@/config/site';
 
-/* ---- Fontes (instâncias estáticas servidas de /public/fonts/cv) ---- */
+/* ---- Fontes (instâncias estáticas servidas de /public/fonts/cv) ----
+   Alinhadas às grotescas do site: Schibsted Grotesk (display),
+   Hanken Grotesk (corpo) e Geist Mono (mono). */
 Font.register({
-  family: 'Fraunces',
+  family: 'SchibstedGrotesk',
   fonts: [
-    { src: '/fonts/cv/Fraunces-Regular.ttf' },
-    { src: '/fonts/cv/Fraunces-Italic.ttf', fontStyle: 'italic' },
-    { src: '/fonts/cv/Fraunces-Medium.ttf', fontWeight: 500 },
+    { src: '/fonts/cv/SchibstedGrotesk-Regular.ttf' },
+    { src: '/fonts/cv/SchibstedGrotesk-Medium.ttf', fontWeight: 500 },
   ],
 });
 Font.register({
-  family: 'InstrumentSans',
+  family: 'HankenGrotesk',
   fonts: [
-    { src: '/fonts/cv/InstrumentSans-Regular.ttf' },
-    { src: '/fonts/cv/InstrumentSans-Italic.ttf', fontStyle: 'italic' },
+    { src: '/fonts/cv/HankenGrotesk-Regular.ttf' },
+    { src: '/fonts/cv/HankenGrotesk-Medium.ttf', fontWeight: 500 },
+    { src: '/fonts/cv/HankenGrotesk-Italic.ttf', fontStyle: 'italic' },
   ],
 });
 Font.register({
-  family: 'JetBrainsMono',
-  fonts: [{ src: '/fonts/cv/JetBrainsMono-Regular.ttf' }],
+  family: 'GeistMono',
+  fonts: [{ src: '/fonts/cv/GeistMono-Regular.ttf' }],
 });
 
 // Sem hifenização automática — evita quebras feias em palavras longas.
 Font.registerHyphenationCallback((word) => [word]);
 
-/* ---- Paleta (alinhada ao site, mas otimizada p/ impressão e ATS) ---- */
+/* ---- Paleta (verde-petróleo do site, otimizada p/ impressão e ATS) ---- */
 const C = {
-  ink: '#1A1815',
-  soft: '#3D3933',
-  muted: '#6B6557',
-  accent: '#C9461E',
-  rule: '#D8D0C2',
+  ink: '#111214',
+  soft: '#3A3C40',
+  muted: '#76797F',
+  accent: '#1F4D3D',
+  rule: '#DADBDD',
   paper: '#FFFFFF',
 };
 
@@ -87,23 +89,23 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingBottom: 40,
     paddingHorizontal: 46,
-    fontFamily: 'InstrumentSans',
+    fontFamily: 'HankenGrotesk',
     fontSize: 9.5,
     lineHeight: 1.5,
   },
 
   /* Header */
-  name: { fontFamily: 'Fraunces', fontSize: 28, lineHeight: 1 },
-  nameAccent: { fontFamily: 'Fraunces', fontStyle: 'italic', color: C.accent },
+  name: { fontFamily: 'SchibstedGrotesk', fontWeight: 500, fontSize: 28, lineHeight: 1, letterSpacing: -0.6 },
+  nameAccent: { fontFamily: 'SchibstedGrotesk', fontWeight: 500, color: C.accent },
   role: { fontSize: 11, color: C.soft, marginTop: 6 },
   headerRule: { height: 1.5, backgroundColor: C.accent, marginTop: 12, marginBottom: 10 },
-  contactLine: { fontFamily: 'JetBrainsMono', fontSize: 8, color: C.muted },
-  portfolioLine: { fontFamily: 'JetBrainsMono', fontSize: 8, color: C.accent, marginTop: 4 },
+  contactLine: { fontFamily: 'GeistMono', fontSize: 8, color: C.muted },
+  portfolioLine: { fontFamily: 'GeistMono', fontSize: 8, color: C.accent, marginTop: 4 },
 
   /* Seções */
   section: { marginTop: 20 },
   marker: {
-    fontFamily: 'JetBrainsMono',
+    fontFamily: 'GeistMono',
     fontSize: 8,
     color: C.accent,
     letterSpacing: 1.5,
@@ -114,10 +116,10 @@ const styles = StyleSheet.create({
 
   /* Experiência */
   job: { marginBottom: 12 },
-  jobHead: { fontFamily: 'Fraunces', fontSize: 12, color: C.ink },
-  jobCompany: { fontStyle: 'italic', color: C.soft },
+  jobHead: { fontFamily: 'SchibstedGrotesk', fontWeight: 500, fontSize: 12, color: C.ink },
+  jobCompany: { fontFamily: 'HankenGrotesk', fontWeight: 400, fontStyle: 'italic', color: C.soft },
   jobPeriod: {
-    fontFamily: 'JetBrainsMono',
+    fontFamily: 'GeistMono',
     fontSize: 8.5,
     color: C.accent,
     marginTop: 2,
@@ -131,7 +133,7 @@ const styles = StyleSheet.create({
   defRow: { flexDirection: 'row', marginBottom: 5 },
   defLabel: {
     width: 110,
-    fontFamily: 'JetBrainsMono',
+    fontFamily: 'GeistMono',
     fontSize: 8,
     color: C.muted,
     textTransform: 'uppercase',
@@ -143,8 +145,8 @@ const styles = StyleSheet.create({
   /* Credenciais */
   certGroup: { marginBottom: 10 },
   certHead: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 },
-  certCat: { fontFamily: 'Fraunces', fontSize: 11, color: C.ink },
-  certCount: { fontFamily: 'JetBrainsMono', fontSize: 8, color: C.accent },
+  certCat: { fontFamily: 'SchibstedGrotesk', fontWeight: 500, fontSize: 11, color: C.ink },
+  certCount: { fontFamily: 'GeistMono', fontSize: 8, color: C.accent },
   certItem: { color: C.soft, marginBottom: 1.5 },
   certClose: { fontStyle: 'italic', color: C.muted, marginTop: 2 },
 
@@ -154,7 +156,7 @@ const styles = StyleSheet.create({
     bottom: 22,
     left: 46,
     right: 46,
-    fontFamily: 'JetBrainsMono',
+    fontFamily: 'GeistMono',
     fontSize: 7.5,
     color: C.muted,
     textAlign: 'center',

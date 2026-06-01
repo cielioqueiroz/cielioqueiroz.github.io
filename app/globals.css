@@ -238,7 +238,7 @@
   .portrait-frame .crosshair.br { bottom: 8px; right: 8px; }
 
   .pill {
-    @apply inline-flex items-center gap-2 rounded-md px-4 py-2 font-mono text-[12px] uppercase tracking-[0.18em] transition-all duration-300;
+    @apply inline-flex cursor-pointer items-center gap-2 rounded-md px-4 py-2 font-mono text-[12px] uppercase tracking-[0.18em] transition-all duration-300;
     border: 1px solid var(--rule);
     color: var(--fg);
   }
@@ -250,7 +250,7 @@
   }
 
   .pill-solid {
-    @apply inline-flex items-center gap-2 rounded-md px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.18em] transition-all duration-300;
+    @apply inline-flex cursor-pointer items-center gap-2 rounded-md px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.18em] transition-all duration-300;
     background: var(--fg);
     color: var(--bg);
   }

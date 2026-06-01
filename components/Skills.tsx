@@ -8,7 +8,7 @@ export function Skills() {
         
         <div className="reveal grid items-end gap-y-3 md:grid-cols-12 md:gap-x-8">
           <div className="md:col-span-3">
-            <p className="marker">§ 03</p>
+            <p className="marker">§ 04</p>
           </div>
           <div className="md:col-span-9">
             <div className="rule-thick mb-6" />

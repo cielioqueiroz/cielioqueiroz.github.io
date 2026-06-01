@@ -7,10 +7,10 @@ import { Menu, X } from 'lucide-react';
 
 const links = [
   { href: '#sobre', label: 'Sobre', n: '02' },
-  { href: '#skills', label: 'Skills', n: '03' },
-  { href: '#certificados', label: 'Credenciais', n: '04' },
-  { href: '#dados', label: 'Dados', n: '05' },
-  { href: '#projetos', label: 'Projetos', n: '06' },
+  { href: '#projetos', label: 'Projetos', n: '03' },
+  { href: '#skills', label: 'Skills', n: '04' },
+  { href: '#certificados', label: 'Credenciais', n: '05' },
+  { href: '#dados', label: 'Dados', n: '06' },
 ];
 
 export function Navbar() {

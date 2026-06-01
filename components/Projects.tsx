@@ -1,9 +1,12 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { fetchUserRepos, sortRepos, repoDisplayDescription, type Repo } from '@/lib/github';
+import { fetchUserRepos, fetchPinnedRepoNames, sortRepos, repoDisplayDescription, type Repo } from '@/lib/github';
 import { site } from '@/config/site';
 import { ArrowUpRight, Star, GitFork, RefreshCw } from 'lucide-react';
+
+/** Quantos repositórios exibir na vitrine; o resto fica no "Ver tudo no GitHub". */
+const MAX_VISIBLE = 10;
 
 const langColors: Record<string, string> = {
   JavaScript: '#F7DF1E',
@@ -34,12 +37,11 @@ function timeAgo(d: Date): string {
   return d.toLocaleDateString('pt-BR');
 }
 
-function RepoRow({ repo, index }: { repo: Repo; index: number }) {
+function RepoRow({ repo, index, isPinned }: { repo: Repo; index: number; isPinned: boolean }) {
   const demoUrl =
     repo.homepage ||
     (repo.has_pages ? `https://${site.githubUsername}.github.io/${repo.name}` : null);
   const primaryUrl = demoUrl || repo.html_url;
-  const isFeatured = (site.featuredRepos as readonly string[]).includes(repo.name);
 
   const prettyName = repo.name.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 
@@ -72,12 +74,12 @@ function RepoRow({ repo, index }: { repo: Repo; index: number }) {
               >
                 {String(index + 1).padStart(2, '0')}
               </span>
-              {isFeatured && (
+              {isPinned && (
                 <span
                   className="font-mono text-[9px] uppercase tracking-[0.22em]"
                   style={{ color: 'var(--accent)' }}
                 >
-                  ◆ destaque
+                  ◆ fixado
                 </span>
               )}
             </div>
@@ -180,7 +182,7 @@ function SkeletonRow({ index }: { index: number }) {
 type State =
   | { kind: 'idle' }
   | { kind: 'loading' }
-  | { kind: 'ok'; repos: Repo[]; updatedAt: Date }
+  | { kind: 'ok'; repos: Repo[]; pinned: string[]; total: number; updatedAt: Date }
   | { kind: 'error'; message: string };
 
 export function Projects() {
@@ -192,9 +194,18 @@ export function Projects() {
     const timeoutId = setTimeout(() => ctrl.abort(), 12000);
     setState({ kind: 'loading' });
     try {
-      const repos = await fetchUserRepos(ctrl.signal);
+      const [repos, pinned] = await Promise.all([
+        fetchUserRepos(ctrl.signal),
+        fetchPinnedRepoNames(ctrl.signal),
+      ]);
       clearTimeout(timeoutId);
-      setState({ kind: 'ok', repos: sortRepos(repos), updatedAt: new Date() });
+      setState({
+        kind: 'ok',
+        repos: sortRepos(repos, pinned),
+        pinned,
+        total: repos.length,
+        updatedAt: new Date(),
+      });
     } catch (e) {
       clearTimeout(timeoutId);
       const msg =
@@ -226,7 +237,10 @@ export function Projects() {
   }, [state, load]);
 
   const isLoading = state.kind === 'loading' || state.kind === 'idle';
-  const repos = state.kind === 'ok' ? state.repos : [];
+  const allRepos = state.kind === 'ok' ? state.repos : [];
+  const repos = allRepos.slice(0, MAX_VISIBLE);
+  const total = state.kind === 'ok' ? state.total : 0;
+  const pinnedSet = state.kind === 'ok' ? new Set(state.pinned) : new Set<string>();
 
   return (
     <section id="projetos" className="section">
@@ -234,7 +248,7 @@ export function Projects() {
         
         <div className="reveal grid items-end gap-y-3 md:grid-cols-12 md:gap-x-8">
           <div className="md:col-span-3">
-            <p className="marker">§ 06</p>
+            <p className="marker">§ 03</p>
           </div>
           <div className="md:col-span-9">
             <div className="rule-thick mb-6" />
@@ -254,7 +268,7 @@ export function Projects() {
                   >
                     GitHub API
                   </a>
-                  . Featured primeiro, depois por data de push.
+                  . Fixados (pinned) primeiro, depois por data de push.
                 </p>
                 <div className="flex items-center gap-3">
                   {state.kind === 'ok' && (
@@ -345,21 +359,21 @@ export function Projects() {
               <div className="rule-thick" />
               <div>
                 {repos.map((repo, i) => (
-                  <RepoRow key={repo.id} repo={repo} index={i} />
+                  <RepoRow key={repo.id} repo={repo} index={i} isPinned={pinnedSet.has(repo.name)} />
                 ))}
               </div>
 
               <div className="mt-10 flex flex-wrap items-center justify-between gap-3">
                 <p className="font-mono text-[10px] uppercase tracking-[0.2em]" style={{ color: 'var(--fg-muted)' }}>
-                  {repos.length} repositórios públicos · dados via GitHub REST API v3
+                  Exibindo {repos.length} de {total} repositórios públicos · dados via GitHub API
                 </p>
                 <a
                   href={site.socials.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="pill"
+                  className="pill group"
                 >
-                  Ver tudo no GitHub <ArrowUpRight size={14} />
+                  Ver tudo no GitHub <ArrowUpRight size={14} className="transition-transform group-hover:rotate-45" />
                 </a>
               </div>
             </>

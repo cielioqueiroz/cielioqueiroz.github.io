@@ -21,7 +21,7 @@ export function DataShowcase() {
     >
       <div className="frame">
         
-        <div className="grid items-end gap-y-3 md:grid-cols-12 md:gap-x-8">
+        <div className="reveal grid items-end gap-y-3 md:grid-cols-12 md:gap-x-8">
           <div className="md:col-span-3">
             <p className="marker">§ 05</p>
           </div>

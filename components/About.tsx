@@ -9,7 +9,7 @@ export function About() {
     <section id="sobre" className="section">
       <div className="frame">
         
-        <div className="grid items-end gap-y-3 md:grid-cols-12 md:gap-x-8">
+        <div className="reveal grid items-end gap-y-3 md:grid-cols-12 md:gap-x-8">
           <div className="md:col-span-3">
             <p className="marker">§ 02</p>
           </div>
@@ -24,7 +24,7 @@ export function About() {
           </div>
         </div>
 
-        <div className="mt-16 grid gap-12 md:grid-cols-12 md:gap-x-8">
+        <div className="reveal mt-16 grid gap-12 md:grid-cols-12 md:gap-x-8">
           
           <aside className="order-2 md:order-1 md:col-span-3 space-y-10">
             <div>
@@ -98,7 +98,7 @@ export function About() {
               className="my-12 border-l-2 pl-6 md:my-16 md:pl-10"
               style={{ borderColor: 'var(--accent)' }}
             >
-              <blockquote className="display text-2xl leading-[1.25] md:text-[34px]" style={{ fontWeight: 400, fontStyle: 'italic' }}>
+              <blockquote className="display hang text-2xl leading-[1.25] md:text-[34px]" style={{ fontWeight: 400, fontStyle: 'italic' }}>
                 &ldquo;Cada planilha que automatizei me ensinou
                 <span style={{ color: 'var(--accent)' }}> que código bom é, no fim, </span>
                 gente economizando tempo.&rdquo;

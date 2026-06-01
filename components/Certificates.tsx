@@ -29,7 +29,7 @@ export function Certificates() {
   return (
     <section id="certificados" className="section">
       <div className="frame">
-        <div className="grid items-end gap-y-3 md:grid-cols-12 md:gap-x-8">
+        <div className="reveal grid items-end gap-y-3 md:grid-cols-12 md:gap-x-8">
           <div className="md:col-span-3">
             <p className="marker">§ 04</p>
           </div>
@@ -46,7 +46,7 @@ export function Certificates() {
           </div>
         </div>
 
-        <div className="mt-16 grid items-baseline gap-y-5 border-y py-8 md:grid-cols-12 md:gap-x-8" style={{ borderColor: 'var(--rule)' }}>
+        <div className="reveal mt-16 grid items-baseline gap-y-5 border-y py-8 md:grid-cols-12 md:gap-x-8" style={{ borderColor: 'var(--rule)' }}>
           <p className="kicker md:col-span-3">Diploma de graduação</p>
           <div className="md:col-span-9 flex flex-wrap items-baseline justify-between gap-4">
             <h3 className="display text-2xl leading-[1.1] md:text-[34px]" style={{ fontWeight: 500 }}>
@@ -91,7 +91,7 @@ export function Certificates() {
           {visibleGroups.map((g) => {
             const gi = groups.findIndex((x) => x.category === g.category);
             return (
-              <div key={g.category} className="grid gap-y-6 md:grid-cols-12 md:gap-x-8">
+              <div key={g.category} className="reveal grid gap-y-6 md:grid-cols-12 md:gap-x-8">
                 <div className="md:col-span-3">
                   <p className="font-mono text-[11px] uppercase tracking-[0.22em] tabular" style={{ color: 'var(--accent)' }}>
                     {String(gi + 1).padStart(2, '0')} / {String(groups.length).padStart(2, '0')}

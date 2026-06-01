@@ -16,12 +16,34 @@ const links = [
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState<string>('');
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    const ids = links.map((l) => l.href.slice(1));
+    const sections = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible[0]) setActive(`#${visible[0].target.id}`);
+      },
+      { rootMargin: '-45% 0px -45% 0px', threshold: [0, 0.25, 0.5, 1] }
+    );
+
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -79,23 +101,39 @@ export function Navbar() {
           </a>
 
 <nav className="hidden items-center gap-5 md:flex lg:gap-7">
-            {links.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                className="group inline-flex items-baseline gap-1.5 text-sm transition-colors"
-              >
-                <span
-                  className="font-mono text-[10px] tracking-[0.18em]"
-                  style={{ color: 'var(--accent)' }}
+            {links.map((l) => {
+              const isActive = active === l.href;
+              return (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  aria-current={isActive ? 'true' : undefined}
+                  className="group inline-flex items-baseline gap-1.5 text-sm transition-colors"
                 >
-                  {l.n}
-                </span>
-                <span className="underline-grow" style={{ color: 'var(--fg-soft)' }}>
-                  {l.label}
-                </span>
-              </a>
-            ))}
+                  <span
+                    className="font-mono text-[10px] tracking-[0.18em] transition-opacity"
+                    style={{ color: 'var(--accent)', opacity: isActive ? 1 : 0.6 }}
+                  >
+                    {l.n}
+                  </span>
+                  <span
+                    className="underline-grow transition-colors"
+                    style={{ color: isActive ? 'var(--fg)' : 'var(--fg-soft)' }}
+                  >
+                    {l.label}
+                  </span>
+                  <span
+                    aria-hidden
+                    className="h-1 w-1 rounded-full transition-all duration-300"
+                    style={{
+                      background: 'var(--accent)',
+                      opacity: isActive ? 1 : 0,
+                      transform: isActive ? 'scale(1)' : 'scale(0)',
+                    }}
+                  />
+                </a>
+              );
+            })}
           </nav>
 
           <div className="flex items-center gap-2">

@@ -232,7 +232,7 @@ export function Projects() {
     <section id="projetos" className="section">
       <div className="frame">
         
-        <div className="grid items-end gap-y-3 md:grid-cols-12 md:gap-x-8">
+        <div className="reveal grid items-end gap-y-3 md:grid-cols-12 md:gap-x-8">
           <div className="md:col-span-3">
             <p className="marker">§ 06</p>
           </div>

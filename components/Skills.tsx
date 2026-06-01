@@ -6,7 +6,7 @@ export function Skills() {
     <section id="skills" className="section" style={{ background: 'color-mix(in srgb, var(--bg-deep) 60%, var(--bg))' }}>
       <div className="frame">
         
-        <div className="grid items-end gap-y-3 md:grid-cols-12 md:gap-x-8">
+        <div className="reveal grid items-end gap-y-3 md:grid-cols-12 md:gap-x-8">
           <div className="md:col-span-3">
             <p className="marker">§ 03</p>
           </div>
@@ -27,7 +27,7 @@ export function Skills() {
           {site.skills.map((group, gIndex) => (
             <div
               key={group.category}
-              className="grid gap-y-8 md:grid-cols-12 md:gap-x-8"
+              className="reveal grid gap-y-8 md:grid-cols-12 md:gap-x-8"
             >
               
               <div className="md:col-span-3">

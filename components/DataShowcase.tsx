@@ -29,7 +29,7 @@ export function DataShowcase() {
             <div className="rule-thick mb-6" />
             <div className="flex flex-wrap items-end justify-between gap-4">
               <h2 className="display text-display-md" style={{ fontWeight: 500 }}>
-                Planilhas <span className="italic" style={{ color: 'var(--accent)' }}>vivas</span>.
+                Planilhas <span className="italic" style={{ color: 'var(--accent-ink)' }}>vivas</span>.
               </h2>
               <p className="max-w-sm text-[13px] leading-[1.6]" style={{ color: 'var(--fg-muted)' }}>
                 Modelos financeiros que produzo em Excel — recriados aqui em HTML editorial. Dados ilustrativos.
@@ -55,21 +55,21 @@ export function DataShowcase() {
             {dre.kpis.map((k) => (
               <div key={k.label} className="p-5" style={{ background: 'var(--bg)' }}>
                 <p className="kicker mb-2">{k.label}</p>
-                <p className="display text-3xl tabular md:text-[40px]" style={{ fontWeight: 500, color: 'var(--accent)' }}>
+                <p className="display text-3xl tabular md:text-[40px]" style={{ fontWeight: 500, color: 'var(--accent-ink)' }}>
                   {k.value}
                 </p>
               </div>
             ))}
           </div>
 
-<p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] md:hidden" style={{ color: 'var(--accent)' }}>
+<p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] md:hidden" style={{ color: 'var(--accent-ink)' }}>
             ← Deslize para ver mais →
           </p>
 
 <div
             className="overflow-x-auto"
             style={{
-              border: '1px solid var(--rule)',
+              border: '2px solid var(--fg)',
               background: 'var(--bg)',
               WebkitOverflowScrolling: 'touch',
             }}
@@ -121,7 +121,7 @@ export function DataShowcase() {
                           fontFamily:
                             isTotal || isHighlight ? 'var(--font-display)' : undefined,
                           fontSize: isTotal ? '18px' : isHighlight ? '17px' : undefined,
-                          color: isTotal ? 'var(--accent)' : 'var(--fg)',
+                          color: isTotal ? 'var(--accent-ink)' : 'var(--fg)',
                         }}
                       >
                         {r.label}
@@ -133,7 +133,7 @@ export function DataShowcase() {
                           fontSize: isTotal ? '17px' : '14px',
                           fontWeight: isTotal || isHighlight ? 600 : 500,
                           color: isTotal
-                            ? 'var(--accent)'
+                            ? 'var(--accent-ink)'
                             : negative
                             ? 'var(--fg-muted)'
                             : 'var(--fg)',
@@ -193,7 +193,7 @@ export function DataShowcase() {
             </div>
             <div className="p-5" style={{ background: 'var(--bg)' }}>
               <p className="kicker mb-2">Saldo do período</p>
-              <p className="display text-3xl tabular md:text-[34px]" style={{ fontWeight: 500, color: 'var(--accent)' }}>
+              <p className="display text-3xl tabular md:text-[34px]" style={{ fontWeight: 500, color: 'var(--accent-ink)' }}>
                 {fmtBRL(fx.totals.saldo)}
               </p>
             </div>
@@ -205,7 +205,7 @@ export function DataShowcase() {
             </div>
           </div>
 
-          <div className="overflow-x-auto" style={{ border: '1px solid var(--rule)', background: 'var(--bg)' }}>
+          <div className="overflow-x-auto" style={{ border: '2px solid var(--fg)', background: 'var(--bg)' }}>
             <table className="w-full min-w-[680px] text-left">
               <thead>
                 <tr style={{ borderBottom: '1px solid var(--fg)' }}>
@@ -231,7 +231,7 @@ export function DataShowcase() {
                       <td className="px-5 py-3 body-serif text-[16px]">{r.mes}</td>
                       <td className="px-5 py-3 text-right tabular font-mono text-[14px]">{fmtBRL(r.receitas)}</td>
                       <td className="px-5 py-3 text-right tabular font-mono text-[14px]" style={{ color: 'var(--fg-muted)' }}>{fmtBRL(r.despesas)}</td>
-                      <td className="px-5 py-3 text-right tabular font-mono text-[14px]" style={{ color: 'var(--accent)', fontWeight: 600 }}>{fmtBRL(r.saldo)}</td>
+                      <td className="px-5 py-3 text-right tabular font-mono text-[14px]" style={{ color: 'var(--accent-ink)', fontWeight: 600 }}>{fmtBRL(r.saldo)}</td>
                       <td className="px-5 py-3 text-right">
                         <div className="ml-auto flex w-32 items-center gap-2">
                           <div className="relative h-1.5 flex-1 overflow-hidden rounded-full" style={{ background: 'var(--rule)' }}>
@@ -264,10 +264,10 @@ export function DataShowcase() {
                   );
                 })}
                 <tr style={{ borderTop: '1px solid var(--fg)', background: 'color-mix(in srgb, var(--accent) 10%, var(--bg))' }}>
-                  <td className="px-5 py-4 display text-[17px]" style={{ fontWeight: 600, color: 'var(--accent)' }}>Total do período</td>
+                  <td className="px-5 py-4 display text-[17px]" style={{ fontWeight: 600, color: 'var(--accent-ink)' }}>Total do período</td>
                   <td className="px-5 py-4 text-right tabular font-mono text-[15px]" style={{ fontWeight: 600 }}>{fmtBRL(fx.totals.receitas)}</td>
                   <td className="px-5 py-4 text-right tabular font-mono text-[15px]" style={{ fontWeight: 600, color: 'var(--fg-muted)' }}>{fmtBRL(fx.totals.despesas)}</td>
-                  <td className="px-5 py-4 text-right tabular font-mono text-[15px]" style={{ fontWeight: 700, color: 'var(--accent)' }}>{fmtBRL(fx.totals.saldo)}</td>
+                  <td className="px-5 py-4 text-right tabular font-mono text-[15px]" style={{ fontWeight: 700, color: 'var(--accent-ink)' }}>{fmtBRL(fx.totals.saldo)}</td>
                   <td className="px-5 py-4 text-right tabular font-mono text-[13px]" style={{ color: 'var(--fg-muted)' }}>{fmtPct(fx.totals.pctComprometido)}</td>
                   <td className="px-5 py-4 text-right font-mono text-[10px] uppercase tracking-[0.18em]" style={{ color: 'var(--accent-2)' }}>positivo</td>
                 </tr>

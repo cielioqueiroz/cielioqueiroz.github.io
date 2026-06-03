@@ -77,7 +77,7 @@ function RepoRow({ repo, index, isPinned }: { repo: Repo; index: number; isPinne
               {isPinned && (
                 <span
                   className="font-mono text-[9px] uppercase tracking-[0.22em]"
-                  style={{ color: 'var(--accent)' }}
+                  style={{ color: 'var(--accent-ink)' }}
                 >
                   ◆ fixado
                 </span>
@@ -93,7 +93,7 @@ function RepoRow({ repo, index, isPinned }: { repo: Repo; index: number; isPinne
 
           <div className="md:col-span-7">
             <h3
-              className="display text-2xl leading-[1.15] transition-colors md:text-[34px] group-hover:text-[color:var(--accent)]"
+              className="display text-2xl leading-[1.15] transition-colors md:text-[34px] group-hover:text-[color:var(--accent-ink)]"
               style={{ fontWeight: 500 }}
             >
               {prettyName}
@@ -126,7 +126,7 @@ function RepoRow({ repo, index, isPinned }: { repo: Repo; index: number; isPinne
                   <GitFork size={10} /> {repo.forks_count}
                 </span>
               )}
-              {demoUrl && <span style={{ color: 'var(--accent)' }}>◆ Demo ao vivo</span>}
+              {demoUrl && <span style={{ color: 'var(--accent-ink)' }}>◆ Demo ao vivo</span>}
             </div>
           </div>
 
@@ -138,7 +138,7 @@ function RepoRow({ repo, index, isPinned }: { repo: Repo; index: number; isPinne
               <ArrowUpRight
                 size={18}
                 strokeWidth={1.5}
-                className="transition-colors group-hover:text-[color:var(--accent)]"
+                className="transition-colors group-hover:text-[color:var(--accent-ink)]"
               />
             </span>
           </div>
@@ -254,7 +254,7 @@ export function Projects() {
             <div className="rule-thick mb-6" />
             <div className="flex flex-wrap items-end justify-between gap-4">
               <h2 className="display text-display-md" style={{ fontWeight: 500 }}>
-                Projetos <span className="italic" style={{ color: 'var(--accent)' }}>arquivados</span>.
+                Projetos <span className="italic" style={{ color: 'var(--accent-ink)' }}>arquivados</span>.
               </h2>
               <div className="flex flex-col items-start gap-2 md:items-end">
                 <p className="max-w-sm text-[13px] leading-[1.6]" style={{ color: 'var(--fg-muted)' }}>
@@ -274,7 +274,7 @@ export function Projects() {
                   {state.kind === 'ok' && (
                     <p
                       className="font-mono text-[10px] uppercase tracking-[0.2em] tabular"
-                      style={{ color: 'var(--accent)' }}
+                      style={{ color: 'var(--accent-ink)' }}
                       key={refreshTick}
                     >
                       <span
@@ -316,7 +316,7 @@ export function Projects() {
                   type="button"
                   onClick={() => void load()}
                   className="underline-grow"
-                  style={{ color: 'var(--accent)' }}
+                  style={{ color: 'var(--accent-ink)' }}
                 >
                   recarregar
                 </button>{' '}
@@ -326,7 +326,7 @@ export function Projects() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="underline-grow"
-                  style={{ color: 'var(--accent)' }}
+                  style={{ color: 'var(--accent-ink)' }}
                 >
                   perfil no GitHub
                 </a>
@@ -348,7 +348,7 @@ export function Projects() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline-grow"
-                style={{ color: 'var(--accent)' }}
+                style={{ color: 'var(--accent-ink)' }}
               >
                 perfil no GitHub
               </a>

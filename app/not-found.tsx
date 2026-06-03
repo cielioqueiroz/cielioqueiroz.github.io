@@ -18,7 +18,7 @@ export default function NotFound() {
         <p className="marker mb-6 animate-rise stagger-1">
           <span
             className="mr-2 inline-block w-8 align-middle"
-            style={{ borderTop: '1px solid var(--accent)' }}
+            style={{ borderTop: '2px solid var(--accent-ink)' }}
           />
           Erro 404
         </p>
@@ -35,12 +35,12 @@ export default function NotFound() {
           <span className="block">Esta edição</span>
           <span
             className="block italic"
-            style={{ color: 'var(--accent)', fontVariationSettings: "'opsz' 144, 'SOFT' 100" }}
+            style={{ color: 'var(--accent-ink)', fontVariationSettings: "'opsz' 144, 'SOFT' 100" }}
           >
             não foi
           </span>
           <span className="block">
-            impressa<span style={{ color: 'var(--accent)' }}>.</span>
+            impressa<span style={{ color: 'var(--accent-ink)' }}>.</span>
           </span>
         </h1>
 

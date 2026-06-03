@@ -2,14 +2,15 @@ import { ImageResponse } from 'next/og';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { site } from '@/config/site';
+import { banner } from '@/config/theme';
 
 export const dynamic = 'force-static';
 export const alt = `${site.name} — ${site.title}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
-// Satori only accepts TTF/OTF (not woff2). We send an ancient User-Agent so
-// Google Fonts CSS API serves us the TrueType fallback URL.
+// Satori só aceita TTF/OTF (não woff2). Enviamos um User-Agent antigo para a
+// API de CSS do Google Fonts servir a URL TrueType de fallback.
 async function loadGoogleFont(spec: string): Promise<ArrayBuffer> {
   const url = `https://fonts.googleapis.com/css2?family=${spec}&display=swap`;
   const css = await fetch(url, {
@@ -30,20 +31,21 @@ export default async function Image() {
   const portraitBuffer = await fs.readFile(portraitPath);
   const portraitDataUri = `data:image/jpeg;base64,${portraitBuffer.toString('base64')}`;
 
-  const [frauncesDisplay, frauncesItalic, mono] = await Promise.all([
-    loadGoogleFont('Fraunces:wght@500'),
-    loadGoogleFont('Fraunces:ital,wght@1,500'),
-    loadGoogleFont('JetBrains+Mono:wght@400'),
+  const [grotesk, groteskMed, mono] = await Promise.all([
+    loadGoogleFont('Schibsted+Grotesk:wght@800'),
+    loadGoogleFont('Schibsted+Grotesk:wght@500'),
+    loadGoogleFont('Geist+Mono:wght@500'),
   ]);
 
-  // Editorial palette (light theme tokens)
-  const BG = '#F2EDE3';
-  const BG_DEEP = '#E8E0CE';
-  const FG = '#1A1815';
-  const FG_SOFT = '#3D3933';
-  const FG_MUTED = '#6B6557';
-  const ACCENT = '#C9461E';
-  const RULE = 'rgba(26, 24, 21, 0.18)';
+  // Paleta "Mono Brutalist" — segue config/theme.ts (tema claro).
+  const { BG, BG_DEEP, FG, FG_MUTED, ACCENT, INK_ON_ACCENT, RULE } = banner;
+
+  const monoLabel = {
+    fontFamily: 'Geist Mono',
+    fontSize: 15,
+    letterSpacing: '0.24em',
+    textTransform: 'uppercase' as const,
+  };
 
   return new ImageResponse(
     (
@@ -54,336 +56,200 @@ export default async function Image() {
           display: 'flex',
           flexDirection: 'column',
           backgroundColor: BG,
-          fontFamily: 'Fraunces',
+          fontFamily: 'Schibsted Grotesk',
           color: FG,
           position: 'relative',
         }}
       >
-        {/* Atmosphere — radial wash */}
+        {/* Moldura brutalista */}
         <div
           style={{
             position: 'absolute',
-            inset: 0,
+            inset: 18,
             display: 'flex',
-            background: `radial-gradient(ellipse 60% 50% at 12% 8%, rgba(201,70,30,0.10), transparent 60%), radial-gradient(ellipse 50% 45% at 95% 95%, rgba(58,74,47,0.08), transparent 60%)`,
+            border: `3px solid ${RULE}`,
+          }}
+        />
+        {/* Wash lima no canto superior direito */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 18,
+            right: 18,
+            width: 360,
+            height: 240,
+            display: 'flex',
+            background: `radial-gradient(ellipse 100% 100% at 100% 0%, ${ACCENT}, transparent 70%)`,
+            opacity: 0.5,
           }}
         />
 
-        {/* TOP STRIP */}
+        {/* TOPO */}
         <div
           style={{
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            padding: '28px 64px 18px',
-            borderBottom: `1px solid ${FG}`,
-            fontFamily: 'JetBrains Mono',
-            fontSize: 13,
-            letterSpacing: '0.22em',
-            textTransform: 'uppercase',
+            margin: '18px 18px 0',
+            padding: '26px 44px 22px',
+            borderBottom: `3px solid ${RULE}`,
+            ...monoLabel,
             color: FG_MUTED,
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ display: 'flex', gap: 6 }}>
-              <div
-                style={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: 999,
-                  background: ACCENT,
-                }}
-              />
-              <div
-                style={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: 999,
-                  background: ACCENT,
-                  opacity: 0.6,
-                }}
-              />
-              <div
-                style={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: 999,
-                  background: ACCENT,
-                  opacity: 0.3,
-                }}
-              />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <div style={{ display: 'flex', gap: 7 }}>
+              <div style={{ width: 11, height: 11, background: ACCENT }} />
+              <div style={{ width: 11, height: 11, background: FG }} />
+              <div style={{ width: 11, height: 11, background: FG }} />
             </div>
-            <span style={{ marginLeft: 14 }}>Edição 2026 · Portfólio</span>
+            <span>Portfólio · Edição 2026</span>
           </div>
-          <div style={{ display: 'flex', gap: 28 }}>
-            <span>Vol. I</span>
-            <span>·</span>
-            <span>Nº 01</span>
-          </div>
+          <span>Vol. I / Nº 01</span>
         </div>
 
-        {/* MIDDLE */}
+        {/* MEIO */}
         <div
           style={{
             flex: 1,
             display: 'flex',
-            padding: '52px 64px 36px',
-            gap: 56,
-            alignItems: 'stretch',
+            margin: '0 18px',
+            padding: '46px 44px 30px',
+            gap: 52,
+            alignItems: 'center',
           }}
         >
-          {/* PORTRAIT COLUMN */}
+          {/* RETRATO */}
           <div
             style={{
+              position: 'relative',
               display: 'flex',
-              flexDirection: 'column',
-              width: 340,
+              width: 312,
+              height: 392,
+              border: `3px solid ${FG}`,
+              background: BG_DEEP,
               flexShrink: 0,
+              overflow: 'hidden',
             }}
           >
+            {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
+            <img
+              src={portraitDataUri}
+              alt=""
+              width={312}
+              height={392}
+              style={{ width: 312, height: 392, objectFit: 'cover' }}
+            />
+            {/* duotone lima */}
             <div
               style={{
-                position: 'relative',
+                position: 'absolute',
+                inset: 0,
                 display: 'flex',
-                width: 340,
-                height: 420,
-                border: `1px solid ${RULE}`,
-                background: BG_DEEP,
-                overflow: 'hidden',
+                background: `linear-gradient(150deg, ${ACCENT} 0%, transparent 48%, ${ACCENT} 100%)`,
+                opacity: 0.4,
               }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
-              <img
-                src={portraitDataUri}
-                alt=""
-                width={340}
-                height={420}
-                style={{
-                  width: 340,
-                  height: 420,
-                  objectFit: 'cover',
-                  opacity: 0.92,
-                }}
-              />
-              {/* duotone overlay (terracota wash) */}
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  display: 'flex',
-                  background:
-                    'linear-gradient(160deg, rgba(201,70,30,0.35) 0%, rgba(201,70,30,0.05) 55%, rgba(201,70,30,0.28) 100%)',
-                }}
-              />
-              {/* vignette */}
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  display: 'flex',
-                  background:
-                    'radial-gradient(ellipse at center, transparent 55%, rgba(26,24,21,0.35) 100%)',
-                }}
-              />
-              {/* corner crosshairs */}
-              {[
-                { top: 10, left: 10 },
-                { top: 10, right: 10 },
-                { bottom: 10, left: 10 },
-                { bottom: 10, right: 10 },
-              ].map((pos, i) => (
-                <div
-                  key={i}
-                  style={{
-                    position: 'absolute',
-                    display: 'flex',
-                    width: 14,
-                    height: 14,
-                    ...pos,
-                  }}
-                >
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: 6,
-                      left: 0,
-                      width: 14,
-                      height: 1,
-                      background: ACCENT,
-                    }}
-                  />
-                  <div
-                    style={{
-                      position: 'absolute',
-                      left: 6,
-                      top: 0,
-                      width: 1,
-                      height: 14,
-                      background: ACCENT,
-                    }}
-                  />
-                </div>
-              ))}
-            </div>
-            <div
-              style={{
-                marginTop: 14,
-                display: 'flex',
-                justifyContent: 'space-between',
-                fontFamily: 'JetBrains Mono',
-                fontSize: 11,
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase',
-                color: FG_MUTED,
-              }}
-            >
-              <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <span style={{ color: ACCENT }}>●</span> Retrato
-              </span>
-              <span>Nº 01 / 2026</span>
-            </div>
+            />
+            {/* crosshairs nos cantos */}
+            {[
+              { top: 9, left: 9 },
+              { top: 9, right: 9 },
+              { bottom: 9, left: 9 },
+              { bottom: 9, right: 9 },
+            ].map((pos, i) => (
+              <div key={i} style={{ position: 'absolute', display: 'flex', width: 16, height: 16, ...pos }}>
+                <div style={{ position: 'absolute', top: 7, left: 0, width: 16, height: 2, background: FG }} />
+                <div style={{ position: 'absolute', left: 7, top: 0, width: 2, height: 16, background: FG }} />
+              </div>
+            ))}
           </div>
 
-          {/* TEXT COLUMN */}
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              flex: 1,
-              justifyContent: 'space-between',
-              paddingTop: 4,
-            }}
-          >
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 12,
-                  fontFamily: 'JetBrains Mono',
-                  fontSize: 13,
-                  letterSpacing: '0.22em',
-                  textTransform: 'uppercase',
-                  color: ACCENT,
-                  marginBottom: 18,
-                }}
-              >
-                <span
-                  style={{
-                    display: 'flex',
-                    width: 36,
-                    height: 1,
-                    background: ACCENT,
-                  }}
-                />
-                <span>§ 01 — Apresentação</span>
-              </div>
+          {/* TEXTO */}
+          <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+            {/* tag lima */}
+            <div
+              style={{
+                display: 'flex',
+                alignSelf: 'flex-start',
+                background: ACCENT,
+                color: INK_ON_ACCENT,
+                padding: '8px 14px',
+                marginBottom: 26,
+                ...monoLabel,
+                fontSize: 14,
+                letterSpacing: '0.2em',
+              }}
+            >
+              § 01 — Apresentação
+            </div>
 
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  fontSize: 132,
-                  lineHeight: 0.92,
-                  letterSpacing: '-0.035em',
-                  fontWeight: 500,
-                }}
-              >
-                <span style={{ color: FG }}>Ciélio</span>
-                <span
-                  style={{
-                    fontFamily: 'Fraunces Italic',
-                    fontStyle: 'italic',
-                    color: ACCENT,
-                    display: 'flex',
-                  }}
-                >
-                  Queiroz<span style={{ color: FG }}>.</span>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                fontFamily: 'Schibsted Grotesk',
+                fontWeight: 800,
+                fontSize: 116,
+                lineHeight: 0.9,
+                letterSpacing: '-0.04em',
+                textTransform: 'uppercase',
+              }}
+            >
+              <span style={{ display: 'flex', color: FG }}>Ciélio</span>
+              <span style={{ display: 'flex' }}>
+                <span style={{ display: 'flex', background: ACCENT, color: INK_ON_ACCENT, padding: '0 14px' }}>
+                  Queiroz
                 </span>
-              </div>
+              </span>
+            </div>
 
-              <div
-                style={{
-                  marginTop: 28,
-                  fontSize: 26,
-                  lineHeight: 1.3,
-                  color: FG_SOFT,
-                  maxWidth: 640,
-                  display: 'flex',
-                }}
-              >
-                <span>
-                  Desenvolvedor{' '}
-                  <span
-                    style={{
-                      fontFamily: 'Fraunces Italic',
-                      fontStyle: 'italic',
-                      color: ACCENT,
-                    }}
-                  >
-                    front-end
-                  </span>{' '}
-                  &amp;{' '}
-                  <span
-                    style={{
-                      fontFamily: 'Fraunces Italic',
-                      fontStyle: 'italic',
-                      color: ACCENT,
-                    }}
-                  >
-                    analista de dados
-                  </span>
-                </span>
-              </div>
+            <div
+              style={{
+                marginTop: 30,
+                display: 'flex',
+                fontFamily: 'Geist Mono',
+                fontWeight: 500,
+                fontSize: 22,
+                lineHeight: 1.35,
+                letterSpacing: '0.02em',
+                color: FG_MUTED,
+                maxWidth: 600,
+              }}
+            >
+              <span>Desenvolvedor front-end &amp; analista de dados</span>
             </div>
           </div>
         </div>
 
-        {/* BOTTOM STRIP */}
+        {/* RODAPÉ */}
         <div
           style={{
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            padding: '18px 64px 28px',
-            borderTop: `1px solid ${FG}`,
-            fontFamily: 'JetBrains Mono',
-            fontSize: 13,
-            letterSpacing: '0.22em',
-            textTransform: 'uppercase',
+            margin: '0 18px 18px',
+            padding: '22px 44px 26px',
+            borderTop: `3px solid ${RULE}`,
+            ...monoLabel,
+            fontSize: 14,
             color: FG_MUTED,
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
-            <span style={{ color: ACCENT }}>◆</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            <div style={{ width: 10, height: 10, background: ACCENT }} />
             <span>React</span>
-            <span style={{ opacity: 0.5 }}>·</span>
+            <span>·</span>
             <span>Next.js</span>
-            <span style={{ opacity: 0.5 }}>·</span>
+            <span>·</span>
             <span>Power BI</span>
-            <span style={{ opacity: 0.5 }}>·</span>
+            <span>·</span>
             <span>SQL</span>
-            <span style={{ opacity: 0.5 }}>·</span>
+            <span>·</span>
             <span>n8n</span>
           </div>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 10,
-              color: FG,
-            }}
-          >
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: 999,
-                background: ACCENT,
-                display: 'flex',
-              }}
-            />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, color: FG }}>
             <span>cielioqueiroz.github.io</span>
+            <div style={{ width: 10, height: 10, background: ACCENT }} />
           </div>
         </div>
       </div>
@@ -391,24 +257,9 @@ export default async function Image() {
     {
       ...size,
       fonts: [
-        {
-          name: 'Fraunces',
-          data: frauncesDisplay,
-          weight: 500,
-          style: 'normal',
-        },
-        {
-          name: 'Fraunces Italic',
-          data: frauncesItalic,
-          weight: 500,
-          style: 'italic',
-        },
-        {
-          name: 'JetBrains Mono',
-          data: mono,
-          weight: 400,
-          style: 'normal',
-        },
+        { name: 'Schibsted Grotesk', data: grotesk, weight: 800, style: 'normal' },
+        { name: 'Schibsted Grotesk', data: groteskMed, weight: 500, style: 'normal' },
+        { name: 'Geist Mono', data: mono, weight: 500, style: 'normal' },
       ],
     }
   );

@@ -21,17 +21,17 @@ export function ThemeToggle() {
       type="button"
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
       aria-label={`Mudar pra tema ${isDark ? 'claro' : 'escuro'}`}
-      className="group relative inline-flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 hover:scale-105"
+      className="group relative inline-flex h-10 w-10 items-center justify-center transition-colors duration-200"
       style={{
-        border: '1px solid var(--rule)',
-        color: 'var(--fg-soft)',
+        border: '1.5px solid var(--fg)',
+        color: 'var(--fg)',
       }}
     >
       <span
-        className="absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        style={{ background: 'color-mix(in srgb, var(--accent) 10%, transparent)' }}
+        className="absolute inset-0 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+        style={{ background: 'var(--accent)' }}
       />
-      <span className="relative transition-colors group-hover:text-[color:var(--accent)]">
+      <span className="relative transition-colors group-hover:text-[color:var(--accent-contrast)]">
         {isDark ? <Sun size={16} strokeWidth={1.5} /> : <Moon size={16} strokeWidth={1.5} />}
       </span>
     </button>

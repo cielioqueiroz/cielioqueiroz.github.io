@@ -17,7 +17,7 @@ export function About() {
             <div className="rule-thick mb-6" />
             <h2 className="display text-display-md flex items-baseline gap-4" style={{ fontWeight: 500 }}>
               Sobre
-              <span className="italic" style={{ color: 'var(--accent)', fontVariationSettings: "'opsz' 60" }}>
+              <span className="italic" style={{ color: 'var(--accent-ink)', fontVariationSettings: "'opsz' 60" }}>
                 mim.
               </span>
             </h2>
@@ -31,7 +31,7 @@ export function About() {
               <p className="kicker mb-3">Experiência</p>
               <p className="display text-5xl tabular md:text-6xl" style={{ fontWeight: 500 }}>
                 15
-                <span className="text-3xl align-top" style={{ color: 'var(--accent)' }}>+</span>
+                <span className="text-3xl align-top" style={{ color: 'var(--accent-ink)' }}>+</span>
               </p>
               <p className="mt-2 text-[13px] leading-[1.5]" style={{ color: 'var(--fg-muted)' }}>
                 anos em gestão administrativa &amp; financeira
@@ -54,15 +54,15 @@ export function About() {
               <p className="kicker mb-3">Estuda agora</p>
               <ul className="space-y-2 text-[14px]" style={{ color: 'var(--fg-soft)' }}>
                 <li className="flex items-center gap-2">
-                  <span className="font-mono text-[10px]" style={{ color: 'var(--accent)' }}>→</span>
+                  <span className="font-mono text-[10px]" style={{ color: 'var(--accent-ink)' }}>→</span>
                   Next.js / App Router
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="font-mono text-[10px]" style={{ color: 'var(--accent)' }}>→</span>
+                  <span className="font-mono text-[10px]" style={{ color: 'var(--accent-ink)' }}>→</span>
                   TypeScript avançado
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="font-mono text-[10px]" style={{ color: 'var(--accent)' }}>→</span>
+                  <span className="font-mono text-[10px]" style={{ color: 'var(--accent-ink)' }}>→</span>
                   Engenharia de dados
                 </li>
               </ul>
@@ -77,7 +77,7 @@ export function About() {
                 style={{
                   fontFamily: 'var(--font-display)',
                   fontSize: 'clamp(3.5rem, 14vw, 7rem)',
-                  color: 'var(--accent)',
+                  color: 'var(--accent-ink)',
                   fontWeight: 500,
                   fontStyle: 'italic',
                   fontVariationSettings: "'opsz' 144",
@@ -95,12 +95,12 @@ export function About() {
             </div>
 
 <figure
-              className="my-12 border-l-2 pl-6 md:my-16 md:pl-10"
-              style={{ borderColor: 'var(--accent)' }}
+              className="my-12 border-l-[3px] pl-6 md:my-16 md:pl-10"
+              style={{ borderColor: 'var(--fg)' }}
             >
               <blockquote className="display hang text-2xl leading-[1.25] md:text-[34px]" style={{ fontWeight: 400, fontStyle: 'italic' }}>
                 &ldquo;Cada planilha que automatizei me ensinou
-                <span style={{ color: 'var(--accent)' }}> que código bom é, no fim, </span>
+                <span className="hl"> que código bom é, no fim, </span>
                 gente economizando tempo.&rdquo;
               </blockquote>
               <figcaption className="kicker mt-4">— {site.shortName}, 2026</figcaption>

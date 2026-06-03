@@ -38,14 +38,14 @@ export function Hero() {
               <Portrait />
               <figcaption className="mt-3 flex items-baseline justify-between font-mono text-[10px] uppercase tracking-[0.2em] tabular" style={{ color: 'var(--fg-muted)' }}>
                 <span>
-                  <span style={{ color: 'var(--accent)' }}>●</span> Retrato
+                  <span style={{ color: 'var(--accent-ink)' }}>●</span> Retrato
                 </span>
                 <span>nº 01 / 2026</span>
               </figcaption>
             </figure>
 
             <p className="marker mb-4 animate-rise stagger-2">
-              <span className="inline-block w-8" style={{ borderTop: '1px solid var(--accent)', verticalAlign: 'middle', marginRight: '0.5rem' }} />
+              <span className="inline-block w-8" style={{ borderTop: '2px solid var(--accent-ink)', verticalAlign: 'middle', marginRight: '0.5rem' }} />
               Sobre a capa
             </p>
             <p className="animate-rise stagger-3 text-[14px] leading-[1.55]" style={{ color: 'var(--fg-soft)' }}>
@@ -80,7 +80,7 @@ export function Hero() {
 <div className="order-1 md:order-2 md:col-span-9">
             <h1 className="display text-display-lg animate-rise stagger-2" style={{ fontWeight: 500 }}>
               <span className="block">Ciélio</span>
-              <span className="block italic" style={{ color: 'var(--accent)', fontVariationSettings: "'opsz' 144, 'SOFT' 100" }}>
+              <span className="block italic" style={{ color: 'var(--accent-ink)', fontVariationSettings: "'opsz' 144, 'SOFT' 100" }}>
                 Queiroz<span style={{ color: 'var(--fg)' }}>.</span>
               </span>
             </h1>
@@ -88,8 +88,8 @@ export function Hero() {
             <div className="mt-10 grid gap-8 md:grid-cols-12 md:items-end">
               <div className="md:col-span-7 animate-rise stagger-4">
                 <p className="body-serif text-2xl leading-[1.3] md:text-[28px]" style={{ color: 'var(--fg-soft)' }}>
-                  Desenvolvedor <em className="italic" style={{ color: 'var(--accent)' }}>front-end</em> e
-                  entusiasta de <em className="italic" style={{ color: 'var(--accent)' }}>dados</em> — escrevendo
+                  Desenvolvedor <em className="italic" style={{ color: 'var(--accent-ink)' }}>front-end</em> e
+                  entusiasta de <em className="italic" style={{ color: 'var(--accent-ink)' }}>dados</em> — escrevendo
                   software depois de mais de quinze anos traduzindo números em planilhas.
                 </p>
               </div>
@@ -129,19 +129,19 @@ export function Hero() {
               <div
                 role="group"
                 aria-label="Contato por e-mail"
-                className="group inline-flex items-center overflow-hidden rounded-full font-mono text-[12px] uppercase tracking-[0.18em] transition-colors"
-                style={{ border: '1px solid var(--rule)', color: 'var(--fg)' }}
+                className="group inline-flex items-center overflow-hidden font-mono text-[12px] uppercase tracking-[0.18em] transition-colors"
+                style={{ border: '1.5px solid var(--fg)', color: 'var(--fg)' }}
               >
                 <a
                   href={`mailto:${site.socials.email}`}
-                  className="inline-flex cursor-pointer items-center gap-2 px-4 py-2 transition-colors hover:text-[color:var(--accent)]"
+                  className="inline-flex cursor-pointer items-center gap-2 px-4 py-2 transition-colors hover:text-[color:var(--accent-ink)]"
                 >
                   <Mail size={14} />
                   Contato
                   <ArrowDownRight size={14} className="transition-transform group-hover:-rotate-45" />
                 </a>
                 <CopyEmailButton
-                  className="inline-flex items-center self-stretch border-l border-[var(--rule)] px-3 transition-colors hover:text-[color:var(--accent)]"
+                  className="inline-flex items-center self-stretch border-l border-[var(--rule)] px-3 transition-colors hover:text-[color:var(--accent-ink)]"
                 />
               </div>
             </div>
@@ -157,11 +157,11 @@ export function Hero() {
           {Array.from({ length: 2 }).map((_, i) => (
             <div key={i} className="flex items-center gap-12">
               <span>◆ React &nbsp;·&nbsp; Next.js &nbsp;·&nbsp; TypeScript</span>
-              <span style={{ color: 'var(--accent)' }}>+15 anos · admin financeiro</span>
+              <span style={{ color: 'var(--accent-ink)' }}>+15 anos · admin financeiro</span>
               <span>◆ Power BI &nbsp;·&nbsp; SQL Server &nbsp;·&nbsp; Excel</span>
-              <span style={{ color: 'var(--accent)' }}>n8n · ChatGPT · Power Apps</span>
+              <span style={{ color: 'var(--accent-ink)' }}>n8n · ChatGPT · Power Apps</span>
               <span>◆ Pará — Brasil</span>
-              <span style={{ color: 'var(--accent)' }}>aprendendo em público</span>
+              <span style={{ color: 'var(--accent-ink)' }}>aprendendo em público</span>
             </div>
           ))}
         </div>

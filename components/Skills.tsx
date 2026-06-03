@@ -14,7 +14,7 @@ export function Skills() {
             <div className="rule-thick mb-6" />
             <div className="flex flex-wrap items-baseline justify-between gap-4">
               <h2 className="display text-display-md" style={{ fontWeight: 500 }}>
-                Ferramentas <span className="italic" style={{ color: 'var(--accent)' }}>&amp;</span> ofício.
+                Ferramentas <span className="italic" style={{ color: 'var(--accent-ink)' }}>&amp;</span> ofício.
               </h2>
               <p className="font-mono text-[11px] uppercase tracking-[0.22em] tabular" style={{ color: 'var(--fg-muted)' }}>
                 Índice · {site.skills.reduce((a, g) => a + g.items.length, 0)} itens
@@ -31,7 +31,7 @@ export function Skills() {
             >
               
               <div className="md:col-span-3">
-                <p className="font-mono text-[11px] uppercase tracking-[0.22em] tabular" style={{ color: 'var(--accent)' }}>
+                <p className="font-mono text-[11px] uppercase tracking-[0.22em] tabular" style={{ color: 'var(--accent-ink)' }}>
                   {String(gIndex + 1).padStart(2, '0')} / {String(site.skills.length).padStart(2, '0')}
                 </p>
                 <h3 className="display mt-3 text-2xl leading-[1.1] md:text-[28px]" style={{ fontWeight: 500 }}>

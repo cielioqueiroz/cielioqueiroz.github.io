@@ -82,7 +82,7 @@ export function Navbar() {
           >
             <span
               className="font-mono text-[10px] uppercase tracking-[0.22em] sm:text-[11px]"
-              style={{ color: 'var(--accent)' }}
+              style={{ color: 'var(--accent-ink)' }}
             >
               Vol. I
             </span>
@@ -112,7 +112,7 @@ export function Navbar() {
                 >
                   <span
                     className="font-mono text-[10px] tracking-[0.18em] transition-opacity"
-                    style={{ color: 'var(--accent)', opacity: isActive ? 1 : 0.6 }}
+                    style={{ color: 'var(--accent-ink)', opacity: isActive ? 1 : 0.6 }}
                   >
                     {l.n}
                   </span>
@@ -144,8 +144,8 @@ export function Navbar() {
               onClick={() => setOpen((v) => !v)}
               aria-label={open ? 'Fechar menu' : 'Abrir menu'}
               aria-expanded={open}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full transition-all md:hidden"
-              style={{ border: '1px solid var(--rule)', color: 'var(--fg-soft)' }}
+              className="inline-flex h-10 w-10 items-center justify-center transition-all md:hidden"
+              style={{ border: '1.5px solid var(--fg)', color: 'var(--fg)' }}
             >
               {open ? <X size={16} strokeWidth={1.5} /> : <Menu size={16} strokeWidth={1.5} />}
             </button>
@@ -192,7 +192,7 @@ export function Navbar() {
                   <span className="flex items-baseline gap-4">
                     <span
                       className="font-mono text-[11px] tracking-[0.2em] tabular"
-                      style={{ color: 'var(--accent)' }}
+                      style={{ color: 'var(--accent-ink)' }}
                     >
                       {l.n}
                     </span>

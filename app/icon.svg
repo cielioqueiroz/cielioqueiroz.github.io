@@ -1,6 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="12" fill="#111214"/>
-  <text x="50%" y="50%" dy="0.02em" text-anchor="middle" dominant-baseline="central"
-    font-family="'Helvetica Neue', Arial, sans-serif" font-weight="700" font-size="32"
-    letter-spacing="-1.2" fill="#4FC59B">CQ</text>
+  <!-- Favicon "Mono Brutalist": moldura preta + bloco lima + monograma CQ.
+       Cores espelham config/theme.ts (--fg #0A0A0A / --accent #C6F24E). -->
+  <rect width="64" height="64" fill="#0A0A0A"/>
+  <rect x="7" y="7" width="50" height="50" fill="#C6F24E"/>
+  <text x="50%" y="53%" text-anchor="middle" dominant-baseline="central"
+    font-family="'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif"
+    font-weight="800" font-size="30" letter-spacing="-1.8" fill="#0A0A0A">CQ</text>
 </svg>

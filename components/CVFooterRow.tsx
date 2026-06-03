@@ -19,10 +19,10 @@ export function CVFooterRow() {
       <span className="flex items-center gap-4">
         <FileDown
           size={14}
-          className="transition-colors group-hover:text-[color:var(--accent)]"
+          className="transition-colors group-hover:text-[color:var(--accent-ink)]"
           style={{ color: 'var(--fg-muted)' }}
         />
-        <span className="body-serif text-lg transition-colors group-hover:text-[color:var(--accent)]">
+        <span className="body-serif text-lg transition-colors group-hover:text-[color:var(--accent-ink)]">
           Currículo
         </span>
       </span>
@@ -30,7 +30,7 @@ export function CVFooterRow() {
         className="text-right font-mono text-[10px] uppercase tracking-[0.18em] sm:text-[11px]"
         style={{ color: 'var(--fg-muted)' }}
       >
-        {generating ? 'Gerando…' : 'PDF'} <span style={{ color: 'var(--accent)' }}>↓</span>
+        {generating ? 'Gerando…' : 'PDF'} <span style={{ color: 'var(--accent-ink)' }}>↓</span>
       </span>
     </button>
   );

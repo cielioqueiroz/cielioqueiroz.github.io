@@ -37,7 +37,7 @@ export function Certificates() {
             <div className="rule-thick mb-6" />
             <div className="flex flex-wrap items-baseline justify-between gap-4">
               <h2 className="display text-display-md" style={{ fontWeight: 500 }}>
-                Credenciais <span className="italic" style={{ color: 'var(--accent)' }}>&amp;</span> formação.
+                Credenciais <span className="italic" style={{ color: 'var(--accent-ink)' }}>&amp;</span> formação.
               </h2>
               <p className="font-mono text-[11px] uppercase tracking-[0.22em] tabular" style={{ color: 'var(--fg-muted)' }}>
                 Arquivo · {String(total).padStart(2, '0')} certificados
@@ -93,7 +93,7 @@ export function Certificates() {
             return (
               <div key={g.category} className="reveal grid gap-y-6 md:grid-cols-12 md:gap-x-8">
                 <div className="md:col-span-3">
-                  <p className="font-mono text-[11px] uppercase tracking-[0.22em] tabular" style={{ color: 'var(--accent)' }}>
+                  <p className="font-mono text-[11px] uppercase tracking-[0.22em] tabular" style={{ color: 'var(--accent-ink)' }}>
                     {String(gi + 1).padStart(2, '0')} / {String(groups.length).padStart(2, '0')}
                   </p>
                   <h3 className="display mt-3 text-2xl leading-[1.1] md:text-[28px]" style={{ fontWeight: 500 }}>
@@ -141,7 +141,7 @@ export function Certificates() {
                           >
                             {c.issuer}
                             <span
-                              style={{ color: 'var(--accent)' }}
+                              style={{ color: 'var(--accent-ink)' }}
                               className="ml-2 opacity-0 transition-opacity group-hover:opacity-100"
                             >
                               ✓

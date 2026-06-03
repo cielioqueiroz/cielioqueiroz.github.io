@@ -35,7 +35,7 @@ export function Footer() {
           <p className="kicker mb-6">Vamos conversar?</p>
           <a
             href={`mailto:${site.socials.email}`}
-            className="display block leading-[0.92] transition-colors hover:text-[color:var(--accent)]"
+            className="display block leading-[0.92] transition-colors hover:text-[color:var(--accent-ink)]"
             style={{
               fontWeight: 500,
               fontSize: 'clamp(2rem, 8vw, 7rem)',
@@ -52,7 +52,7 @@ export function Footer() {
           <div className="mt-6">
             <CopyEmailButton
               label
-              className="inline-flex items-center gap-2 rounded-full border border-[var(--rule)] px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em] transition-colors hover:text-[color:var(--accent)] hover:border-[color:var(--accent)]"
+              className="inline-flex items-center gap-2 border-[1.5px] border-[var(--fg)] px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em] transition-colors hover:bg-[color:var(--accent)] hover:text-[color:var(--accent-contrast)]"
             />
           </div>
         </div>
@@ -80,8 +80,8 @@ export function Footer() {
                     style={{ borderColor: 'var(--rule)' }}
                   >
                     <span className="flex items-center gap-4">
-                      <Icon size={14} className="transition-colors group-hover:text-[color:var(--accent)]" style={{ color: 'var(--fg-muted)' }} />
-                      <span className="body-serif text-lg transition-colors group-hover:text-[color:var(--accent)]">
+                      <Icon size={14} className="transition-colors group-hover:text-[color:var(--accent-ink)]" style={{ color: 'var(--fg-muted)' }} />
+                      <span className="body-serif text-lg transition-colors group-hover:text-[color:var(--accent-ink)]">
                         {label}
                       </span>
                     </span>
@@ -89,7 +89,7 @@ export function Footer() {
                       className="font-mono text-[10px] uppercase tracking-[0.18em] text-right sm:text-[11px]"
                       style={{ color: 'var(--fg-muted)', wordBreak: 'break-all' }}
                     >
-                      {handle} <span style={{ color: 'var(--accent)' }}>↗</span>
+                      {handle} <span style={{ color: 'var(--accent-ink)' }}>↗</span>
                     </span>
                   </a>
                 </li>
@@ -106,7 +106,7 @@ export function Footer() {
             © {year} · {site.name}
           </p>
           <p className="md:col-span-4 font-mono text-[10px] uppercase tracking-[0.22em] tabular md:text-center" style={{ color: 'var(--fg-muted)' }}>
-            Da <span style={{ color: 'var(--accent)' }}>planilha</span> ao <span style={{ color: 'var(--accent)' }}>protótipo</span>
+            Da <span style={{ color: 'var(--accent-ink)' }}>planilha</span> ao <span style={{ color: 'var(--accent-ink)' }}>protótipo</span>
           </p>
           <p className="md:col-span-4 font-mono text-[10px] uppercase tracking-[0.22em] tabular md:text-right" style={{ color: 'var(--fg-muted)' }}>
             Vol. I · Edição {year}

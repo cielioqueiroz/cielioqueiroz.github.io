@@ -3,29 +3,8 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --bg: #F7F7F4;
-    --bg-deep: #EFEFEA;
-    --fg: #111214;
-    --fg-soft: #3A3C40;
-    --fg-muted: #696C71;
-    --rule: rgba(17, 18, 20, 0.12);
-    --accent: #1F4D3D;
-    --accent-2: #16382C;
-    --danger: #B23A2E;
-  }
-
-  .dark {
-    --bg: #0C0D0E;
-    --bg-deep: #131517;
-    --fg: #ECECEA;
-    --fg-soft: #C2C3C1;
-    --fg-muted: #8A8C8A;
-    --rule: rgba(236, 236, 234, 0.14);
-    --accent: #4FC59B;
-    --accent-2: #6FD3B0;
-    --danger: #E0796B;
-  }
+  /* As variáveis de cor (:root / .dark) são injetadas em <head> a partir de
+     config/theme.ts — fonte única do tema. Não declare cores aqui. */
 
   html {
     scroll-behavior: smooth;
@@ -65,12 +44,12 @@
     pointer-events: none;
     z-index: 0;
     background:
-      radial-gradient(ellipse 65% 45% at 10% -5%, rgba(31, 77, 61, 0.05), transparent 62%);
+      radial-gradient(ellipse 60% 42% at 100% 0%, rgba(198, 242, 78, 0.10), transparent 60%);
   }
 
   .dark body::after {
     background:
-      radial-gradient(ellipse 65% 45% at 10% -5%, rgba(79, 197, 155, 0.06), transparent 62%);
+      radial-gradient(ellipse 60% 42% at 100% 0%, rgba(198, 242, 78, 0.07), transparent 60%);
   }
 
   body > * {
@@ -111,10 +90,10 @@
   }
 
   .rule-thick {
-    height: 1px;
+    height: 3px;
     background: var(--fg);
     width: 100%;
-    opacity: 0.85;
+    opacity: 1;
   }
 
   .kicker {
@@ -122,9 +101,28 @@
     color: var(--fg-muted);
   }
 
+  /* Numeração de seção como marca-texto lima (texto preto por cima) */
   .marker {
-    @apply font-mono text-[11px] uppercase tracking-[0.22em];
-    color: var(--accent);
+    @apply inline-flex items-center font-mono text-[11px] font-medium uppercase tracking-[0.22em];
+    background: var(--accent);
+    color: var(--accent-contrast);
+    padding: 0.18rem 0.5rem;
+  }
+
+  /* Marca-texto inline (realça palavras) */
+  .hl {
+    background: var(--accent);
+    color: var(--accent-contrast);
+    padding: 0 0.18em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  /* Caixa de borda dura — base brutalista de cards */
+  .box {
+    border: 1.5px solid var(--fg);
+    background: var(--bg);
+    border-radius: 0;
   }
 
   .display {
@@ -145,8 +143,9 @@
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    border: 1px solid var(--rule);
-    background: linear-gradient(135deg, var(--bg-deep), color-mix(in srgb, var(--accent) 6%, var(--bg-deep)));
+    border: 2px solid var(--fg);
+    border-radius: 0;
+    background: var(--bg-deep);
   }
 
   .portrait-frame img {
@@ -238,27 +237,29 @@
   .portrait-frame .crosshair.br { bottom: 8px; right: 8px; }
 
   .pill {
-    @apply inline-flex cursor-pointer items-center gap-2 rounded-md px-4 py-2 font-mono text-[12px] uppercase tracking-[0.18em] transition-all duration-300;
-    border: 1px solid var(--rule);
+    @apply inline-flex cursor-pointer items-center gap-2 px-4 py-2 font-mono text-[12px] uppercase tracking-[0.18em] transition-colors duration-200;
+    border: 1.5px solid var(--fg);
     color: var(--fg);
+    border-radius: 0;
   }
 
   .pill:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-    transform: translateY(-2px);
+    background: var(--accent);
+    color: var(--accent-contrast);
   }
 
   .pill-solid {
-    @apply inline-flex cursor-pointer items-center gap-2 rounded-md px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.18em] transition-all duration-300;
+    @apply inline-flex cursor-pointer items-center gap-2 px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.18em] transition-colors duration-200;
     background: var(--fg);
     color: var(--bg);
+    border: 1.5px solid var(--fg);
+    border-radius: 0;
   }
 
   .pill-solid:hover {
     background: var(--accent);
-    color: var(--bg);
-    transform: translateY(-2px);
+    color: var(--accent-contrast);
+    border-color: var(--fg);
   }
 
   .underline-grow {
@@ -289,9 +290,9 @@
     top: 0;
     z-index: 200;
     padding: 0.75rem 1rem;
-    background: var(--bg);
-    color: var(--accent);
-    border: 1px solid var(--accent);
+    background: var(--accent);
+    color: var(--accent-contrast);
+    border: 1.5px solid var(--fg);
     font-family: var(--font-mono), ui-monospace, monospace;
     font-size: 11px;
     text-transform: uppercase;
@@ -379,14 +380,12 @@
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 70% 50% at 14% 4%, rgba(31, 77, 61, 0.06), transparent 60%),
-    radial-gradient(ellipse 55% 45% at 90% 94%, rgba(31, 77, 61, 0.04), transparent 60%);
+    radial-gradient(ellipse 70% 50% at 90% 6%, rgba(198, 242, 78, 0.12), transparent 60%);
 }
 
 .dark .splash::after {
   background:
-    radial-gradient(ellipse 70% 50% at 14% 4%, rgba(79, 197, 155, 0.08), transparent 60%),
-    radial-gradient(ellipse 55% 45% at 90% 94%, rgba(79, 197, 155, 0.05), transparent 60%);
+    radial-gradient(ellipse 70% 50% at 90% 6%, rgba(198, 242, 78, 0.10), transparent 60%);
 }
 
 .splash--hiding {
@@ -466,7 +465,7 @@
 }
 
 .splash__word-dot {
-  color: var(--accent);
+  color: var(--accent-ink);
   display: inline-block;
   animation: splash-bounce 1.2s ease-in-out infinite;
 }
@@ -504,7 +503,7 @@
 .splash__counter-num {
   --splash-n: 0;
   counter-reset: splash-num var(--splash-n);
-  color: var(--accent);
+  color: var(--accent-ink);
   min-width: 3.2ch;
   display: inline-block;
   text-align: center;
@@ -590,12 +589,12 @@
 }
 
 .splash__msg-arrow {
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .splash__msg-cursor {
   display: inline-block;
-  color: var(--accent);
+  color: var(--accent-ink);
   margin-left: 2px;
   animation: splash-cursor 0.8s steps(2) infinite;
 }
@@ -628,7 +627,7 @@
 }
 
 .splash__meta--accent {
-  color: var(--accent) !important;
+  color: var(--accent-ink) !important;
 }
 
 @keyframes splash-rise {

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Schibsted_Grotesk, Hanken_Grotesk, Geist_Mono } from 'next/font/google';
 import { site } from '@/config/site';
+import { themeStyleCss, themeColor } from '@/config/theme';
 import { Providers } from './providers';
 import { SplashScreen } from '@/components/SplashScreen';
 import { SkipLink } from '@/components/SkipLink';
@@ -47,8 +48,8 @@ const personSchema = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#F7F7F4' },
-    { media: '(prefers-color-scheme: dark)', color: '#0C0D0E' },
+    { media: '(prefers-color-scheme: light)', color: themeColor.light },
+    { media: '(prefers-color-scheme: dark)', color: themeColor.dark },
   ],
 };
 
@@ -78,6 +79,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${display.variable} ${body.variable} ${mono.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        {/* Tokens de cor — fonte única em config/theme.ts (app + banner seguem juntos) */}
+        <style dangerouslySetInnerHTML={{ __html: themeStyleCss() }} />
+      </head>
       <body>
         <script
           type="application/ld+json"

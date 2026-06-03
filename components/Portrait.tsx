@@ -56,7 +56,7 @@ export function Portrait() {
             style={{
               fontWeight: 500,
               fontSize: 'clamp(5rem, 22vw, 9rem)',
-              color: 'var(--accent)',
+              color: 'var(--accent-ink)',
               fontVariationSettings: "'opsz' 144",
             }}
           >

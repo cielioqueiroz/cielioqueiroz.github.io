@@ -10,3 +10,6 @@ npm-debug.log*
 next-env.d.ts
 *.tsbuildinfo
 .claude/
+
+# Notas locais (não sobem pro repo)
+NOTES-lighthouse.md

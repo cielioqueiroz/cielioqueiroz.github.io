@@ -105,7 +105,7 @@ export function Certificates() {
                 </div>
 
                 <ul className="md:col-span-9">
-                  <div className="rule mb-2" />
+                  <li className="rule mb-2" aria-hidden />
                   {g.items.map((c, i) => (
                     <li
                       key={`${c.title}-${i}`}

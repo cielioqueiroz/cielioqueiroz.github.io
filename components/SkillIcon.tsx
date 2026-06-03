@@ -62,7 +62,14 @@ export function SkillIcon({
   const Icon = iconMap[iconName];
 
   if (Icon) {
-    return <Icon size={size} style={color ? { color } : undefined} />;
+    return (
+      <Icon
+        size={size}
+        style={color ? { color } : undefined}
+        aria-hidden
+        focusable={false}
+      />
+    );
   }
 
   return (

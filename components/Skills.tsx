@@ -43,7 +43,7 @@ export function Skills() {
               </div>
 
 <ul className="md:col-span-9">
-                <div className="rule mb-2" />
+                <li className="rule mb-2" aria-hidden />
                 {group.items.map((skill, i) => (
                   <li
                     key={skill.name}

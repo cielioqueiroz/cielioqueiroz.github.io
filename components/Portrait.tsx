@@ -3,7 +3,10 @@
 import { useEffect, useState } from 'react';
 import { site } from '@/config/site';
 
-const PORTRAIT_SRC = '/portrait.jpg';
+const PORTRAIT_SRC = '/portrait.webp';
+const PORTRAIT_FALLBACK = '/portrait.jpg';
+const PORTRAIT_W = 512;
+const PORTRAIT_H = 518;
 
 export function Portrait() {
   const [src, setSrc] = useState<string | null>(null);
@@ -25,7 +28,7 @@ export function Portrait() {
 
     tryLoad(PORTRAIT_SRC, () => {
 
-      tryLoad(`${PORTRAIT_SRC}?v=${Date.now()}`, () => {
+      tryLoad(PORTRAIT_FALLBACK, () => {
         if (!cancelled) setFailed(true);
       });
     });
@@ -75,7 +78,10 @@ export function Portrait() {
         <img
           src={src}
           alt={`Retrato de ${site.name}`}
+          width={PORTRAIT_W}
+          height={PORTRAIT_H}
           loading="eager"
+          decoding="async"
           style={{
             position: 'relative',
             zIndex: 2,

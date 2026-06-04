@@ -47,16 +47,16 @@ export function Skills() {
                 {group.items.map((skill, i) => (
                   <li
                     key={skill.name}
-                    className="group relative flex items-center justify-between border-b py-4 transition-all"
-                    style={{ borderColor: 'var(--rule)' }}
+                    className="group relative flex items-center justify-between border-b py-4 transition-all duration-500 hover:[transform:translateX(6px)]"
+                    style={{ borderColor: 'var(--rule)', perspective: '700px' }}
                   >
-                    
+
                     <span
                       aria-hidden
                       className="pointer-events-none absolute inset-y-0 left-0 origin-left scale-x-0 transition-transform duration-500 group-hover:scale-x-100"
                       style={{
                         width: '100%',
-                        background: `linear-gradient(90deg, ${skill.color}14, transparent 70%)`,
+                        background: `linear-gradient(90deg, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%)`,
                       }}
                     />
 
@@ -67,12 +67,17 @@ export function Skills() {
                       >
                         {String(i + 1).padStart(2, '0')}
                       </span>
-                      <span className="flex h-6 w-6 items-center justify-center transition-transform duration-300 group-hover:scale-125">
+                      <span
+                        className="flex h-8 w-8 items-center justify-center text-[color:var(--fg-soft)] transition-all duration-500 group-hover:text-[color:var(--accent-ink)] group-hover:[transform:translateZ(12px)_rotateY(-12deg)_scale(1.2)]"
+                        style={{
+                          transformStyle: 'preserve-3d',
+                          filter: 'drop-shadow(0 4px 10px color-mix(in srgb, var(--accent) 25%, transparent))',
+                        }}
+                      >
                         <SkillIcon
                           iconName={skill.icon}
                           label={skill.name}
                           size={22}
-                          color={skill.color}
                         />
                       </span>
                       <span
@@ -85,7 +90,7 @@ export function Skills() {
 
                     <span
                       className="relative font-mono text-[10px] uppercase tracking-[0.22em] opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 translate-x-2"
-                      style={{ color: skill.color }}
+                      style={{ color: 'var(--accent-ink)' }}
                     >
                       ◆ em uso
                     </span>

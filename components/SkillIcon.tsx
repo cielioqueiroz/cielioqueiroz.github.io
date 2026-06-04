@@ -65,7 +65,7 @@ export function SkillIcon({
     return (
       <Icon
         size={size}
-        style={color ? { color } : undefined}
+        style={{ color: color ?? 'currentColor' }}
         aria-hidden
         focusable={false}
       />
@@ -75,12 +75,14 @@ export function SkillIcon({
   return (
     <div
       aria-hidden
-      className="flex items-center justify-center rounded-md font-bold text-white"
+      className="flex items-center justify-center rounded-lg font-bold"
       style={{
         width: size,
         height: size,
-        backgroundColor: color ?? '#64748b',
+        background: 'color-mix(in srgb, currentColor 12%, transparent)',
+        color: color ?? 'currentColor',
         fontSize: size * 0.4,
+        border: '1px solid color-mix(in srgb, currentColor 30%, transparent)',
       }}
     >
       {initials(label)}

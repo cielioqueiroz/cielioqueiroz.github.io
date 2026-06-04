@@ -37,7 +37,7 @@ export default async function Image() {
     loadGoogleFont('Geist+Mono:wght@500'),
   ]);
 
-  // Paleta "Mono Brutalist" — segue config/theme.ts (tema claro).
+  // Paleta "Obsidian & Champagne" — segue config/theme.ts (tema claro).
   const { BG, BG_DEEP, FG, FG_MUTED, ACCENT, INK_ON_ACCENT, RULE } = banner;
 
   const monoLabel = {
@@ -61,26 +61,27 @@ export default async function Image() {
           position: 'relative',
         }}
       >
-        {/* Moldura brutalista */}
+        {/* Moldura editorial arredondada */}
         <div
           style={{
             position: 'absolute',
             inset: 18,
             display: 'flex',
-            border: `3px solid ${RULE}`,
+            border: `2px solid ${RULE}`,
+            borderRadius: 24,
           }}
         />
-        {/* Wash lima no canto superior direito */}
+        {/* Wash champanhe no canto superior direito */}
         <div
           style={{
             position: 'absolute',
             top: 18,
             right: 18,
-            width: 360,
-            height: 240,
+            width: 420,
+            height: 300,
             display: 'flex',
             background: `radial-gradient(ellipse 100% 100% at 100% 0%, ${ACCENT}, transparent 70%)`,
-            opacity: 0.5,
+            opacity: 0.55,
           }}
         />
 
@@ -99,9 +100,9 @@ export default async function Image() {
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <div style={{ display: 'flex', gap: 7 }}>
-              <div style={{ width: 11, height: 11, background: ACCENT }} />
-              <div style={{ width: 11, height: 11, background: FG }} />
-              <div style={{ width: 11, height: 11, background: FG }} />
+              <div style={{ width: 11, height: 11, borderRadius: 999, background: ACCENT }} />
+              <div style={{ width: 11, height: 11, borderRadius: 999, background: FG }} />
+              <div style={{ width: 11, height: 11, borderRadius: 999, background: FG }} />
             </div>
             <span>Portfólio · Edição 2026</span>
           </div>
@@ -126,7 +127,8 @@ export default async function Image() {
               display: 'flex',
               width: 312,
               height: 392,
-              border: `3px solid ${FG}`,
+              border: `2px solid ${FG}`,
+              borderRadius: 22,
               background: BG_DEEP,
               flexShrink: 0,
               overflow: 'hidden',
@@ -152,10 +154,10 @@ export default async function Image() {
             />
             {/* crosshairs nos cantos */}
             {[
-              { top: 9, left: 9 },
-              { top: 9, right: 9 },
-              { bottom: 9, left: 9 },
-              { bottom: 9, right: 9 },
+              { top: 16, left: 16 },
+              { top: 16, right: 16 },
+              { bottom: 16, left: 16 },
+              { bottom: 16, right: 16 },
             ].map((pos, i) => (
               <div key={i} style={{ position: 'absolute', display: 'flex', width: 16, height: 16, ...pos }}>
                 <div style={{ position: 'absolute', top: 7, left: 0, width: 16, height: 2, background: FG }} />
@@ -173,8 +175,9 @@ export default async function Image() {
                 alignSelf: 'flex-start',
                 background: ACCENT,
                 color: INK_ON_ACCENT,
-                padding: '8px 14px',
+                padding: '9px 18px',
                 marginBottom: 26,
+                borderRadius: 999,
                 ...monoLabel,
                 fontSize: 14,
                 letterSpacing: '0.2em',
@@ -197,7 +200,7 @@ export default async function Image() {
             >
               <span style={{ display: 'flex', color: FG }}>Ciélio</span>
               <span style={{ display: 'flex' }}>
-                <span style={{ display: 'flex', background: ACCENT, color: INK_ON_ACCENT, padding: '0 14px' }}>
+                <span style={{ display: 'flex', background: ACCENT, color: INK_ON_ACCENT, padding: '2px 18px', borderRadius: 14 }}>
                   Queiroz
                 </span>
               </span>
@@ -236,7 +239,7 @@ export default async function Image() {
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <div style={{ width: 10, height: 10, background: ACCENT }} />
+            <div style={{ width: 10, height: 10, borderRadius: 999, background: ACCENT }} />
             <span>React</span>
             <span>·</span>
             <span>Next.js</span>
@@ -249,7 +252,7 @@ export default async function Image() {
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, color: FG }}>
             <span>cielioqueiroz.github.io</span>
-            <div style={{ width: 10, height: 10, background: ACCENT }} />
+            <div style={{ width: 10, height: 10, borderRadius: 999, background: ACCENT }} />
           </div>
         </div>
       </div>

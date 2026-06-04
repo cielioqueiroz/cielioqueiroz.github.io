@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { fetchUserRepos, fetchPinnedRepoNames, sortRepos, repoDisplayDescription, type Repo } from '@/lib/github';
 import { site } from '@/config/site';
 import { ArrowUpRight, Star, GitFork, RefreshCw } from 'lucide-react';
+import { Tilt3D } from './Tilt3D';
 
 /** Quantos repositórios exibir na vitrine; o resto fica no "Ver tudo no GitHub". */
 const MAX_VISIBLE = 10;
@@ -46,134 +47,115 @@ function RepoRow({ repo, index, isPinned }: { repo: Repo; index: number; isPinne
   const prettyName = repo.name.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 
   return (
-    <article
-      className="group relative border-b transition-colors"
-      style={{ borderColor: 'var(--rule)' }}
+    <Tilt3D
+      max={9}
+      lift={14}
+      className="group glass depth-2 h-full"
+      style={{ borderRadius: 'var(--r-md)' }}
     >
       <a
         href={primaryUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="block py-8 md:py-10"
+        className="relative flex h-full flex-col p-7 md:p-8"
+        data-cursor
+        data-cursor-label={demoUrl ? 'ver demo' : 'ver código'}
       >
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-0 origin-left scale-x-0 opacity-0 transition-all duration-700 group-hover:scale-x-100 group-hover:opacity-100"
-          style={{
-            background:
-              'linear-gradient(90deg, color-mix(in srgb, var(--accent) 6%, transparent), transparent 80%)',
-          }}
-        />
-
-        <div className="relative grid items-baseline gap-y-3 md:grid-cols-12 md:gap-x-8">
-          <div className="md:col-span-2 flex items-baseline justify-between gap-3 md:justify-start">
-            <div className="flex items-baseline gap-3">
+        {/* topo: número + fixado / seta */}
+        <div className="flex items-start justify-between">
+          <div className="flex items-baseline gap-3">
+            <span
+              className="display tabular text-5xl leading-none md:text-6xl"
+              style={{ fontWeight: 500, color: 'var(--fg-muted)' }}
+            >
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            {isPinned && (
               <span
-                className="display tabular text-5xl leading-none md:text-7xl"
-                style={{ fontWeight: 500, color: 'var(--fg-muted)' }}
+                className="font-mono text-[9px] uppercase tracking-[0.22em]"
+                style={{ color: 'var(--accent-ink)' }}
               >
-                {String(index + 1).padStart(2, '0')}
+                ◆ fixado
               </span>
-              {isPinned && (
-                <span
-                  className="font-mono text-[9px] uppercase tracking-[0.22em]"
-                  style={{ color: 'var(--accent-ink)' }}
-                >
-                  ◆ fixado
-                </span>
-              )}
-            </div>
-            <span
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full md:hidden"
-              style={{ border: '1px solid var(--rule)', color: 'var(--fg-soft)' }}
-            >
-              <ArrowUpRight size={16} strokeWidth={1.5} />
-            </span>
+            )}
           </div>
+          <span
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full transition-all duration-500 group-hover:rotate-45 group-hover:scale-110"
+            style={{ border: '1px solid var(--rule)', color: 'var(--fg-soft)' }}
+          >
+            <ArrowUpRight
+              size={18}
+              strokeWidth={1.5}
+              className="transition-colors group-hover:text-[color:var(--accent-ink)]"
+            />
+          </span>
+        </div>
 
-          <div className="md:col-span-7">
-            <h3
-              className="display text-2xl leading-[1.15] transition-colors md:text-[34px] group-hover:text-[color:var(--accent-ink)]"
-              style={{ fontWeight: 500 }}
-            >
-              {prettyName}
-            </h3>
-            <p className="mt-2 max-w-xl text-[15px] leading-[1.55]" style={{ color: 'var(--fg-soft)' }}>
-              {repoDisplayDescription(repo)}
-            </p>
+        {/* título + descrição */}
+        <h3
+          className="display mt-6 text-2xl leading-[1.12] transition-colors md:text-[30px] group-hover:text-[color:var(--accent-ink)]"
+          style={{ fontWeight: 500 }}
+        >
+          {prettyName}
+        </h3>
+        <p className="mt-3 text-[15px] leading-[1.55]" style={{ color: 'var(--fg-soft)' }}>
+          {repoDisplayDescription(repo)}
+        </p>
 
-            <div
-              className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-[10px] uppercase tracking-[0.2em] tabular"
-              style={{ color: 'var(--fg-muted)' }}
-            >
-              {repo.language && (
-                <span className="inline-flex items-center gap-1.5">
-                  <span
-                    className="h-1.5 w-1.5 rounded-full"
-                    style={{ background: langColors[repo.language] || '#94a3b8' }}
-                  />
-                  {repo.language}
-                </span>
-              )}
-              <span>Pushed · {formatPushed(repo.pushed_at)}</span>
-              {repo.stargazers_count > 0 && (
-                <span className="inline-flex items-center gap-1">
-                  <Star size={10} /> {repo.stargazers_count}
-                </span>
-              )}
-              {repo.forks_count > 0 && (
-                <span className="inline-flex items-center gap-1">
-                  <GitFork size={10} /> {repo.forks_count}
-                </span>
-              )}
-              {demoUrl && <span style={{ color: 'var(--accent-ink)' }}>◆ Demo ao vivo</span>}
-            </div>
-          </div>
-
-          <div className="hidden md:col-span-3 md:flex items-center justify-end">
-            <span
-              className="inline-flex h-12 w-12 items-center justify-center rounded-full transition-all duration-500 group-hover:rotate-45 group-hover:scale-110"
-              style={{ border: '1px solid var(--rule)', color: 'var(--fg-soft)' }}
-            >
-              <ArrowUpRight
-                size={18}
-                strokeWidth={1.5}
-                className="transition-colors group-hover:text-[color:var(--accent-ink)]"
+        {/* meta — empurrada para a base do card */}
+        <div
+          className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-2 pt-6 font-mono text-[10px] uppercase tracking-[0.2em] tabular"
+          style={{ color: 'var(--fg-muted)' }}
+        >
+          {repo.language && (
+            <span className="inline-flex items-center gap-1.5">
+              <span
+                className="h-1.5 w-1.5 rounded-full"
+                style={{ background: langColors[repo.language] || '#94a3b8' }}
               />
+              {repo.language}
             </span>
-          </div>
+          )}
+          <span>{formatPushed(repo.pushed_at)}</span>
+          {repo.stargazers_count > 0 && (
+            <span className="inline-flex items-center gap-1">
+              <Star size={10} /> {repo.stargazers_count}
+            </span>
+          )}
+          {repo.forks_count > 0 && (
+            <span className="inline-flex items-center gap-1">
+              <GitFork size={10} /> {repo.forks_count}
+            </span>
+          )}
+          {demoUrl && <span style={{ color: 'var(--accent-ink)' }}>◆ Demo ao vivo</span>}
         </div>
       </a>
-    </article>
+    </Tilt3D>
   );
 }
 
 function SkeletonRow({ index }: { index: number }) {
   return (
-    <div className="border-b py-8 md:py-10" style={{ borderColor: 'var(--rule)' }}>
-      <div className="grid items-baseline gap-y-3 md:grid-cols-12 md:gap-x-8">
-        <div className="md:col-span-2">
-          <span
-            className="display tabular text-5xl leading-none md:text-7xl"
-            style={{ fontWeight: 500, color: 'var(--fg-muted)', opacity: 0.3 }}
-          >
-            {String(index + 1).padStart(2, '0')}
-          </span>
-        </div>
-        <div className="md:col-span-7 space-y-3">
-          <div
-            className="h-7 w-2/3 animate-pulse rounded-sm md:h-9"
-            style={{ background: 'color-mix(in srgb, var(--fg) 10%, transparent)' }}
-          />
-          <div
-            className="h-4 w-5/6 animate-pulse rounded-sm"
-            style={{ background: 'color-mix(in srgb, var(--fg) 6%, transparent)' }}
-          />
-          <div
-            className="h-4 w-1/3 animate-pulse rounded-sm"
-            style={{ background: 'color-mix(in srgb, var(--fg) 4%, transparent)' }}
-          />
-        </div>
+    <div className="glass depth-1 flex h-full flex-col p-7 md:p-8" style={{ borderRadius: 'var(--r-md)' }}>
+      <span
+        className="display tabular text-5xl leading-none md:text-6xl"
+        style={{ fontWeight: 500, color: 'var(--fg-muted)', opacity: 0.3 }}
+      >
+        {String(index + 1).padStart(2, '0')}
+      </span>
+      <div className="mt-6 space-y-3">
+        <div
+          className="h-7 w-2/3 animate-pulse rounded-md md:h-8"
+          style={{ background: 'color-mix(in srgb, var(--fg) 10%, transparent)' }}
+        />
+        <div
+          className="h-4 w-5/6 animate-pulse rounded-md"
+          style={{ background: 'color-mix(in srgb, var(--fg) 6%, transparent)' }}
+        />
+        <div
+          className="h-4 w-1/3 animate-pulse rounded-md"
+          style={{ background: 'color-mix(in srgb, var(--fg) 4%, transparent)' }}
+        />
       </div>
     </div>
   );
@@ -334,12 +316,11 @@ export function Projects() {
               </p>
             </div>
           ) : isLoading ? (
-            <>
-              <div className="rule-thick" />
+            <div className="grid gap-5 sm:grid-cols-2">
               {Array.from({ length: 6 }).map((_, i) => (
                 <SkeletonRow key={i} index={i} />
               ))}
-            </>
+            </div>
           ) : repos.length === 0 ? (
             <p className="body-serif text-xl italic" style={{ color: 'var(--fg-muted)' }}>
               Nenhum projeto público no momento. Visite o{' '}
@@ -356,14 +337,13 @@ export function Projects() {
             </p>
           ) : (
             <>
-              <div className="rule-thick" />
-              <div>
+              <div className="grid gap-5 sm:grid-cols-2">
                 {repos.map((repo, i) => (
                   <RepoRow key={repo.id} repo={repo} index={i} isPinned={pinnedSet.has(repo.name)} />
                 ))}
               </div>
 
-              <div className="mt-10 flex flex-wrap items-center justify-between gap-3">
+              <div className="mt-12 flex flex-wrap items-center justify-between gap-3">
                 <p className="font-mono text-[10px] uppercase tracking-[0.2em]" style={{ color: 'var(--fg-muted)' }}>
                   Exibindo {repos.length} de {total} repositórios públicos · dados via GitHub API
                 </p>

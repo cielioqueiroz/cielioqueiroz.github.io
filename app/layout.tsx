@@ -5,6 +5,7 @@ import { themeStyleCss, themeColor } from '@/config/theme';
 import { Providers } from './providers';
 import { SplashScreen } from '@/components/SplashScreen';
 import { SkipLink } from '@/components/SkipLink';
+import { MagneticCursor } from '@/components/MagneticCursor';
 import './globals.css';
 
 const display = Schibsted_Grotesk({
@@ -89,6 +90,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
         />
         <SkipLink />
+        <MagneticCursor />
         <Providers>
           <SplashScreen />
           {children}

@@ -6,6 +6,15 @@
   /* As variáveis de cor (:root / .dark) são injetadas em <head> a partir de
      config/theme.ts — fonte única do tema. Não declare cores aqui. */
 
+  /* Sistema de raios — cantos suaves "soft-luxury". Escala única para o site
+     inteiro; trocar aqui propaga a tudo. */
+  :root {
+    --r-xs: 8px;   /* chips, markers, tags */
+    --r-sm: 12px;  /* pills, botões, células */
+    --r-md: 18px;  /* cards, boxes, KPIs */
+    --r-lg: 26px;  /* retrato, tabelas, contêineres grandes */
+  }
+
   html {
     scroll-behavior: smooth;
   }
@@ -44,12 +53,14 @@
     pointer-events: none;
     z-index: 0;
     background:
-      radial-gradient(ellipse 60% 42% at 100% 0%, rgba(198, 242, 78, 0.10), transparent 60%);
+      radial-gradient(ellipse 70% 50% at 100% 0%, var(--accent-glow), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 0% 100%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 55%);
   }
 
   .dark body::after {
     background:
-      radial-gradient(ellipse 60% 42% at 100% 0%, rgba(198, 242, 78, 0.07), transparent 60%);
+      radial-gradient(ellipse 70% 50% at 100% 0%, var(--accent-glow), transparent 60%),
+      radial-gradient(ellipse 55% 45% at 0% 100%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 55%);
   }
 
   body > * {
@@ -60,7 +71,7 @@
   *:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 3px;
-    border-radius: 1px;
+    border-radius: var(--r-xs);
   }
 
   ::selection {
@@ -101,28 +112,248 @@
     color: var(--fg-muted);
   }
 
-  /* Numeração de seção como marca-texto lima (texto preto por cima) */
+  /* Numeração de seção como marca-texto (texto por cima) */
   .marker {
     @apply inline-flex items-center font-mono text-[11px] font-medium uppercase tracking-[0.22em];
     background: var(--accent);
     color: var(--accent-contrast);
-    padding: 0.18rem 0.5rem;
+    padding: 0.22rem 0.6rem;
+    border-radius: var(--r-xs);
   }
 
   /* Marca-texto inline (realça palavras) */
   .hl {
     background: var(--accent);
     color: var(--accent-contrast);
-    padding: 0 0.18em;
+    padding: 0.06em 0.24em;
+    border-radius: var(--r-xs);
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
   }
 
-  /* Caixa de borda dura — base brutalista de cards */
+  /* Caixa de borda suave — base de cards */
   .box {
     border: 1.5px solid var(--fg);
     background: var(--bg);
-    border-radius: 0;
+    border-radius: var(--r-md);
+  }
+
+  /* Glass surface — luxo discreto, sem brilho exagerado */
+  .glass {
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border: 1px solid color-mix(in srgb, var(--fg) 14%, transparent);
+    border-radius: var(--r-md);
+    box-shadow:
+      0 1px 0 0 color-mix(in srgb, var(--accent) 18%, transparent) inset,
+      0 30px 60px -30px color-mix(in srgb, var(--fg) 35%, transparent),
+      0 8px 24px -12px color-mix(in srgb, var(--fg) 18%, transparent);
+  }
+
+  .glass-strong {
+    background: color-mix(in srgb, var(--bg) 84%, transparent);
+    backdrop-filter: blur(22px) saturate(160%);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    border: 1px solid color-mix(in srgb, var(--fg) 18%, transparent);
+    border-radius: var(--r-lg);
+    box-shadow:
+      0 1px 0 0 color-mix(in srgb, var(--accent) 22%, transparent) inset,
+      0 40px 80px -30px color-mix(in srgb, var(--fg) 45%, transparent),
+      0 12px 28px -14px color-mix(in srgb, var(--fg) 22%, transparent);
+  }
+
+  /* Sistema de elevação — sombras quentes (champanhe), nunca neutras */
+  .depth-1 {
+    box-shadow:
+      0 2px 4px -2px color-mix(in srgb, var(--fg) 14%, transparent),
+      0 8px 18px -8px color-mix(in srgb, var(--fg) 12%, transparent);
+  }
+
+  .depth-2 {
+    box-shadow:
+      0 4px 8px -4px color-mix(in srgb, var(--fg) 18%, transparent),
+      0 16px 36px -16px color-mix(in srgb, var(--fg) 22%, transparent),
+      0 1px 0 0 color-mix(in srgb, var(--accent) 12%, transparent) inset;
+  }
+
+  .depth-3 {
+    box-shadow:
+      0 8px 16px -8px color-mix(in srgb, var(--fg) 22%, transparent),
+      0 30px 60px -20px color-mix(in srgb, var(--fg) 30%, transparent),
+      0 1px 0 0 color-mix(in srgb, var(--accent) 18%, transparent) inset;
+  }
+
+  /* Texto com gradiente champanhe — efeito de tinta metálica */
+  .ink-champagne {
+    background: linear-gradient(
+      135deg,
+      var(--accent) 0%,
+      var(--accent-ink) 45%,
+      var(--accent) 90%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .dark .ink-champagne {
+    background: linear-gradient(
+      135deg,
+      var(--accent) 0%,
+      color-mix(in srgb, var(--accent) 80%, #fff) 50%,
+      var(--accent-2) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Shimmer — reflexo metálico contínuo no accent */
+  .shimmer {
+    position: relative;
+    background: linear-gradient(
+      110deg,
+      var(--accent-2) 0%,
+      var(--accent-ink) 30%,
+      var(--accent) 50%,
+      var(--accent-ink) 70%,
+      var(--accent-2) 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: shimmer-pan 8s linear infinite;
+  }
+
+  .dark .shimmer {
+    background: linear-gradient(
+      110deg,
+      var(--accent-2) 0%,
+      var(--accent) 30%,
+      color-mix(in srgb, var(--accent) 70%, #fff) 50%,
+      var(--accent) 70%,
+      var(--accent-2) 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer-pan 8s linear infinite;
+  }
+
+  @keyframes shimmer-pan {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* Aurora backdrop — três elipses orbitando lento */
+  .aurora-backdrop {
+    overflow: hidden;
+  }
+
+  .aurora {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.55;
+    will-change: transform;
+  }
+
+  .aurora--a {
+    width: 55vw;
+    height: 55vw;
+    left: 60%;
+    top: -10%;
+    background: radial-gradient(circle, var(--accent) 0%, transparent 65%);
+    animation: aurora-drift-a 26s ease-in-out infinite;
+  }
+
+  .aurora--b {
+    width: 48vw;
+    height: 48vw;
+    left: -10%;
+    top: 30%;
+    background: radial-gradient(circle, var(--accent-ink) 0%, transparent 65%);
+    animation: aurora-drift-b 32s ease-in-out infinite;
+    opacity: 0.4;
+  }
+
+  .aurora--c {
+    width: 40vw;
+    height: 40vw;
+    left: 40%;
+    top: 60%;
+    background: radial-gradient(circle, var(--accent-2) 0%, transparent 60%);
+    animation: aurora-drift-c 38s ease-in-out infinite;
+    opacity: 0.35;
+  }
+
+  .dark .aurora--a { opacity: 0.35; }
+  .dark .aurora--b { opacity: 0.28; }
+  .dark .aurora--c { opacity: 0.22; }
+
+  @keyframes aurora-drift-a {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33%      { transform: translate(-10%, 8%) scale(1.08); }
+    66%      { transform: translate(6%, -4%) scale(0.95); }
+  }
+  @keyframes aurora-drift-b {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(14%, -10%) scale(1.12); }
+  }
+  @keyframes aurora-drift-c {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    40%      { transform: translate(-12%, -6%) scale(0.9); }
+    80%      { transform: translate(8%, 10%) scale(1.06); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .aurora { animation: none !important; }
+  }
+
+  /* Card 3D — base para tilt e spotlight (consumida por componentes client) */
+  .card-3d {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1),
+                box-shadow 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+    will-change: transform;
+  }
+
+  .card-3d > * {
+    transform-style: preserve-3d;
+  }
+
+  /* Spotlight glow — cursor-tracked, ativado por --mx/--my */
+  .spotlight {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .spotlight::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    background: radial-gradient(
+      circle 320px at var(--mx, 50%) var(--my, 50%),
+      color-mix(in srgb, var(--accent) 22%, transparent),
+      transparent 70%
+    );
+    z-index: 1;
+  }
+
+  .spotlight:hover::before {
+    opacity: 1;
+  }
+
+  .card-3d:hover .tilt-glare {
+    opacity: 1;
   }
 
   .display {
@@ -144,7 +375,7 @@
     isolation: isolate;
     overflow: hidden;
     border: 2px solid var(--fg);
-    border-radius: 0;
+    border-radius: var(--r-lg);
     background: var(--bg-deep);
   }
 
@@ -189,7 +420,7 @@
     background: radial-gradient(
       ellipse at center,
       transparent 55%,
-      color-mix(in srgb, var(--coal) 35%, transparent) 100%
+      color-mix(in srgb, var(--fg) 35%, transparent) 100%
     );
     pointer-events: none;
     z-index: 3;
@@ -231,35 +462,36 @@
     height: 100%;
     left: 50%;
   }
-  .portrait-frame .crosshair.tl { top: 8px; left: 8px; }
-  .portrait-frame .crosshair.tr { top: 8px; right: 8px; }
-  .portrait-frame .crosshair.bl { bottom: 8px; left: 8px; }
-  .portrait-frame .crosshair.br { bottom: 8px; right: 8px; }
+  .portrait-frame .crosshair.tl { top: 14px; left: 14px; }
+  .portrait-frame .crosshair.tr { top: 14px; right: 14px; }
+  .portrait-frame .crosshair.bl { bottom: 14px; left: 14px; }
+  .portrait-frame .crosshair.br { bottom: 14px; right: 14px; }
 
   .pill {
-    @apply inline-flex cursor-pointer items-center gap-2 px-4 py-2 font-mono text-[12px] uppercase tracking-[0.18em] transition-colors duration-200;
+    @apply inline-flex cursor-pointer items-center gap-2 px-5 py-2 font-mono text-[12px] uppercase tracking-[0.18em] transition-all duration-200;
     border: 1.5px solid var(--fg);
     color: var(--fg);
-    border-radius: 0;
+    border-radius: 999px;
   }
 
   .pill:hover {
     background: var(--accent);
     color: var(--accent-contrast);
+    border-color: var(--accent);
   }
 
   .pill-solid {
-    @apply inline-flex cursor-pointer items-center gap-2 px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.18em] transition-colors duration-200;
+    @apply inline-flex cursor-pointer items-center gap-2 px-6 py-2.5 font-mono text-[12px] uppercase tracking-[0.18em] transition-all duration-200;
     background: var(--fg);
     color: var(--bg);
     border: 1.5px solid var(--fg);
-    border-radius: 0;
+    border-radius: 999px;
   }
 
   .pill-solid:hover {
     background: var(--accent);
     color: var(--accent-contrast);
-    border-color: var(--fg);
+    border-color: var(--accent);
   }
 
   .underline-grow {
@@ -293,6 +525,7 @@
     background: var(--accent);
     color: var(--accent-contrast);
     border: 1.5px solid var(--fg);
+    border-radius: var(--r-sm);
     font-family: var(--font-mono), ui-monospace, monospace;
     font-size: 11px;
     text-transform: uppercase;
@@ -380,12 +613,14 @@
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 70% 50% at 90% 6%, rgba(198, 242, 78, 0.12), transparent 60%);
+    radial-gradient(ellipse 70% 50% at 90% 6%, var(--accent-glow), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 10% 90%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 55%);
 }
 
 .dark .splash::after {
   background:
-    radial-gradient(ellipse 70% 50% at 90% 6%, rgba(198, 242, 78, 0.10), transparent 60%);
+    radial-gradient(ellipse 70% 50% at 90% 6%, var(--accent-glow), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 10% 90%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 55%);
 }
 
 .splash--hiding {
@@ -542,9 +777,15 @@
 .splash__bar-fill {
   width: 0%;
   height: 100%;
-  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 70%, var(--fg)));
+  background: linear-gradient(
+    90deg,
+    var(--accent),
+    color-mix(in srgb, var(--accent) 60%, #fff8e8),
+    var(--accent-ink)
+  );
+  background-size: 200% 100%;
   border-radius: 2px;
-  box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 60%, transparent);
+  box-shadow: 0 0 18px var(--accent-glow);
   animation: splash-bar-fill 1.6s cubic-bezier(0.2, 0.6, 0.2, 1) forwards;
 }
 

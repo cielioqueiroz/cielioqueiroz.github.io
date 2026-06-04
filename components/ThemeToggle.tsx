@@ -21,7 +21,7 @@ export function ThemeToggle() {
       type="button"
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
       aria-label={`Mudar pra tema ${isDark ? 'claro' : 'escuro'}`}
-      className="group relative inline-flex h-10 w-10 items-center justify-center transition-colors duration-200"
+      className="group relative inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-full transition-colors duration-200"
       style={{
         border: '1.5px solid var(--fg)',
         color: 'var(--fg)',

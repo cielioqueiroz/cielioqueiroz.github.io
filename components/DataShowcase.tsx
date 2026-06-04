@@ -1,4 +1,5 @@
 import { site } from '@/config/site';
+import { Tilt3D } from './Tilt3D';
 
 const fmtBRL = (v: number) =>
   v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
@@ -51,14 +52,14 @@ export function DataShowcase() {
             </div>
           </header>
 
-<div className="mb-6 grid grid-cols-2 gap-px md:grid-cols-4" style={{ background: 'var(--rule)' }}>
+<div className="mb-6 grid grid-cols-2 gap-4 md:grid-cols-4">
             {dre.kpis.map((k) => (
-              <div key={k.label} className="p-5" style={{ background: 'var(--bg)' }}>
+              <Tilt3D key={k.label} max={12} lift={16} className="glass depth-2 p-5">
                 <p className="kicker mb-2">{k.label}</p>
-                <p className="display text-3xl tabular md:text-[40px]" style={{ fontWeight: 500, color: 'var(--accent-ink)' }}>
+                <p className="display ink-champagne text-3xl tabular md:text-[40px]" style={{ fontWeight: 600 }}>
                   {k.value}
                 </p>
-              </div>
+              </Tilt3D>
             ))}
           </div>
 
@@ -70,6 +71,7 @@ export function DataShowcase() {
             className="overflow-x-auto"
             style={{
               border: '2px solid var(--fg)',
+              borderRadius: 'var(--r-lg)',
               background: 'var(--bg)',
               WebkitOverflowScrolling: 'touch',
             }}
@@ -178,34 +180,34 @@ export function DataShowcase() {
             </div>
           </header>
 
-<div className="mb-6 grid grid-cols-2 gap-px md:grid-cols-4" style={{ background: 'var(--rule)' }}>
-            <div className="p-5" style={{ background: 'var(--bg)' }}>
+<div className="mb-6 grid grid-cols-2 gap-4 md:grid-cols-4">
+            <Tilt3D max={12} lift={16} className="glass depth-2 p-5">
               <p className="kicker mb-2">Receitas</p>
               <p className="display text-3xl tabular md:text-[34px]" style={{ fontWeight: 500 }}>
                 {fmtBRL(fx.totals.receitas)}
               </p>
-            </div>
-            <div className="p-5" style={{ background: 'var(--bg)' }}>
+            </Tilt3D>
+            <Tilt3D max={12} lift={16} className="glass depth-2 p-5">
               <p className="kicker mb-2">Despesas</p>
               <p className="display text-3xl tabular md:text-[34px]" style={{ fontWeight: 500, color: 'var(--fg-muted)' }}>
                 {fmtBRL(fx.totals.despesas)}
               </p>
-            </div>
-            <div className="p-5" style={{ background: 'var(--bg)' }}>
+            </Tilt3D>
+            <Tilt3D max={12} lift={16} className="glass depth-2 p-5">
               <p className="kicker mb-2">Saldo do período</p>
-              <p className="display text-3xl tabular md:text-[34px]" style={{ fontWeight: 500, color: 'var(--accent-ink)' }}>
+              <p className="display ink-champagne text-3xl tabular md:text-[34px]" style={{ fontWeight: 600 }}>
                 {fmtBRL(fx.totals.saldo)}
               </p>
-            </div>
-            <div className="p-5" style={{ background: 'var(--bg)' }}>
+            </Tilt3D>
+            <Tilt3D max={12} lift={16} className="glass depth-2 p-5">
               <p className="kicker mb-2">% comprometido</p>
               <p className="display text-3xl tabular md:text-[34px]" style={{ fontWeight: 500 }}>
                 {fmtPct(fx.totals.pctComprometido)}
               </p>
-            </div>
+            </Tilt3D>
           </div>
 
-          <div className="overflow-x-auto" style={{ border: '2px solid var(--fg)', background: 'var(--bg)' }}>
+          <div className="overflow-x-auto" style={{ border: '2px solid var(--fg)', borderRadius: 'var(--r-lg)', background: 'var(--bg)' }}>
             <table className="w-full min-w-[680px] text-left">
               <thead>
                 <tr style={{ borderBottom: '1px solid var(--fg)' }}>

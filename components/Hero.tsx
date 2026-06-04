@@ -4,6 +4,10 @@ import { Mail, ArrowDownRight } from 'lucide-react';
 import { Portrait } from './Portrait';
 import { CVButton } from './CVButton';
 import { CopyEmailButton } from './CopyEmailButton';
+import { Tilt3D } from './Tilt3D';
+import { Hero3DMount } from './Hero3DMount';
+import { AuroraBackdrop } from './AuroraBackdrop';
+import { SplitReveal } from './SplitReveal';
 
 const today = new Date().toLocaleDateString('pt-BR', {
   day: '2-digit',
@@ -13,9 +17,11 @@ const today = new Date().toLocaleDateString('pt-BR', {
 
 export function Hero() {
   return (
-    <section id="top" className="relative">
-      
-      <div className="frame pt-10 md:pt-14">
+    <section id="top" className="relative overflow-hidden">
+      <AuroraBackdrop />
+      <Hero3DMount />
+
+      <div className="relative z-[2] frame pt-10 md:pt-14">
         <div className="animate-fade flex flex-wrap items-center justify-between gap-3 border-t pb-3" style={{ borderColor: 'var(--fg)' }}>
           <div className="kicker tabular pt-3">
             § 01 — Apresentação
@@ -29,13 +35,15 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="frame pt-16 md:pt-24 pb-20 md:pb-28">
+      <div className="relative z-[2] frame pt-16 md:pt-24 pb-20 md:pb-28">
         <div className="grid gap-y-10 md:grid-cols-12 md:gap-x-8">
           
           <aside className="order-2 md:order-1 md:col-span-3 md:pt-4">
             
             <figure className="animate-rise stagger-1 mx-auto mb-6 max-w-[280px] md:max-w-none">
-              <Portrait />
+              <Tilt3D max={10} lift={18} spotlight={false} className="depth-3">
+                <Portrait />
+              </Tilt3D>
               <figcaption className="mt-3 flex items-baseline justify-between font-mono text-[10px] uppercase tracking-[0.2em] tabular" style={{ color: 'var(--fg-muted)' }}>
                 <span>
                   <span style={{ color: 'var(--accent-ink)' }}>●</span> Retrato
@@ -78,10 +86,16 @@ export function Hero() {
           </aside>
 
 <div className="order-1 md:order-2 md:col-span-9">
-            <h1 className="display text-display-lg animate-rise stagger-2" style={{ fontWeight: 500 }}>
-              <span className="block">Ciélio</span>
-              <span className="block italic" style={{ color: 'var(--accent-ink)', fontVariationSettings: "'opsz' 144, 'SOFT' 100" }}>
-                Queiroz<span style={{ color: 'var(--fg)' }}>.</span>
+            <h1 className="display text-display-lg" style={{ fontWeight: 500 }}>
+              <span className="block">
+                <SplitReveal text="Ciélio" stagger={45} />
+              </span>
+              <span
+                className="block italic"
+                style={{ color: 'var(--accent-ink)', fontVariationSettings: "'opsz' 144, 'SOFT' 100" }}
+              >
+                <SplitReveal text="Queiroz" delay={280} stagger={50} italic />
+                <span className="not-italic" style={{ color: 'var(--fg)' }}>.</span>
               </span>
             </h1>
 
@@ -110,17 +124,33 @@ export function Hero() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="pill group"
+                data-cursor="lg"
+                data-cursor-label="abrir"
               >
                 <FaLinkedin size={14} />
                 LinkedIn
                 <ArrowDownRight size={14} className="transition-transform group-hover:-rotate-45" />
               </a>
-              <a href={site.socials.github} target="_blank" rel="noopener noreferrer" className="pill group cursor-pointer">
+              <a
+                href={site.socials.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pill group cursor-pointer"
+                data-cursor="lg"
+                data-cursor-label="abrir"
+              >
                 <FaGithub size={14} />
                 GitHub
                 <ArrowDownRight size={14} className="transition-transform group-hover:-rotate-45" />
               </a>
-              <a href={site.socials.instagram} target="_blank" rel="noopener noreferrer" className="pill group cursor-pointer">
+              <a
+                href={site.socials.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pill group cursor-pointer"
+                data-cursor="lg"
+                data-cursor-label="abrir"
+              >
                 <FaInstagram size={14} />
                 Instagram
                 <ArrowDownRight size={14} className="transition-transform group-hover:-rotate-45" />
@@ -130,7 +160,7 @@ export function Hero() {
                 role="group"
                 aria-label="Contato por e-mail"
                 className="group inline-flex items-center overflow-hidden font-mono text-[12px] uppercase tracking-[0.18em] transition-colors"
-                style={{ border: '1.5px solid var(--fg)', color: 'var(--fg)' }}
+                style={{ border: '1.5px solid var(--fg)', borderRadius: 999, color: 'var(--fg)' }}
               >
                 <a
                   href={`mailto:${site.socials.email}`}

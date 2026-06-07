@@ -44,6 +44,9 @@ Página única (one-page) com identidade visual **_Swiss Luxe_** — minimalismo
 - **Static export** completo (`output: 'export'`) — site servido como HTML puro, sem servidor Node
 - **First Load JS**: ~113 kB (otimizado, sem libs pesadas como Framer Motion)
 - **Atualização ao vivo** dos projetos: a seção `§ 06` consulta a GitHub API toda vez que alguém abre o site
+- **Vídeo de fundo** gerado por IA (Gemini) como camada base do header — muted, autoplay, loop controlado por JS até 7,5 s para omitir o crédito final; pausa automaticamente com `prefers-reduced-motion`
+- **Ondas 3D** via WebGL (React Three Fiber + shader GLSL) com brilho champanhe — desativadas em hardware fraco (≤ 2 núcleos) e congeladas com `prefers-reduced-motion`
+- **Aurora CSS** — gradiente multi-camada animado em pure CSS, sem WebGL
 - **Splash screen** com contador % animado via CSS `@property` (imune a thread blocking)
 - **Retrato duotone** CSS-only com `mix-blend-mode` + grayscale, hover revela cor original
 - **Navegação ativa**: scrollspy na navbar (`IntersectionObserver`) e revelação de seções ao rolar via CSS scroll-driven (`animation-timeline: view()`), com fallback e respeito a `prefers-reduced-motion`
@@ -65,6 +68,10 @@ my-portifolio/
 ├── components/
 │   ├── Navbar.tsx              Masthead + drawer mobile
 │   ├── Hero.tsx                Capa § 01
+│   ├── HeroVideoBackground.tsx Vídeo de fundo do header (loop JS até 7,5 s)
+│   ├── AuroraBackdrop.tsx      Gradiente aurora CSS por trás das ondas
+│   ├── Hero3DMount.tsx         Loader lazy das ondas 3D (dynamic import)
+│   ├── Hero3DScene.tsx         Canvas WebGL com shader de ondas (React Three Fiber)
 │   ├── About.tsx               Sobre § 02
 │   ├── Skills.tsx              Skills § 03
 │   ├── Certificates.tsx        Credenciais § 04
@@ -81,6 +88,7 @@ my-portifolio/
 │   └── github.ts               Wrapper da GitHub REST API
 ├── public/
 │   ├── portrait.jpg            Foto pessoal
+│   ├── hero-video.mp4          Vídeo de fundo do header (gerado com Gemini)
 │   └── (favicon servido por app/icon.svg)
 ├── .github/workflows/
 │   └── deploy.yml              CI: build + deploy no Pages

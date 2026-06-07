@@ -8,7 +8,6 @@ import { Tilt3D } from './Tilt3D';
 import { Hero3DMount } from './Hero3DMount';
 import { AuroraBackdrop } from './AuroraBackdrop';
 import { SplitReveal } from './SplitReveal';
-import { HeroVideoBackground } from './HeroVideoBackground';
 
 const today = new Date().toLocaleDateString('pt-BR', {
   day: '2-digit',
@@ -19,7 +18,6 @@ const today = new Date().toLocaleDateString('pt-BR', {
 export function Hero() {
   return (
     <section id="top" className="relative overflow-hidden">
-      <HeroVideoBackground />
       <AuroraBackdrop />
       <Hero3DMount />
 

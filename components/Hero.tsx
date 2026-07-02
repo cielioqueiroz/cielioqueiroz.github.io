@@ -8,7 +8,7 @@ import { CopyEmailButton } from './CopyEmailButton';
 import { Tilt3D } from './Tilt3D';
 import { Hero3DMount } from './Hero3DMount';
 import { SplitReveal } from './SplitReveal';
-import { HeroBackdrop } from './HeroBackdrop';
+import { AuroraBackdrop } from './AuroraBackdrop';
 
 export function Hero({ locale = 'pt' }: { locale?: Locale }) {
   const t = getDict(locale);
@@ -20,7 +20,7 @@ export function Hero({ locale = 'pt' }: { locale?: Locale }) {
 
   return (
     <section id="top" className="relative overflow-hidden">
-      <HeroBackdrop />
+      <AuroraBackdrop />
       <Hero3DMount />
 
       <div className="relative z-[2] frame pt-10 md:pt-14">

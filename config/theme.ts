@@ -1,46 +1,48 @@
 /**
- * FONTE ÚNICA DE COR DO PROJETO — "Obsidian & Champagne".
+ * FONTE ÚNICA DE COR DO PROJETO — "Fumaça Grafite".
  *
  * Tudo que tem cor de tema lê daqui:
  *   - app/layout.tsx  → injeta as CSS vars (:root / .dark) e o themeColor
  *   - app/globals.css → usa as vars var(--bg), var(--accent), etc.
- *   - app/opengraph-image.tsx → importa `banner` (paleta do tema claro)
+ *   - app/opengraph-image.tsx → importa `banner` (paleta do tema ESCURO)
+ *   - app/manifest.ts → cores do PWA
  *
- * Conceito: paleta editorial premium, sem cores vibrantes. O accent é um
- * champanhe quente (#C9A876) — não brilhante, não saturado. Em fundo claro,
- * vira marca-texto/tinta bronze; em fundo escuro (obsidiana), respira como
- * dourado pálido. As superfícies têm gradação curta entre --bg e --bg-deep
- * para sustentar profundidade 3D sem ruído.
+ * Conceito: monocromático total. Carvão quase-preto, texto cinza-claro e
+ * LUZ BRANCA como único accent — a "fumaça" são os glows brancos difusos
+ * (aurora, sombras, spotlight) que já existem no CSS e agora ficam
+ * acromáticos. Nenhuma cor compete com os projetos; o vermelho dessaturado
+ * de --danger é funcional (números negativos), não identidade.
+ * O tema claro é o gêmeo invertido: papel cinza-claro + tinta grafite.
  */
 
 export const palette = {
   light: {
-    '--bg': '#F4EFE6',
-    '--bg-deep': '#ECE5D8',
-    '--fg': '#1A1614',
-    '--fg-soft': '#3A302C',
-    '--fg-muted': '#6E5F54',
-    '--rule': 'rgba(26,22,20,0.18)',
-    '--accent': '#C9A876',
-    '--accent-ink': '#6B5535',
-    '--accent-2': '#57432A',
-    '--accent-contrast': '#1A1614',
-    '--accent-glow': 'rgba(201, 168, 118, 0.45)',
-    '--danger': '#8C3A2A',
+    '--bg': '#F4F4F3',
+    '--bg-deep': '#E9E9E7',
+    '--fg': '#131315',
+    '--fg-soft': '#3F3F44',
+    '--fg-muted': '#63636A',
+    '--rule': 'rgba(19,19,21,0.18)',
+    '--accent': '#131315',
+    '--accent-ink': '#000000',
+    '--accent-2': '#4C4C52',
+    '--accent-contrast': '#F4F4F3',
+    '--accent-glow': 'rgba(19,19,21,0.10)',
+    '--danger': '#B23B30',
   },
   dark: {
-    '--bg': '#0A0908',
-    '--bg-deep': '#14110E',
-    '--fg': '#E8DFD0',
-    '--fg-soft': '#C7BCA8',
-    '--fg-muted': '#93887A',
-    '--rule': 'rgba(232,223,208,0.16)',
-    '--accent': '#D4B896',
-    '--accent-ink': '#D4B896',
-    '--accent-2': '#C9A876',
-    '--accent-contrast': '#0A0908',
-    '--accent-glow': 'rgba(212, 184, 150, 0.30)',
-    '--danger': '#C97A65',
+    '--bg': '#0C0C0D',
+    '--bg-deep': '#141416',
+    '--fg': '#F0F0F0',
+    '--fg-soft': '#B5B5B7',
+    '--fg-muted': '#8F8F94',
+    '--rule': 'rgba(240,240,240,0.16)',
+    '--accent': '#FFFFFF',
+    '--accent-ink': '#FFFFFF',
+    '--accent-2': '#C9C9CE',
+    '--accent-contrast': '#0C0C0D',
+    '--accent-glow': 'rgba(255,255,255,0.16)',
+    '--danger': '#E0847A',
   },
 } as const;
 
@@ -60,16 +62,16 @@ export const themeColor = {
 } as const;
 
 /**
- * Paleta do banner Open Graph (1200×630). Usa o tema CLARO — creme pérola
- * com tinta obsidiana e accent champanhe. Segue automaticamente `palette.light`.
+ * Paleta do banner Open Graph (1200×630). Usa o tema ESCURO — carvão com
+ * fumaça branca, a identidade padrão do site. Segue `palette.dark`.
  */
 export const banner = {
-  BG: palette.light['--bg'],
-  BG_DEEP: palette.light['--bg-deep'],
-  FG: palette.light['--fg'],
-  FG_SOFT: palette.light['--fg-soft'],
-  FG_MUTED: palette.light['--fg-muted'],
-  ACCENT: palette.light['--accent'],
-  INK_ON_ACCENT: palette.light['--accent-contrast'],
-  RULE: palette.light['--fg'],
+  BG: palette.dark['--bg'],
+  BG_DEEP: palette.dark['--bg-deep'],
+  FG: palette.dark['--fg'],
+  FG_SOFT: palette.dark['--fg-soft'],
+  FG_MUTED: palette.dark['--fg-muted'],
+  ACCENT: palette.dark['--accent'],
+  INK_ON_ACCENT: palette.dark['--accent-contrast'],
+  RULE: palette.dark['--fg'],
 } as const;

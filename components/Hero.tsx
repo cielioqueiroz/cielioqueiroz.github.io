@@ -43,7 +43,16 @@ export function Hero({ locale = 'pt' }: { locale?: Locale }) {
           <aside className="order-2 md:order-1 md:col-span-3 md:pt-4">
 
             <figure className="animate-rise stagger-1 mx-auto mb-6 max-w-[280px] md:max-w-none">
-              <Tilt3D max={10} lift={18} spotlight={false} className="depth-3">
+              {/* borderRadius no wrapper: a sombra depth-3 e o glare seguem o
+                  raio — sem ele, o brilho branco desenha um retângulo por trás
+                  da moldura arredondada */}
+              <Tilt3D
+                max={10}
+                lift={18}
+                spotlight={false}
+                className="depth-3"
+                style={{ borderRadius: 'var(--r-lg)' }}
+              >
                 <Portrait />
               </Tilt3D>
               <figcaption className="mt-3 flex items-baseline justify-between font-mono text-[10px] uppercase tracking-[0.2em] tabular" style={{ color: 'var(--fg-muted)' }}>

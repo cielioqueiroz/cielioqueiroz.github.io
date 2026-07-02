@@ -163,7 +163,7 @@
       0 12px 28px -14px color-mix(in srgb, var(--fg) 22%, transparent);
   }
 
-  /* Sistema de elevação — sombras quentes (champanhe), nunca neutras */
+  /* Sistema de elevação — sombras profundas com brilho de fumaça no topo */
   .depth-1 {
     box-shadow:
       0 2px 4px -2px color-mix(in srgb, var(--fg) 14%, transparent),
@@ -291,17 +291,18 @@
     opacity: 1;
   }
 
+  /* Rajdhani já é condensada — sem tracking negativo, senão as letras colam */
   .display {
     font-family: var(--font-display), 'Helvetica Neue', Arial, sans-serif;
     font-optical-sizing: auto;
-    letter-spacing: -0.022em;
+    letter-spacing: 0;
     text-wrap: balance;
   }
 
   .body-serif {
     font-family: var(--font-display), 'Helvetica Neue', Arial, sans-serif;
     font-optical-sizing: auto;
-    letter-spacing: -0.01em;
+    letter-spacing: 0.005em;
     text-wrap: pretty;
   }
 
@@ -319,59 +320,17 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    /* Raio na PRÓPRIA imagem: com transform/animação o Chrome ignora o
+       overflow:hidden arredondado do contêiner e os cantos retos vazam. */
+    border-radius: calc(var(--r-lg) - 2px);
     transition: transform 1.6s cubic-bezier(0.2, 0.7, 0.2, 1);
   }
 
-  .portrait-frame::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      160deg,
-      color-mix(in srgb, var(--accent) 32%, transparent) 0%,
-      transparent 55%,
-      color-mix(in srgb, var(--accent) 22%, transparent) 100%
-    );
-    mix-blend-mode: multiply;
-    pointer-events: none;
-    z-index: 2;
-    transition: opacity 0.7s ease;
-  }
-
-  .dark .portrait-frame::before {
-    mix-blend-mode: screen;
-    background: linear-gradient(
-      160deg,
-      color-mix(in srgb, var(--accent) 28%, transparent) 0%,
-      transparent 55%,
-      color-mix(in srgb, var(--accent) 18%, transparent) 100%
-    );
-  }
-
-  .portrait-frame::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-      ellipse at center,
-      transparent 55%,
-      color-mix(in srgb, var(--fg) 35%, transparent) 100%
-    );
-    pointer-events: none;
-    z-index: 3;
-    transition: opacity 0.7s ease;
-  }
-
+  /* Sem véus/vinhetas sobre a foto — no tema monocromático eles viravam
+     manchas brancas quadradas dentro da moldura arredondada. O destaque
+     fica por conta do hover (zoom + lift do Tilt3D). */
   .portrait-frame:hover img {
     transform: scale(1.04);
-  }
-
-  .portrait-frame:hover::before {
-    opacity: 0;
-  }
-
-  .portrait-frame:hover::after {
-    opacity: 0.4;
   }
 
   .portrait-frame .crosshair {

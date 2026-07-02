@@ -9,21 +9,21 @@ import {
 import type { Site } from '@/config/site';
 
 /* ---- Fontes (instâncias estáticas servidas de /public/fonts/cv) ----
-   Alinhadas às grotescas do site: Schibsted Grotesk (display),
-   Hanken Grotesk (corpo) e Geist Mono (mono). */
+   Alinhadas ao tema "Fumaça Grafite" do site: Rajdhani (display),
+   Karla (corpo) e Geist Mono (mono). */
 Font.register({
   family: 'SchibstedGrotesk',
   fonts: [
-    { src: '/fonts/cv/SchibstedGrotesk-Regular.ttf' },
-    { src: '/fonts/cv/SchibstedGrotesk-Medium.ttf', fontWeight: 500 },
+    { src: '/fonts/cv/Rajdhani-Regular.ttf' },
+    { src: '/fonts/cv/Rajdhani-SemiBold.ttf', fontWeight: 500 },
   ],
 });
 Font.register({
   family: 'HankenGrotesk',
   fonts: [
-    { src: '/fonts/cv/HankenGrotesk-Regular.ttf' },
-    { src: '/fonts/cv/HankenGrotesk-Medium.ttf', fontWeight: 500 },
-    { src: '/fonts/cv/HankenGrotesk-Italic.ttf', fontStyle: 'italic' },
+    { src: '/fonts/cv/Karla-Regular.ttf' },
+    { src: '/fonts/cv/Karla-Medium.ttf', fontWeight: 500 },
+    { src: '/fonts/cv/Karla-Italic.ttf', fontStyle: 'italic' },
   ],
 });
 Font.register({
@@ -34,12 +34,12 @@ Font.register({
 // Sem hifenização automática — evita quebras feias em palavras longas.
 Font.registerHyphenationCallback((word) => [word]);
 
-/* ---- Paleta (verde-petróleo do site, otimizada p/ impressão e ATS) ---- */
+/* ---- Paleta (grafite monocromático do site, otimizada p/ impressão e ATS) ---- */
 const C = {
   ink: '#111214',
   soft: '#3A3C40',
   muted: '#76797F',
-  accent: '#1F4D3D',
+  accent: '#2B2B2E',
   rule: '#DADBDD',
   paper: '#FFFFFF',
 };

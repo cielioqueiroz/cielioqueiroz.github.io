@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { Schibsted_Grotesk, Hanken_Grotesk, Geist_Mono } from 'next/font/google';
+import { Rajdhani, Karla, Geist_Mono } from 'next/font/google';
 import { site } from '@/config/site';
 import { themeStyleCss, themeColor } from '@/config/theme';
 import { Providers } from './providers';
@@ -10,14 +10,17 @@ import { SkipLink } from '@/components/SkipLink';
 import { MagneticCursor } from '@/components/MagneticCursor';
 import './globals.css';
 
-const display = Schibsted_Grotesk({
+// Rajdhani não é variável — pesos explícitos (500 texto display, 600/700 títulos)
+const display = Rajdhani({
   subsets: ['latin'],
+  weight: ['500', '600', '700'],
   variable: '--font-display',
   display: 'swap',
 });
 
-const body = Hanken_Grotesk({
+const body = Karla({
   subsets: ['latin'],
+  style: ['normal', 'italic'],
   variable: '--font-body',
   display: 'swap',
 });

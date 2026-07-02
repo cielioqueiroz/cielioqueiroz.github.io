@@ -57,8 +57,9 @@ function Waves({ animate }: { animate: boolean }) {
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
-      uLow: { value: new THREE.Color('#7A5E33') },
-      uHigh: { value: new THREE.Color('#E6CFA8') },
+      // Tema "Fumaça Grafite" — malha monocromática: grafite → branco-fumaça
+      uLow: { value: new THREE.Color('#3B3B40') },
+      uHigh: { value: new THREE.Color('#D9D9DE') },
       uOpacity: { value: 0.5 },
     }),
     []
@@ -90,12 +91,12 @@ function Waves({ animate }: { animate: boolean }) {
   );
 }
 
-/** Brilho difuso atrás das ondas — dá "respiro" e profundidade champanhe. */
+/** Brilho difuso atrás das ondas — a "fumaça" branca que dá profundidade. */
 function Glow() {
   return (
     <mesh position={[1, 0.6, -4]}>
       <circleGeometry args={[6, 48]} />
-      <meshBasicMaterial color="#D4B896" transparent opacity={0.06} />
+      <meshBasicMaterial color="#FFFFFF" transparent opacity={0.05} />
     </mesh>
   );
 }

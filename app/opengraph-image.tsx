@@ -31,13 +31,13 @@ export default async function Image() {
   const portraitBuffer = await fs.readFile(portraitPath);
   const portraitDataUri = `data:image/jpeg;base64,${portraitBuffer.toString('base64')}`;
 
-  const [grotesk, groteskMed, mono] = await Promise.all([
-    loadGoogleFont('Schibsted+Grotesk:wght@800'),
-    loadGoogleFont('Schibsted+Grotesk:wght@500'),
+  const [displayBold, displayMed, mono] = await Promise.all([
+    loadGoogleFont('Rajdhani:wght@700'),
+    loadGoogleFont('Rajdhani:wght@500'),
     loadGoogleFont('Geist+Mono:wght@500'),
   ]);
 
-  // Paleta "Obsidian & Champagne" — segue config/theme.ts (tema claro).
+  // Paleta "Fumaça Grafite" — segue config/theme.ts (tema escuro).
   const { BG, BG_DEEP, FG, FG_MUTED, ACCENT, INK_ON_ACCENT, RULE } = banner;
 
   const monoLabel = {
@@ -56,7 +56,7 @@ export default async function Image() {
           display: 'flex',
           flexDirection: 'column',
           backgroundColor: BG,
-          fontFamily: 'Schibsted Grotesk',
+          fontFamily: 'Rajdhani',
           color: FG,
           position: 'relative',
         }}
@@ -71,7 +71,7 @@ export default async function Image() {
             borderRadius: 24,
           }}
         />
-        {/* Wash champanhe no canto superior direito */}
+        {/* Fumaça branca no canto superior direito */}
         <div
           style={{
             position: 'absolute',
@@ -81,7 +81,7 @@ export default async function Image() {
             height: 300,
             display: 'flex',
             background: `radial-gradient(ellipse 100% 100% at 100% 0%, ${ACCENT}, transparent 70%)`,
-            opacity: 0.55,
+            opacity: 0.22,
           }}
         />
 
@@ -142,14 +142,14 @@ export default async function Image() {
               height={392}
               style={{ width: 312, height: 392, objectFit: 'cover' }}
             />
-            {/* duotone lima */}
+            {/* véu de fumaça no retrato */}
             <div
               style={{
                 position: 'absolute',
                 inset: 0,
                 display: 'flex',
                 background: `linear-gradient(150deg, ${ACCENT} 0%, transparent 48%, ${ACCENT} 100%)`,
-                opacity: 0.4,
+                opacity: 0.14,
               }}
             />
             {/* crosshairs nos cantos */}
@@ -168,7 +168,7 @@ export default async function Image() {
 
           {/* TEXTO */}
           <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-            {/* tag lima */}
+            {/* tag marca-texto branca */}
             <div
               style={{
                 display: 'flex',
@@ -190,8 +190,8 @@ export default async function Image() {
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                fontFamily: 'Schibsted Grotesk',
-                fontWeight: 800,
+                fontFamily: 'Rajdhani',
+                fontWeight: 700,
                 fontSize: 116,
                 lineHeight: 0.9,
                 letterSpacing: '-0.04em',
@@ -260,8 +260,8 @@ export default async function Image() {
     {
       ...size,
       fonts: [
-        { name: 'Schibsted Grotesk', data: grotesk, weight: 800, style: 'normal' },
-        { name: 'Schibsted Grotesk', data: groteskMed, weight: 500, style: 'normal' },
+        { name: 'Rajdhani', data: displayBold, weight: 700, style: 'normal' },
+        { name: 'Rajdhani', data: displayMed, weight: 500, style: 'normal' },
         { name: 'Geist Mono', data: mono, weight: 500, style: 'normal' },
       ],
     }

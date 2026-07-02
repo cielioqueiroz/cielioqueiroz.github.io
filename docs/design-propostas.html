@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Propostas de design — Portfólio Ciélio Queiroz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&family=Hanken+Grotesk:wght@400;500&family=Geist+Mono:wght@400;500&family=Archivo:wght@400;500;650;750&family=Besley:ital,wght@0,500;0,700;1,600&family=Public+Sans:wght@400;500&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    background: #101013;
+    color: #ECECEC;
+    font-family: 'Hanken Grotesk', system-ui, sans-serif;
+    line-height: 1.5;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+
+  /* ---------- cabeçalho da página ---------- */
+  .intro { padding: 56px 0 40px; border-bottom: 1px solid #2A2A30; }
+  .intro h1 { font-family: 'Schibsted Grotesk', sans-serif; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; }
+  .intro p { margin-top: 12px; max-width: 62ch; color: #B9B9C0; }
+  .intro .howto { margin-top: 16px; font-family: 'Geist Mono', monospace; font-size: 12px; color: #8B8B94; text-transform: uppercase; letter-spacing: 0.14em; }
+
+  /* ---------- estrutura de cada proposta ---------- */
+  .proposal { padding: 56px 0; border-bottom: 1px solid #2A2A30; }
+  .proposal-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 18px; margin-bottom: 6px; }
+  .proposal-head .letter {
+    font-family: 'Geist Mono', monospace; font-size: 13px; letter-spacing: 0.2em;
+    background: #ECECEC; color: #101013; padding: 3px 10px; border-radius: 6px;
+  }
+  .proposal-head h2 { font-family: 'Schibsted Grotesk', sans-serif; font-size: clamp(1.3rem, 3vw, 1.8rem); font-weight: 700; }
+  .proposal-head .ref { font-size: 14px; color: #8B8B94; font-style: italic; }
+  .proposal > .wrap > .why { max-width: 70ch; color: #B9B9C0; font-size: 15px; margin: 10px 0 26px; }
+  .why strong { color: #ECECEC; }
+
+  /* preview container: cada proposta define suas próprias vars */
+  .preview {
+    border-radius: 16px; overflow: hidden;
+    border: 1px solid #34343B;
+    background: var(--bg);
+    color: var(--fg);
+  }
+  .mini-hero { padding: 34px 34px 30px; position: relative; overflow: hidden; background: var(--hero-bg, var(--bg)); }
+  .kickrow {
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    border-top: 2px solid var(--fg); padding-top: 10px; margin-bottom: 26px;
+    font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.22em;
+    color: var(--muted);
+  }
+  .mini-hero h3 {
+    font-family: var(--display); font-weight: var(--display-weight, 600);
+    font-size: clamp(2.4rem, 7vw, 4.2rem); line-height: 0.95; letter-spacing: -0.02em;
+    color: var(--fg); position: relative; z-index: 1;
+  }
+  .mini-hero h3 .accented { color: var(--accent-ink); font-style: var(--display-italic, italic); }
+  .mini-hero .lede {
+    margin-top: 18px; max-width: 46ch; font-size: 17px; line-height: 1.5;
+    font-family: var(--body); color: var(--soft); position: relative; z-index: 1;
+  }
+  .mini-hero .lede em { color: var(--accent-ink); font-style: italic; }
+  .pills { display: flex; gap: 10px; margin-top: 22px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .pill {
+    font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.16em;
+    padding: 8px 18px; border-radius: 999px; border: 1.5px solid var(--fg); color: var(--fg);
+  }
+  .pill.solid { background: var(--fg); color: var(--bg); }
+
+  /* faixa de dados: KPI + tabela */
+  .mini-data { padding: 26px 34px 32px; border-top: 1px solid var(--rule); display: grid; grid-template-columns: 180px 1fr; gap: 24px; align-items: start; background: var(--bg); }
+  @media (max-width: 640px) { .mini-data { grid-template-columns: 1fr; } }
+  .kpi { border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; }
+  .kpi .lbl { font-family: var(--mono); font-size: 9px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted); }
+  .kpi .val { font-family: var(--display); font-size: 30px; font-weight: 650; color: var(--accent-ink); margin-top: 6px; font-variant-numeric: tabular-nums; }
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  th { font-family: var(--mono); font-size: 9px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted); text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--fg); }
+  th:last-child, td:last-child { text-align: right; }
+  td { padding: 9px 10px; font-size: 14px; border-top: 1px solid var(--rule); font-family: var(--body); }
+  td.num { font-family: var(--mono); font-size: 13px; }
+  tr.hl td { background: var(--hl-row); font-weight: 600; }
+  tr.total td { background: var(--total-row); color: var(--accent-ink); font-weight: 700; }
+  td.neg { color: var(--danger); }
+
+  /* paleta + tipografia */
+  .meta { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 22px; }
+  @media (max-width: 760px) { .meta { grid-template-columns: 1fr; } }
+  .meta h4 { font-family: 'Geist Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em; color: #8B8B94; margin-bottom: 12px; }
+  .swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+  .sw { width: 92px; }
+  .sw .chip { height: 52px; border-radius: 8px; border: 1px solid #3A3A42; }
+  .sw .name { font-size: 11px; color: #B9B9C0; margin-top: 6px; }
+  .sw .hex { font-family: 'Geist Mono', monospace; font-size: 10px; color: #8B8B94; }
+  .type-spec { display: grid; gap: 10px; }
+  .type-spec .line { display: flex; align-items: baseline; gap: 14px; }
+  .type-spec .role { font-family: 'Geist Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.18em; color: #8B8B94; width: 72px; flex-shrink: 0; }
+  .type-spec .sample { font-size: 22px; color: #ECECEC; }
+
+  .footer { padding: 48px 0 80px; color: #8B8B94; font-size: 14px; }
+  .footer strong { color: #ECECEC; }
+
+  /* ============ A — Obsidian & Champagne (atual) ============ */
+  .prop-a .preview {
+    --bg: #0A0908; --fg: #E8DFD0; --soft: #C7BCA8; --muted: #93887A;
+    --rule: rgba(232,223,208,0.16);
+    --accent: #D4B896; --accent-ink: #D4B896; --danger: #C97A65;
+    --hl-row: rgba(212,184,150,0.08); --total-row: rgba(212,184,150,0.14);
+    --display: 'Schibsted Grotesk', sans-serif; --display-weight: 500;
+    --body: 'Hanken Grotesk', sans-serif; --mono: 'Geist Mono', monospace;
+  }
+  .prop-a .mini-hero { --hero-bg: radial-gradient(ellipse 70% 60% at 85% 0%, rgba(212,184,150,0.16), transparent 60%), #0A0908; }
+
+  /* ============ B — Terminal Ledger (verde-fósforo) ============ */
+  .prop-b .preview {
+    --bg: #0B120E; --fg: #DCEBDF; --soft: #AEC6B3; --muted: #7E947F;
+    --rule: rgba(220,235,223,0.15);
+    --accent: #6FE2A2; --accent-ink: #6FE2A2; --danger: #E58873;
+    --hl-row: rgba(111,226,162,0.07); --total-row: rgba(111,226,162,0.13);
+    --display: 'Archivo', sans-serif; --display-weight: 700; --display-italic: normal;
+    --body: 'Archivo', sans-serif; --mono: 'Geist Mono', monospace;
+  }
+  .prop-b .mini-hero {
+    --hero-bg:
+      linear-gradient(rgba(111,226,162,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(111,226,162,0.05) 1px, transparent 1px),
+      #0B120E;
+    background-size: 100% 34px, 34px 100%, auto;
+  }
+  .prop-b .mini-hero h3 { letter-spacing: -0.015em; }
+  .prop-b .mini-hero h3 .accented::after { content: '_'; animation: blink 1s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ============ C — Papel Contábil (azul caneta) ============ */
+  .prop-c .preview {
+    --bg: #FAFAF7; --fg: #16181D; --soft: #3D4149; --muted: #6B707B;
+    --rule: rgba(22,24,29,0.16);
+    --accent: #2547D0; --accent-ink: #2547D0; --danger: #B3261E;
+    --hl-row: rgba(37,71,208,0.06); --total-row: rgba(37,71,208,0.10);
+    --display: 'Besley', serif; --display-weight: 700;
+    --body: 'Public Sans', sans-serif; --mono: 'Geist Mono', monospace;
+  }
+  .prop-c .mini-hero {
+    --hero-bg:
+      linear-gradient(rgba(37,71,208,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(37,71,208,0.06) 1px, transparent 1px),
+      #FAFAF7;
+    background-size: 100% 28px, 28px 100%, auto;
+  }
+  .prop-c .kickrow { border-top-color: var(--accent); }
+  .prop-c .mini-hero h3 { letter-spacing: -0.01em; }
+
+  /* ============ D — Editorial Drench (oxblood) ============ */
+  .prop-d .preview {
+    --bg: #F3E9DC; --fg: #241009; --soft: #4D2C1E; --muted: #7D5A48;
+    --rule: rgba(36,16,9,0.18);
+    --accent: #A73B22; --accent-ink: #A73B22; --danger: #A73B22;
+    --hl-row: rgba(167,59,34,0.07); --total-row: rgba(167,59,34,0.12);
+    --display: 'Bricolage Grotesque', sans-serif; --display-weight: 800; --display-italic: normal;
+    --body: 'Hanken Grotesk', sans-serif; --mono: 'Geist Mono', monospace;
+  }
+  .prop-d .mini-hero {
+    --hero-bg: #5C1F12;
+    color: #F3E9DC;
+  }
+  .prop-d .mini-hero h3 { color: #F3E9DC; }
+  .prop-d .mini-hero h3 .accented { color: #F0A886; }
+  .prop-d .mini-hero .lede { color: #E4C9B4; }
+  .prop-d .mini-hero .lede em { color: #F0A886; }
+  .prop-d .kickrow { border-top-color: #F3E9DC; color: #D8AE93; }
+  .prop-d .pill { border-color: #F3E9DC; color: #F3E9DC; }
+  .prop-d .pill.solid { background: #F3E9DC; color: #5C1F12; }
+</style>
+</head>
+<body>
+
+<div class="intro">
+  <div class="wrap">
+    <h1>4 direções de design pro seu portfólio</h1>
+    <p>Cada bloco abaixo é um preview real: o hero e um trecho da tabela DRE renderizados com as cores e fontes da proposta. Nada disso está no ar — você escolhe uma direção (ou pede uma mistura, ex.: "cores da B com fontes da C") e só depois eu implemento no site inteiro pra você revisar antes do deploy.</p>
+    <p class="howto">A = manter atual · B, C, D = novas direções</p>
+  </div>
+</div>
+
+<!-- ============ A ============ -->
+<section class="proposal prop-a">
+  <div class="wrap">
+    <div class="proposal-head">
+      <span class="letter">A</span>
+      <h2>Obsidian &amp; Champagne — o atual</h2>
+      <span class="ref">referência: papelaria de luxo, editorial premium</span>
+    </div>
+    <p class="why"><strong>Por que manter:</strong> identidade coesa e já implementada de ponta a ponta (site, banner de compartilhamento, CV em PDF). Elegante e calmo. <strong>Contra:</strong> o clima "revista de luxo" fala mais de estética que de <em>dados e código</em>, que é o seu argumento de venda.</p>
+
+    <div class="preview">
+      <div class="mini-hero">
+        <div class="kickrow"><span>§ 01 — Apresentação</span><span>Santana do Araguaia – PA</span></div>
+        <h3>Ciélio<br /><span class="accented" style="font-style: italic;">Queiroz</span>.</h3>
+        <p class="lede">Desenvolvedor <em>front-end</em> e entusiasta de <em>dados</em> — escrevendo software depois de quinze anos traduzindo números.</p>
+        <div class="pills"><span class="pill solid">Baixar CV</span><span class="pill">LinkedIn</span></div>
+      </div>
+      <div class="mini-data">
+        <div class="kpi"><div class="lbl">Margem EBITDA</div><div class="val">18,9%</div></div>
+        <table>
+          <tr><th>Conta</th><th>Valor (R$)</th></tr>
+          <tr><td>Receita Líquida</td><td class="num">R$ 83.640.000</td></tr>
+          <tr class="hl"><td>EBITDA</td><td class="num">R$ 18.120.000</td></tr>
+          <tr><td>(–) IR e CSLL</td><td class="num neg">(R$ 5.430.980)</td></tr>
+          <tr class="total"><td>Lucro Líquido</td><td class="num">R$ 8.909.020</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="meta">
+      <div>
+        <h4>Paleta</h4>
+        <div class="swatches">
+          <div class="sw"><div class="chip" style="background:#0A0908"></div><div class="name">Obsidiana</div><div class="hex">#0A0908</div></div>
+          <div class="sw"><div class="chip" style="background:#E8DFD0"></div><div class="name">Marfim</div><div class="hex">#E8DFD0</div></div>
+          <div class="sw"><div class="chip" style="background:#D4B896"></div><div class="name">Champanhe</div><div class="hex">#D4B896</div></div>
+          <div class="sw"><div class="chip" style="background:#C97A65"></div><div class="name">Alerta</div><div class="hex">#C97A65</div></div>
+        </div>
+      </div>
+      <div>
+        <h4>Tipografia</h4>
+        <div class="type-spec">
+          <div class="line"><span class="role">Display</span><span class="sample" style="font-family:'Schibsted Grotesk';font-weight:500;font-style:italic">Schibsted Grotesk</span></div>
+          <div class="line"><span class="role">Texto</span><span class="sample" style="font-family:'Hanken Grotesk'">Hanken Grotesk</span></div>
+          <div class="line"><span class="role">Mono</span><span class="sample" style="font-family:'Geist Mono';font-size:17px">Geist Mono 0123456789</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ B ============ -->
+<section class="proposal prop-b">
+  <div class="wrap">
+    <div class="proposal-head">
+      <span class="letter">B</span>
+      <h2>Terminal Ledger — verde-fósforo sobre tinta</h2>
+      <span class="ref">referência: terminal financeiro (Bloomberg), livro-razão digital</span>
+    </div>
+    <p class="why"><strong>Por que funciona pra você:</strong> é a sua história em forma de tema — quinze anos de <em>números que precisam estar certos</em> viram um terminal vivo. O verde-fósforo é a cor universal de "saldo positivo" e de tela de dados; suas tabelas DRE parecem nativas nesse ambiente, não decoração. Grade de fundo sutil tipo papel de terminal. É a direção mais <strong>"dev + dados"</strong> das quatro.</p>
+
+    <div class="preview">
+      <div class="mini-hero">
+        <div class="kickrow"><span>§ 01 — Apresentação</span><span>SESSÃO ATIVA · 2026</span></div>
+        <h3>Ciélio<br /><span class="accented">Queiroz</span></h3>
+        <p class="lede">Desenvolvedor <em>front-end</em> e entusiasta de <em>dados</em> — escrevendo software depois de quinze anos traduzindo números.</p>
+        <div class="pills"><span class="pill solid">Baixar CV</span><span class="pill">LinkedIn</span></div>
+      </div>
+      <div class="mini-data">
+        <div class="kpi"><div class="lbl">Margem EBITDA</div><div class="val">18,9%</div></div>
+        <table>
+          <tr><th>Conta</th><th>Valor (R$)</th></tr>
+          <tr><td>Receita Líquida</td><td class="num">R$ 83.640.000</td></tr>
+          <tr class="hl"><td>EBITDA</td><td class="num">R$ 18.120.000</td></tr>
+          <tr><td>(–) IR e CSLL</td><td class="num neg">(R$ 5.430.980)</td></tr>
+          <tr class="total"><td>Lucro Líquido</td><td class="num">R$ 8.909.020</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="meta">
+      <div>
+        <h4>Paleta</h4>
+        <div class="swatches">
+          <div class="sw"><div class="chip" style="background:#0B120E"></div><div class="name">Tinta-verde</div><div class="hex">#0B120E</div></div>
+          <div class="sw"><div class="chip" style="background:#DCEBDF"></div><div class="name">Papel-menta</div><div class="hex">#DCEBDF</div></div>
+          <div class="sw"><div class="chip" style="background:#6FE2A2"></div><div class="name">Fósforo</div><div class="hex">#6FE2A2</div></div>
+          <div class="sw"><div class="chip" style="background:#E58873"></div><div class="name">Débito</div><div class="hex">#E58873</div></div>
+        </div>
+      </div>
+      <div>
+        <h4>Tipografia</h4>
+        <div class="type-spec">
+          <div class="line"><span class="role">Display</span><span class="sample" style="font-family:'Archivo';font-weight:700">Archivo Bold</span></div>
+          <div class="line"><span class="role">Texto</span><span class="sample" style="font-family:'Archivo';font-weight:400">Archivo Regular</span></div>
+          <div class="line"><span class="role">Mono</span><span class="sample" style="font-family:'Geist Mono';font-size:17px">Geist Mono 0123456789</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ C ============ -->
+<section class="proposal prop-c">
+  <div class="wrap">
+    <div class="proposal-head">
+      <span class="letter">C</span>
+      <h2>Papel Contábil — azul caneta sobre papel milimetrado</h2>
+      <span class="ref">referência: livro-caixa físico, papel milimetrado, carimbo de auditoria</span>
+    </div>
+    <p class="why"><strong>Por que funciona pra você:</strong> claro, limpo e confiável — o tema que melhor lê de dia e imprime bem na cabeça de recrutador mais tradicional. O azul-caneta remete a assinatura e conferência; o vermelho fica reservado para números negativos (como num livro-caixa de verdade). A serifa Besley dá autoridade de documento sem cair no clichê de revista. É a direção mais <strong>"profissional sóbrio"</strong> das quatro.</p>
+
+    <div class="preview">
+      <div class="mini-hero">
+        <div class="kickrow"><span>§ 01 — Apresentação</span><span>Conferido · 02/07/2026</span></div>
+        <h3>Ciélio<br /><span class="accented" style="font-style:italic">Queiroz</span>.</h3>
+        <p class="lede">Desenvolvedor <em>front-end</em> e entusiasta de <em>dados</em> — escrevendo software depois de quinze anos traduzindo números.</p>
+        <div class="pills"><span class="pill solid">Baixar CV</span><span class="pill">LinkedIn</span></div>
+      </div>
+      <div class="mini-data">
+        <div class="kpi"><div class="lbl">Margem EBITDA</div><div class="val">18,9%</div></div>
+        <table>
+          <tr><th>Conta</th><th>Valor (R$)</th></tr>
+          <tr><td>Receita Líquida</td><td class="num">R$ 83.640.000</td></tr>
+          <tr class="hl"><td>EBITDA</td><td class="num">R$ 18.120.000</td></tr>
+          <tr><td>(–) IR e CSLL</td><td class="num neg">(R$ 5.430.980)</td></tr>
+          <tr class="total"><td>Lucro Líquido</td><td class="num">R$ 8.909.020</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="meta">
+      <div>
+        <h4>Paleta</h4>
+        <div class="swatches">
+          <div class="sw"><div class="chip" style="background:#FAFAF7"></div><div class="name">Papel</div><div class="hex">#FAFAF7</div></div>
+          <div class="sw"><div class="chip" style="background:#16181D"></div><div class="name">Tinta</div><div class="hex">#16181D</div></div>
+          <div class="sw"><div class="chip" style="background:#2547D0"></div><div class="name">Caneta</div><div class="hex">#2547D0</div></div>
+          <div class="sw"><div class="chip" style="background:#B3261E"></div><div class="name">Débito</div><div class="hex">#B3261E</div></div>
+        </div>
+      </div>
+      <div>
+        <h4>Tipografia</h4>
+        <div class="type-spec">
+          <div class="line"><span class="role">Display</span><span class="sample" style="font-family:'Besley';font-weight:700">Besley Serif</span></div>
+          <div class="line"><span class="role">Texto</span><span class="sample" style="font-family:'Public Sans'">Public Sans</span></div>
+          <div class="line"><span class="role">Mono</span><span class="sample" style="font-family:'Geist Mono';font-size:17px">Geist Mono 0123456789</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ D ============ -->
+<section class="proposal prop-d">
+  <div class="wrap">
+    <div class="proposal-head">
+      <span class="letter">D</span>
+      <h2>Editorial Drench — oxblood assumido</h2>
+      <span class="ref">referência: capa de revista de negócios anos 70, cartaz tipográfico</span>
+    </div>
+    <p class="why"><strong>Por que funciona pra você:</strong> a mais ousada — o hero é encharcado de vinho-terra (oxblood) e o resto da página respira em tom de papel. Ninguém esquece; entre dezenas de portfólios iguais, esse marca. A Bricolage Grotesque tem personalidade forte sem perder legibilidade. <strong>Contra:</strong> mais quente e "de marca" do que técnico; menos conexão direta com dados. É a direção mais <strong>"memorável"</strong> das quatro.</p>
+
+    <div class="preview">
+      <div class="mini-hero">
+        <div class="kickrow"><span>§ 01 — Apresentação</span><span>Vol. I · Edição 2026</span></div>
+        <h3>Ciélio<br /><span class="accented">Queiroz</span>.</h3>
+        <p class="lede">Desenvolvedor <em>front-end</em> e entusiasta de <em>dados</em> — escrevendo software depois de quinze anos traduzindo números.</p>
+        <div class="pills"><span class="pill solid">Baixar CV</span><span class="pill">LinkedIn</span></div>
+      </div>
+      <div class="mini-data">
+        <div class="kpi"><div class="lbl">Margem EBITDA</div><div class="val">18,9%</div></div>
+        <table>
+          <tr><th>Conta</th><th>Valor (R$)</th></tr>
+          <tr><td>Receita Líquida</td><td class="num">R$ 83.640.000</td></tr>
+          <tr class="hl"><td>EBITDA</td><td class="num">R$ 18.120.000</td></tr>
+          <tr><td>(–) IR e CSLL</td><td class="num neg">(R$ 5.430.980)</td></tr>
+          <tr class="total"><td>Lucro Líquido</td><td class="num">R$ 8.909.020</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="meta">
+      <div>
+        <h4>Paleta</h4>
+        <div class="swatches">
+          <div class="sw"><div class="chip" style="background:#5C1F12"></div><div class="name">Oxblood</div><div class="hex">#5C1F12</div></div>
+          <div class="sw"><div class="chip" style="background:#F3E9DC"></div><div class="name">Papel</div><div class="hex">#F3E9DC</div></div>
+          <div class="sw"><div class="chip" style="background:#A73B22"></div><div class="name">Ferrugem</div><div class="hex">#A73B22</div></div>
+          <div class="sw"><div class="chip" style="background:#F0A886"></div><div class="name">Pêssego</div><div class="hex">#F0A886</div></div>
+        </div>
+      </div>
+      <div>
+        <h4>Tipografia</h4>
+        <div class="type-spec">
+          <div class="line"><span class="role">Display</span><span class="sample" style="font-family:'Bricolage Grotesque';font-weight:800">Bricolage Grotesque</span></div>
+          <div class="line"><span class="role">Texto</span><span class="sample" style="font-family:'Hanken Grotesk'">Hanken Grotesk</span></div>
+          <div class="line"><span class="role">Mono</span><span class="sample" style="font-family:'Geist Mono';font-size:17px">Geist Mono 0123456789</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="footer">
+  <div class="wrap">
+    <p><strong>Como escolher:</strong> me diga a letra (A, B, C ou D) — ou uma mistura, tipo "cores da B com as fontes da C". Eu implemento no site inteiro (tema claro + escuro, banner de compartilhamento e CV acompanham, porque tudo lê do config/theme.ts), você revisa rodando localmente, e só então subimos pro deploy.</p>
+  </div>
+</div>
+
+</body>
+</html>

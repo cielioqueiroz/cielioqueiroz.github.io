@@ -2,9 +2,17 @@
 
 import { Download, Loader2 } from 'lucide-react';
 import { useCVDownload } from './useCVDownload';
+import { getDict, type Locale } from '@/config/i18n';
 
-export function CVButton({ variant = 'outline' }: { variant?: 'solid' | 'outline' }) {
+export function CVButton({
+  variant = 'outline',
+  locale = 'pt',
+}: {
+  variant?: 'solid' | 'outline';
+  locale?: Locale;
+}) {
   const { generating, download } = useCVDownload();
+  const t = getDict(locale).cv;
 
   return (
     <button
@@ -20,7 +28,7 @@ export function CVButton({ variant = 'outline' }: { variant?: 'solid' | 'outline
       ) : (
         <Download size={14} />
       )}
-      {generating ? 'Gerando…' : 'Baixar CV'}
+      {generating ? t.generating : t.download}
     </button>
   );
 }

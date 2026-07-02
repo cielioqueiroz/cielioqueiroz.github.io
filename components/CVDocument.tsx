@@ -201,7 +201,7 @@ export function CVDocument({ site }: { site: Site }) {
           <Text style={styles.role}>{site.title}</Text>
           <View style={styles.headerRule} />
           <Text style={styles.contactLine}>{contacts}</Text>
-          <Text style={styles.portfolioLine}>Portfólio: cielioqueiroz.github.io</Text>
+          <Text style={styles.portfolioLine}>Portfólio: {site.domain}</Text>
         </View>
 
         <View style={styles.section}>
@@ -273,7 +273,7 @@ export function CVDocument({ site }: { site: Site }) {
             </View>
           ))}
           <Text style={styles.certClose}>
-            Lista completa dos {site.certificates.length} certificados em cielioqueiroz.github.io
+            Lista completa dos {site.certificates.length} certificados em {site.domain}
           </Text>
         </View>
 

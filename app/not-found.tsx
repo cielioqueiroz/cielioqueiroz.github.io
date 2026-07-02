@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ArrowLeft, ArrowDownRight } from 'lucide-react';
+import { site } from '@/config/site';
 
 export default function NotFound() {
   return (
@@ -10,7 +11,7 @@ export default function NotFound() {
           style={{ borderColor: 'var(--fg)' }}
         >
           <div className="marker tabular pt-3">§ E404 — Erratas</div>
-          <div className="kicker tabular pt-3">cielioqueiroz.github.io</div>
+          <div className="kicker tabular pt-3">{site.domain}</div>
         </div>
       </div>
 

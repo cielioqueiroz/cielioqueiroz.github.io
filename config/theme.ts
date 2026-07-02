@@ -33,7 +33,7 @@ export const palette = {
     '--bg-deep': '#14110E',
     '--fg': '#E8DFD0',
     '--fg-soft': '#C7BCA8',
-    '--fg-muted': '#837866',
+    '--fg-muted': '#93887A',
     '--rule': 'rgba(232,223,208,0.16)',
     '--accent': '#D4B896',
     '--accent-ink': '#D4B896',

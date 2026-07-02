@@ -1,23 +1,27 @@
 import { site } from '@/config/site';
+import { getDict, type Locale } from '@/config/i18n';
 import { SkillIcon } from './SkillIcon';
 
-export function Skills() {
+export function Skills({ locale = 'pt' }: { locale?: Locale }) {
+  const t = getDict(locale).skills;
+  const totalItems = site.skills.reduce((a, g) => a + g.items.length, 0);
+
   return (
     <section id="skills" className="section" style={{ background: 'color-mix(in srgb, var(--bg-deep) 60%, var(--bg))' }}>
       <div className="frame">
-        
+
         <div className="reveal grid items-end gap-y-3 md:grid-cols-12 md:gap-x-8">
           <div className="md:col-span-3">
-            <p className="marker">§ 04</p>
+            <p className="marker">{t.marker}</p>
           </div>
           <div className="md:col-span-9">
             <div className="rule-thick mb-6" />
             <div className="flex flex-wrap items-baseline justify-between gap-4">
               <h2 className="display text-display-md" style={{ fontWeight: 500 }}>
-                Ferramentas <span className="italic" style={{ color: 'var(--accent-ink)' }}>&amp;</span> ofício.
+                {t.headingA} <span className="italic" style={{ color: 'var(--accent-ink)' }}>&amp;</span> {t.headingB}
               </h2>
               <p className="font-mono text-[11px] uppercase tracking-[0.22em] tabular" style={{ color: 'var(--fg-muted)' }}>
-                Índice · {site.skills.reduce((a, g) => a + g.items.length, 0)} itens
+                {t.index(totalItems)}
               </p>
             </div>
           </div>
@@ -29,16 +33,16 @@ export function Skills() {
               key={group.category}
               className="reveal grid gap-y-8 md:grid-cols-12 md:gap-x-8"
             >
-              
+
               <div className="md:col-span-3">
                 <p className="font-mono text-[11px] uppercase tracking-[0.22em] tabular" style={{ color: 'var(--accent-ink)' }}>
                   {String(gIndex + 1).padStart(2, '0')} / {String(site.skills.length).padStart(2, '0')}
                 </p>
                 <h3 className="display mt-3 text-2xl leading-[1.1] md:text-[28px]" style={{ fontWeight: 500 }}>
-                  {group.category}
+                  {t.categories[group.category] ?? group.category}
                 </h3>
                 <p className="mt-3 text-[13px]" style={{ color: 'var(--fg-muted)' }}>
-                  {group.items.length} tecnologias
+                  {t.tech(group.items.length)}
                 </p>
               </div>
 
@@ -92,7 +96,7 @@ export function Skills() {
                       className="relative font-mono text-[10px] uppercase tracking-[0.22em] opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 translate-x-2"
                       style={{ color: 'var(--accent-ink)' }}
                     >
-                      ◆ em uso
+                      {t.inUse}
                     </span>
                   </li>
                 ))}

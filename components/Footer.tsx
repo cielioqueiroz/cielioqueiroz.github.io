@@ -1,19 +1,24 @@
 import { site } from '@/config/site';
+import { getDict, type Locale } from '@/config/i18n';
 import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
 import { Mail } from 'lucide-react';
 import { VisitorCounter } from './VisitorCounter';
 import { CopyEmailButton } from './CopyEmailButton';
 import { CVFooterRow } from './CVFooterRow';
 
-export function Footer() {
+export function Footer({ locale = 'pt' }: { locale?: Locale }) {
+  const t = getDict(locale).footer;
+  const tCopy = getDict(locale);
   const year = new Date().getFullYear();
 
   const socials = [
     { icon: FaLinkedin, href: site.socials.linkedin, label: 'LinkedIn', handle: '/jacielio-queiroz' },
     { icon: FaGithub, href: site.socials.github, label: 'GitHub', handle: '@cielioqueiroz' },
     { icon: FaInstagram, href: site.socials.instagram, label: 'Instagram', handle: '@cielio.queiroz' },
-    { icon: Mail, href: `mailto:${site.socials.email}`, label: 'E-mail', handle: site.socials.email },
+    { icon: Mail, href: `mailto:${site.socials.email}`, label: t.emailLabel, handle: site.socials.email },
   ];
+
+  const [mottoA, mottoHl1, mottoB, mottoHl2] = t.motto;
 
   return (
     <footer
@@ -21,10 +26,10 @@ export function Footer() {
       style={{ background: 'color-mix(in srgb, var(--bg-deep) 70%, var(--bg))' }}
     >
       <div className="frame">
-        
+
         <div className="grid items-end gap-y-3 md:grid-cols-12 md:gap-x-8">
           <div className="md:col-span-3">
-            <p className="marker">§ 07 — Colofão</p>
+            <p className="marker">{t.marker}</p>
           </div>
           <div className="md:col-span-9">
             <div className="rule-thick" />
@@ -32,7 +37,7 @@ export function Footer() {
         </div>
 
 <div className="mt-14 md:mt-20">
-          <p className="kicker mb-6">Vamos conversar?</p>
+          <p className="kicker mb-6">{t.talk}</p>
           <a
             href={`mailto:${site.socials.email}`}
             className="display block leading-[0.92] transition-colors hover:text-[color:var(--accent-ink)]"
@@ -52,6 +57,7 @@ export function Footer() {
           <div className="mt-6">
             <CopyEmailButton
               label
+              locale={locale}
               className="inline-flex items-center gap-2 border-[1.5px] border-[var(--fg)] px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em] transition-colors hover:bg-[color:var(--accent)] hover:text-[color:var(--accent-contrast)]"
             />
           </div>
@@ -59,16 +65,16 @@ export function Footer() {
 
 <div className="mt-20 grid gap-10 md:grid-cols-12 md:gap-x-8">
           <div className="md:col-span-4">
-            <p className="kicker mb-4">Endereço</p>
+            <p className="kicker mb-4">{t.address}</p>
             <p className="body-serif text-lg leading-[1.4]">
               {site.location}
               <br />
-              <span style={{ color: 'var(--fg-muted)' }}>Brasil</span>
+              <span style={{ color: 'var(--fg-muted)' }}>{t.country}</span>
             </p>
           </div>
 
           <div className="md:col-span-8">
-            <p className="kicker mb-4">Encontros</p>
+            <p className="kicker mb-4">{t.meets}</p>
             <ul className="space-y-3">
               {socials.map(({ icon: Icon, href, label, handle }) => (
                 <li key={label}>
@@ -95,7 +101,7 @@ export function Footer() {
                 </li>
               ))}
               <li>
-                <CVFooterRow />
+                <CVFooterRow locale={locale} />
               </li>
             </ul>
           </div>
@@ -106,11 +112,11 @@ export function Footer() {
             © {year} · {site.name}
           </p>
           <p className="md:col-span-4 font-mono text-[10px] uppercase tracking-[0.22em] tabular md:text-center" style={{ color: 'var(--fg-muted)' }}>
-            Da <span style={{ color: 'var(--accent-ink)' }}>planilha</span> ao <span style={{ color: 'var(--accent-ink)' }}>protótipo</span>
+            {mottoA}<span style={{ color: 'var(--accent-ink)' }}>{mottoHl1}</span>{mottoB}<span style={{ color: 'var(--accent-ink)' }}>{mottoHl2}</span>
           </p>
           <p className="md:col-span-4 font-mono text-[10px] uppercase tracking-[0.22em] tabular md:text-right" style={{ color: 'var(--fg-muted)' }}>
-            Vol. I · Edição {year}
-            <VisitorCounter />
+            {t.edition(year)}
+            <VisitorCounter numberLocale={tCopy.numberLocale} />
           </p>
         </div>
       </div>

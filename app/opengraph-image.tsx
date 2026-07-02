@@ -251,7 +251,7 @@ export default async function Image() {
             <span>n8n</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, color: FG }}>
-            <span>cielioqueiroz.github.io</span>
+            <span>{site.domain}</span>
             <div style={{ width: 10, height: 10, borderRadius: 999, background: ACCENT }} />
           </div>
         </div>

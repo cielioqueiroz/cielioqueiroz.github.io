@@ -9,6 +9,11 @@ export const site = {
   location: 'Santana do Araguaia – PA',
   phone: '+55 (94) 99278-3184',
 
+  /** URL canônica do site (Vercel). Fonte única — SEO, OG, sitemap e CV leem daqui. */
+  url: 'https://cielio-portfolio.vercel.app',
+  /** Domínio para exibição em texto (sem protocolo). */
+  domain: 'cielio-portfolio.vercel.app',
+
   about: [
     'Sou Jaciélio (Ciélio) Queiroz — administrador de formação com mais de 15 anos em gestão administrativa e financeira, agora mergulhando em desenvolvimento web e ciência de dados.',
     'Minha trajetória uniu contas a pagar/receber, fluxo de caixa e controle fiscal a projetos que tocaram React, Power BI, SQL e automação com n8n — sempre buscando otimizar processos e gerar resultado.',

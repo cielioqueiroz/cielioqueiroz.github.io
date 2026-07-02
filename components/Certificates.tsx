@@ -2,10 +2,13 @@
 
 import { useMemo, useState } from 'react';
 import { site } from '@/config/site';
+import { getDict, type Locale } from '@/config/i18n';
 
 type Cert = (typeof site.certificates)[number];
 
-export function Certificates() {
+export function Certificates({ locale = 'pt' }: { locale?: Locale }) {
+  const t = getDict(locale).certs;
+
   const groups = useMemo(() => {
     const acc: { category: string; items: Cert[] }[] = [];
     for (const c of site.certificates) {
@@ -26,34 +29,36 @@ export function Certificates() {
     ? groups.filter((g) => g.category === selected)
     : groups;
 
+  const categoryLabel = (cat: string) => t.categories[cat] ?? cat;
+
   return (
     <section id="certificados" className="section">
       <div className="frame">
         <div className="reveal grid items-end gap-y-3 md:grid-cols-12 md:gap-x-8">
           <div className="md:col-span-3">
-            <p className="marker">§ 05</p>
+            <p className="marker">{t.marker}</p>
           </div>
           <div className="md:col-span-9">
             <div className="rule-thick mb-6" />
             <div className="flex flex-wrap items-baseline justify-between gap-4">
               <h2 className="display text-display-md" style={{ fontWeight: 500 }}>
-                Credenciais <span className="italic" style={{ color: 'var(--accent-ink)' }}>&amp;</span> formação.
+                {t.headingA} <span className="italic" style={{ color: 'var(--accent-ink)' }}>&amp;</span> {t.headingB}
               </h2>
               <p className="font-mono text-[11px] uppercase tracking-[0.22em] tabular" style={{ color: 'var(--fg-muted)' }}>
-                Arquivo · {String(total).padStart(2, '0')} certificados
+                {t.archive(total)}
               </p>
             </div>
           </div>
         </div>
 
         <div className="reveal mt-16 grid items-baseline gap-y-5 border-y py-8 md:grid-cols-12 md:gap-x-8" style={{ borderColor: 'var(--rule)' }}>
-          <p className="kicker md:col-span-3">Diploma de graduação</p>
+          <p className="kicker md:col-span-3">{t.degreeLabel}</p>
           <div className="md:col-span-9 flex flex-wrap items-baseline justify-between gap-4">
             <h3 className="display text-2xl leading-[1.1] md:text-[34px]" style={{ fontWeight: 500 }}>
-              Bacharelado em Administração
+              {t.degreeName}
             </h3>
             <p className="font-mono text-[11px] uppercase tracking-[0.22em] tabular" style={{ color: 'var(--fg-muted)' }}>
-              UNOPAR · 2022
+              {t.degreeMeta}
             </p>
           </div>
         </div>
@@ -62,7 +67,7 @@ export function Certificates() {
         <div
           className="mt-12 flex flex-wrap gap-2"
           role="group"
-          aria-label="Filtrar certificados por categoria"
+          aria-label={t.filterAria}
         >
           <button
             type="button"
@@ -70,7 +75,7 @@ export function Certificates() {
             aria-pressed={selected === null}
             className={selected === null ? 'pill-solid' : 'pill'}
           >
-            Todos
+            {t.all}
             <span className="tabular" style={{ opacity: 0.65 }}>{total}</span>
           </button>
           {groups.map((g) => (
@@ -81,7 +86,7 @@ export function Certificates() {
               aria-pressed={selected === g.category}
               className={selected === g.category ? 'pill-solid' : 'pill'}
             >
-              {g.category}
+              {categoryLabel(g.category)}
               <span className="tabular" style={{ opacity: 0.65 }}>{g.items.length}</span>
             </button>
           ))}
@@ -97,10 +102,10 @@ export function Certificates() {
                     {String(gi + 1).padStart(2, '0')} / {String(groups.length).padStart(2, '0')}
                   </p>
                   <h3 className="display mt-3 text-2xl leading-[1.1] md:text-[28px]" style={{ fontWeight: 500 }}>
-                    {g.category}
+                    {categoryLabel(g.category)}
                   </h3>
                   <p className="mt-3 text-[13px]" style={{ color: 'var(--fg-muted)' }}>
-                    {g.items.length} certificados
+                    {t.count(g.items.length)}
                   </p>
                 </div>
 
@@ -156,6 +161,12 @@ export function Certificates() {
             );
           })}
         </div>
+
+        {t.footnote && (
+          <p className="mt-10 font-mono text-[10px] uppercase tracking-[0.2em]" style={{ color: 'var(--fg-muted)' }}>
+            {t.footnote}
+          </p>
+        )}
       </div>
     </section>
   );

@@ -1,4 +1,6 @@
 import type { Metadata, Viewport } from 'next';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Schibsted_Grotesk, Hanken_Grotesk, Geist_Mono } from 'next/font/google';
 import { site } from '@/config/site';
 import { themeStyleCss, themeColor } from '@/config/theme';
@@ -32,8 +34,8 @@ const personSchema = {
   name: site.fullName,
   alternateName: site.shortName,
   jobTitle: site.title,
-  url: 'https://cielioqueiroz.github.io',
-  image: 'https://cielioqueiroz.github.io/portrait.jpg',
+  url: site.url,
+  image: `${site.url}/portrait.jpg`,
   email: `mailto:${site.socials.email}`,
   telephone: site.phone,
   sameAs: [site.socials.github, site.socials.linkedin, site.socials.instagram],
@@ -55,13 +57,20 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://cielioqueiroz.github.io'),
+  metadataBase: new URL(site.url),
   title: `${site.name} — ${site.title}`,
   description: site.tagline,
+  alternates: {
+    canonical: `${site.url}/`,
+    languages: {
+      'pt-BR': `${site.url}/`,
+      en: `${site.url}/en/`,
+    },
+  },
   openGraph: {
     title: `${site.name} — ${site.title}`,
     description: site.tagline,
-    url: 'https://cielioqueiroz.github.io',
+    url: site.url,
     siteName: site.name,
     type: 'website',
     locale: 'pt_BR',
@@ -95,6 +104,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SplashScreen />
           {children}
         </Providers>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

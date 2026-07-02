@@ -6,7 +6,7 @@ const ABACUS_URL = 'https://abacus.jasoncameron.dev/hit/cielio-portfolio/visits'
 const OWNER_FLAG = 'cielio.owner';
 const OWNER_TOKEN = 'cielio';
 
-export function VisitorCounter() {
+export function VisitorCounter({ numberLocale = 'pt-BR' }: { numberLocale?: string }) {
   const [count, setCount] = useState<number | null>(null);
   const [isOwner, setIsOwner] = useState(false);
 
@@ -48,7 +48,7 @@ export function VisitorCounter() {
   return (
     <span style={{ color: 'var(--fg-muted)' }}>
       {' · '}
-      {new Intl.NumberFormat('pt-BR').format(count)}
+      {new Intl.NumberFormat(numberLocale).format(count)}
     </span>
   );
 }

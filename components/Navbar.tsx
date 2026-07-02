@@ -1,19 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { site } from '@/config/site';
+import { getDict, type Locale } from '@/config/i18n';
 import { ThemeToggle } from './ThemeToggle';
 import { Menu, X } from 'lucide-react';
 
-const links = [
-  { href: '#sobre', label: 'Sobre', n: '02' },
-  { href: '#projetos', label: 'Projetos', n: '03' },
-  { href: '#skills', label: 'Skills', n: '04' },
-  { href: '#certificados', label: 'Credenciais', n: '05' },
-  { href: '#dados', label: 'Dados', n: '06' },
-];
+export function Navbar({ locale = 'pt' }: { locale?: Locale }) {
+  const t = getDict(locale).nav;
+  const links = t.links;
 
-export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string>('');
@@ -44,7 +41,7 @@ export function Navbar() {
 
     sections.forEach((s) => observer.observe(s));
     return () => observer.disconnect();
-  }, []);
+  }, [links]);
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
@@ -96,7 +93,7 @@ export function Navbar() {
               className="hidden font-mono text-[10px] uppercase tracking-[0.22em] lg:inline"
               style={{ color: 'var(--fg-muted)' }}
             >
-              · Edição 2026
+              {t.edition}
             </span>
           </a>
 
@@ -137,12 +134,20 @@ export function Navbar() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <ThemeToggle />
-            
+            <Link
+              href={t.langHref}
+              aria-label={t.langAria}
+              className="inline-flex h-10 items-center justify-center rounded-full px-3.5 font-mono text-[11px] uppercase tracking-[0.18em] transition-colors hover:bg-[color:var(--accent)] hover:text-[color:var(--accent-contrast)] hover:border-[color:var(--accent)]"
+              style={{ border: '1.5px solid var(--fg)', color: 'var(--fg)' }}
+            >
+              {t.langLabel}
+            </Link>
+            <ThemeToggle locale={locale} />
+
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
-              aria-label={open ? 'Fechar menu' : 'Abrir menu'}
+              aria-label={open ? t.closeMenu : t.openMenu}
               aria-expanded={open}
               className="inline-flex h-10 w-10 items-center justify-center rounded-full transition-all md:hidden"
               style={{ border: '1.5px solid var(--fg)', color: 'var(--fg)' }}
@@ -171,7 +176,7 @@ export function Navbar() {
             open ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'
           }`}
         >
-          <p className="kicker mb-8">Índice da edição</p>
+          <p className="kicker mb-8">{t.indexTitle}</p>
           <ul className="space-y-1">
             {links.map((l, i) => (
               <li
@@ -212,7 +217,7 @@ export function Navbar() {
           </ul>
 
           <div className="mt-12 border-t pt-6" style={{ borderColor: 'var(--rule)' }}>
-            <p className="kicker mb-3">Encontros</p>
+            <p className="kicker mb-3">{t.meets}</p>
             <div className="flex flex-wrap gap-2">
               <a
                 href={site.socials.linkedin}
@@ -239,7 +244,7 @@ export function Navbar() {
                 Instagram
               </a>
               <a href={`mailto:${site.socials.email}`} className="pill">
-                Contato
+                {t.contact}
               </a>
             </div>
           </div>

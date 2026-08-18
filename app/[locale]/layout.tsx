@@ -4,6 +4,7 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Rajdhani, Karla, Geist_Mono } from 'next/font/google';
 import { site } from '@/config/site';
+import { jsonLd } from '@/lib/json-ld';
 import { themeStyleCss, themeColor } from '@/config/theme';
 import {
   LOCALES,
@@ -55,7 +56,9 @@ const personSchema = {
   url: site.url,
   image: `${site.url}/portrait.jpg`,
   email: `mailto:${site.socials.email}`,
-  telephone: site.phone,
+  // Sem `telephone` de proposito: dado estruturado e exatamente o que
+  // scrapers de spam consomem. O numero continua no CV em PDF, que chega
+  // a quem de fato se interessou.
   sameAs: [site.socials.github, site.socials.linkedin, site.socials.instagram],
   address: {
     '@type': 'PostalAddress',
@@ -135,7 +138,7 @@ export default async function LocaleLayout({
       <body>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+          dangerouslySetInnerHTML={{ __html: jsonLd(personSchema) }}
         />
         <SkipLink locale={locale} />
         <Providers>{children}</Providers>

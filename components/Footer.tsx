@@ -2,13 +2,11 @@ import { site } from '@/config/site';
 import { getDict, type Locale } from '@/config/i18n';
 import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
 import { Mail } from 'lucide-react';
-import { VisitorCounter } from './VisitorCounter';
 import { CopyEmailButton } from './CopyEmailButton';
 import { CVFooterRow } from './CVFooterRow';
 
 export function Footer({ locale = 'pt' }: { locale?: Locale }) {
   const t = getDict(locale).footer;
-  const tCopy = getDict(locale);
   const year = new Date().getFullYear();
 
   const socials = [
@@ -116,7 +114,6 @@ export function Footer({ locale = 'pt' }: { locale?: Locale }) {
           </p>
           <p className="md:col-span-4 font-mono text-[10px] uppercase tracking-[0.22em] tabular md:text-right" style={{ color: 'var(--fg-muted)' }}>
             {t.edition(year)}
-            <VisitorCounter numberLocale={tCopy.numberLocale} />
           </p>
         </div>
       </div>

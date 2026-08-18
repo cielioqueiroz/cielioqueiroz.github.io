@@ -25,9 +25,9 @@ const csp = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self' data:",
-  // `data:` carrega o WASM do gerador de PDF; o resto é GitHub API, contador
-  // de visitas e telemetria da Vercel.
-  "connect-src 'self' data: https://api.github.com https://abacus.jasoncameron.dev https://vitals.vercel-insights.com https://va.vercel-scripts.com",
+  // `data:` carrega o WASM do gerador de PDF; o resto é a telemetria da
+  // Vercel. A GitHub API é consultada no servidor, não pelo navegador.
+  "connect-src 'self' data: https://vitals.vercel-insights.com https://va.vercel-scripts.com",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",

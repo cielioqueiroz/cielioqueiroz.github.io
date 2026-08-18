@@ -130,13 +130,6 @@ export function DreScenario({ locale }: { locale: Locale }) {
         })}
       </div>
 
-      <p
-        className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] md:hidden"
-        style={{ color: 'var(--accent-ink)' }}
-      >
-        {t.swipeHint}
-      </p>
-
       <div
         className="overflow-x-auto"
         style={{
@@ -146,7 +139,7 @@ export function DreScenario({ locale }: { locale: Locale }) {
           WebkitOverflowScrolling: 'touch',
         }}
       >
-        <table className="w-full min-w-[680px] text-left">
+        <table className="w-full text-left md:min-w-[680px]">
           <thead>
             <tr style={{ borderBottom: '1px solid var(--fg)' }}>
               <th
@@ -162,17 +155,21 @@ export function DreScenario({ locale }: { locale: Locale }) {
                 {t.thAmount}
               </th>
               <th
-                className="px-5 py-4 text-right font-mono text-[10px] uppercase tracking-[0.22em]"
+                className="hidden px-5 py-4 text-right font-mono text-[10px] uppercase tracking-[0.22em] md:table-cell"
                 style={{ color: 'var(--fg-muted)' }}
               >
                 {t.thAV}
               </th>
-              <th
-                className="px-5 py-4 text-right font-mono text-[10px] uppercase tracking-[0.22em]"
-                style={{ color: 'var(--fg-muted)' }}
-              >
-                {t.thDelta}
-              </th>
+              {/* D2: a coluna de cenário só existe quando há cenário. No estado
+                  base ela era uma faixa de traços ocupando 25% da tabela. */}
+              {!isBase && (
+                <th
+                  className="hidden px-5 py-4 text-right font-mono text-[10px] uppercase tracking-[0.22em] md:table-cell"
+                  style={{ color: 'var(--accent-ink)' }}
+                >
+                  {t.thDelta}
+                </th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -227,23 +224,19 @@ export function DreScenario({ locale }: { locale: Locale }) {
                     {negative ? `(${fmtBRL(Math.abs(r.value))})` : fmtBRL(r.value)}
                   </td>
                   <td
-                    className="px-5 py-3 text-right tabular font-mono text-[13px]"
+                    className="hidden px-5 py-3 text-right tabular font-mono text-[13px] md:table-cell"
                     style={{ color: 'var(--fg-muted)' }}
                   >
                     {fmtPct(r.av)}
                   </td>
-                  <td
-                    className="px-5 py-3 text-right tabular font-mono text-[13px]"
-                    style={{
-                      color: isBase
-                        ? 'var(--fg-muted)'
-                        : deltaPositive
-                          ? 'var(--accent-2)'
-                          : 'var(--danger)',
-                    }}
-                  >
-                    {isBase ? '—' : fmtSignedPct(delta)}
-                  </td>
+                  {!isBase && (
+                    <td
+                      className="hidden px-5 py-3 text-right tabular font-mono text-[13px] md:table-cell"
+                      style={{ color: deltaPositive ? 'var(--accent-2)' : 'var(--danger)' }}
+                    >
+                      {fmtSignedPct(delta)}
+                    </td>
+                  )}
                 </tr>
               );
             })}

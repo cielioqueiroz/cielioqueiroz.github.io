@@ -33,7 +33,7 @@ export function Projects({ locale = 'pt' }: { locale?: Locale }) {
         </div>
 
         {/* Estudos de caso — problema → solução → aprendizado */}
-        <div className="mt-14 space-y-14 md:mt-20 md:space-y-20">
+        <div className="mt-14 space-y-12 md:mt-20 md:space-y-16">
           {caseStudies.map((cs, i) => (
             <CaseStudyRow key={cs.slug} cs={cs} index={i} locale={locale} />
           ))}

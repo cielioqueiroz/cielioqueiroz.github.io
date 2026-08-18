@@ -18,19 +18,43 @@ import { DEFAULT_LOCALE, LOCALES } from '@/config/i18n';
 
 const PREFIXED = LOCALES.filter((l) => l !== DEFAULT_LOCALE);
 
+/**
+ * Qual idioma prefixa este caminho, ignorando maiúsculas. `/EN/` digitado na
+ * barra de endereço levava a um 404 antes desta normalização.
+ */
+function matchLocalePrefix(pathname: string, locale: string): boolean {
+  const lower = pathname.toLowerCase();
+  return lower === `/${locale}` || lower.startsWith(`/${locale}/`);
+}
+
+/** Garante a barra final que o `trailingSlash: true` exige. */
+function withTrailingSlash(pathname: string): string {
+  return pathname.endsWith('/') ? pathname : `${pathname}/`;
+}
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // /pt e /pt/... não são endereços válidos: o padrão mora na raiz.
-  if (pathname === `/${DEFAULT_LOCALE}` || pathname.startsWith(`/${DEFAULT_LOCALE}/`)) {
-    const stripped = pathname.slice(`/${DEFAULT_LOCALE}`.length) || '/';
+  // /pt e /pt/... não são endereços válidos: o padrão mora na raiz. Já
+  // devolvemos o caminho com barra final para não encadear um segundo
+  // redirect do trailingSlash em cima deste.
+  if (matchLocalePrefix(pathname, DEFAULT_LOCALE)) {
     const url = request.nextUrl.clone();
-    url.pathname = stripped;
+    url.pathname = withTrailingSlash(pathname.slice(`/${DEFAULT_LOCALE}`.length) || '/');
     return NextResponse.redirect(url, 308);
   }
 
-  // Idiomas com prefixo já batem com o segmento [locale].
-  if (PREFIXED.some((l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`))) {
+  // Idiomas com prefixo já batem com o segmento [locale]. Se veio em caixa
+  // diferente da canônica, redireciona para a forma minúscula — senão o mesmo
+  // conteúdo responderia em duas URLs.
+  const prefixed = PREFIXED.find((l) => matchLocalePrefix(pathname, l));
+  if (prefixed) {
+    const canonical = `/${prefixed}${pathname.slice(prefixed.length + 1)}`;
+    if (pathname !== canonical) {
+      const url = request.nextUrl.clone();
+      url.pathname = withTrailingSlash(canonical);
+      return NextResponse.redirect(url, 308);
+    }
     return NextResponse.next();
   }
 

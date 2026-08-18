@@ -14,6 +14,24 @@
     border-radius: var(--r-xs);
   }
 
+  /* Rótulo de seção — usado em <h2> dentro de artigos. Mantém a voz mono do
+     design, mas com tamanho e cor de título: o `.kicker` (11px, --fg-muted)
+     deixava h2 menores e mais apagados que o corpo que introduzem. */
+  .section-label {
+    @apply font-mono text-[13px] uppercase tracking-[0.2em];
+    color: var(--fg);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
   /* Marca-texto inline (realça palavras) */
   .hl {
     background: var(--accent);

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowUpRight, ArrowRight } from 'lucide-react';
 import { site } from '@/config/site';
+import { jsonLd } from '@/lib/json-ld';
 import {
   LOCALES,
   getDict,
@@ -87,7 +88,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(articleSchema) }}
       />
       <Navbar locale={locale} />
 
@@ -148,21 +149,21 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             <div className="grid gap-y-14 md:grid-cols-12 md:gap-x-8">
               <div className="md:col-span-7 md:col-start-4">
                 <section className="reveal">
-                  <h2 className="kicker mb-4">{t.contextLabel}</h2>
+                  <h2 className="section-label mb-5">{t.contextLabel}</h2>
                   <p className="text-[17px] leading-[1.7]" style={{ color: 'var(--fg-soft)' }}>
                     {cs.context}
                   </p>
                 </section>
 
                 <section className="reveal mt-14">
-                  <h2 className="kicker mb-4">{t.solutionLabel}</h2>
+                  <h2 className="section-label mb-5">{t.solutionLabel}</h2>
                   <p className="text-[17px] leading-[1.7]" style={{ color: 'var(--fg-soft)' }}>
                     {cs.solution}
                   </p>
                 </section>
 
                 <section className="reveal mt-14">
-                  <h2 className="kicker mb-4">{t.stackLabel}</h2>
+                  <h2 className="section-label mb-5">{t.stackLabel}</h2>
                   <ul className="flex flex-wrap gap-2">
                     {cs.stack.map((s) => (
                       <li
@@ -180,7 +181,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
                   className="reveal mt-16 border-t pt-10"
                   style={{ borderColor: 'var(--fg)' }}
                 >
-                  <h2 className="kicker mb-4">{t.takeawayLabel}</h2>
+                  <h2 className="section-label mb-5">{t.takeawayLabel}</h2>
                   <p
                     className="body-serif text-2xl italic leading-[1.4] md:text-[28px]"
                     style={{ color: 'var(--fg)' }}
@@ -192,8 +193,9 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             </div>
           </div>
 
-          {/* Próximo caso */}
-          <div className="frame pb-24 md:pb-32">
+          {/* Próximo caso — navegação, não conteúdo do artigo: por isso <nav> e
+              não um <h2>, que competiria com as seções do estudo de caso. */}
+          <nav aria-label={t.nextLabel} className="frame pb-24 md:pb-32">
             <Link
               href={localePath(locale, `/projetos/${next.slug}`)}
               className="group block border-t pt-10"
@@ -201,12 +203,12 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             >
               <p className="kicker mb-3">{t.nextLabel}</p>
               <div className="flex flex-wrap items-baseline justify-between gap-4">
-                <h2
+                <p
                   className="display text-3xl leading-[1.05] transition-colors md:text-5xl group-hover:text-[color:var(--accent-ink)]"
                   style={{ fontWeight: 500 }}
                 >
                   {next.name}
-                </h2>
+                </p>
                 <ArrowRight
                   size={28}
                   strokeWidth={1.25}
@@ -215,7 +217,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
                 />
               </div>
             </Link>
-          </div>
+          </nav>
         </article>
       </main>
 

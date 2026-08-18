@@ -6,40 +6,15 @@ const config: Config = {
     './app/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
     './config/**/*.{ts,tsx}',
+    './content/**/*.{ts,tsx}',
   ],
   theme: {
     extend: {
-      colors: {
-        paper: {
-          DEFAULT: '#F7F7F4',
-          deep: '#EFEFEA',
-        },
-        ink: {
-          DEFAULT: '#111214',
-          soft: '#3A3C40',
-          muted: '#76797F',
-        },
-        cream: {
-          DEFAULT: '#ECECEA',
-          soft: '#C2C3C1',
-          muted: '#8A8C8A',
-        },
-        coal: {
-          DEFAULT: '#0C0D0E',
-          raised: '#131517',
-          edge: '#1E2123',
-        },
-        petrol: {
-          DEFAULT: '#1F4D3D',
-          dark: '#16382C',
-          light: '#4FC59B',
-          glow: '#6FD3B0',
-        },
-        danger: {
-          DEFAULT: '#B23A2E',
-          light: '#E0796B',
-        },
-      },
+      // Sem paleta de cores aqui de propósito: a cor do site vem das CSS vars
+      // geradas por config/theme.ts (`var(--fg)`, `var(--accent)`…), que é a
+      // fonte única do tema. As paletas `paper/ink/cream/coal/petrol/danger`
+      // que viviam neste arquivo eram restos dos temas anteriores e não eram
+      // referenciadas por nenhuma classe — foram removidas.
       fontFamily: {
         display: ['var(--font-display)', 'Georgia', 'serif'],
         sans: ['var(--font-body)', 'system-ui', 'sans-serif'],

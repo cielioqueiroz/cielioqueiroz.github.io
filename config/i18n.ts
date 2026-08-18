@@ -11,6 +11,8 @@
  * montar qualquer link interno em vez de escrever o caminho na mão.
  */
 
+import { site } from './site';
+
 export const LOCALES = ['pt', 'en'] as const;
 
 export type Locale = (typeof LOCALES)[number];
@@ -31,6 +33,18 @@ export function localePath(locale: Locale, path = '/'): string {
   const prefix = locale === DEFAULT_LOCALE ? '' : `/${locale}`;
   const joined = `${prefix}${clean === '/' ? '/' : clean}`;
   return joined.endsWith('/') ? joined : `${joined}/`;
+}
+
+/**
+ * Mapa hreflang para um caminho, idêntico em todas as páginas do site.
+ * Mora aqui, e não no layout, porque arquivos de rota do App Router só podem
+ * exportar os símbolos que o Next reconhece — um helper exportado de
+ * `layout.tsx` reprova na validação de tipos das rotas.
+ */
+export function languageAlternates(path = '/'): Record<string, string> {
+  return Object.fromEntries(
+    LOCALES.map((l) => [l === 'pt' ? 'pt-BR' : l, `${site.url}${localePath(l, path)}`])
+  );
 }
 
 export type LedeSegment = { text: string; em?: boolean };

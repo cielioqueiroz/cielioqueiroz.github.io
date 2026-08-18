@@ -5,7 +5,14 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Rajdhani, Karla, Geist_Mono } from 'next/font/google';
 import { site } from '@/config/site';
 import { themeStyleCss, themeColor } from '@/config/theme';
-import { LOCALES, getDict, isLocale, localePath, type Locale } from '@/config/i18n';
+import {
+  LOCALES,
+  getDict,
+  isLocale,
+  languageAlternates,
+  localePath,
+  type Locale,
+} from '@/config/i18n';
 import { Providers } from './providers';
 import { SkipLink } from '@/components/SkipLink';
 import '@/styles/globals.css';
@@ -70,14 +77,6 @@ export const viewport: Viewport = {
     { media: '(prefers-color-scheme: dark)', color: themeColor.dark },
   ],
 };
-
-/** hreflang idêntico em todas as páginas do site, montado a partir de um caminho. */
-export function languageAlternates(path = '/') {
-  return {
-    'pt-BR': `${site.url}${localePath('pt', path)}`,
-    en: `${site.url}${localePath('en', path)}`,
-  };
-}
 
 export async function generateMetadata({
   params,

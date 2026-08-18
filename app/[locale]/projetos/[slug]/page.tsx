@@ -3,7 +3,14 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowUpRight, ArrowRight } from 'lucide-react';
 import { site } from '@/config/site';
-import { LOCALES, getDict, isLocale, localePath, type Locale } from '@/config/i18n';
+import {
+  LOCALES,
+  getDict,
+  isLocale,
+  languageAlternates,
+  localePath,
+  type Locale,
+} from '@/config/i18n';
 import { caseStudies, getCaseStudy, resolveCaseStudy } from '@/content/case-studies';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
@@ -34,10 +41,7 @@ export async function generateMetadata({
     description: cs.summary,
     alternates: {
       canonical: `${site.url}${localePath(locale, path)}`,
-      languages: {
-        'pt-BR': `${site.url}${localePath('pt', path)}`,
-        en: `${site.url}${localePath('en', path)}`,
-      },
+      languages: languageAlternates(path),
     },
     openGraph: {
       title,

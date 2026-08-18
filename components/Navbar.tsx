@@ -3,13 +3,18 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { site } from '@/config/site';
-import { getDict, type Locale } from '@/config/i18n';
+import { LOCALES, getDict, localePath, type Locale } from '@/config/i18n';
 import { ThemeToggle } from './ThemeToggle';
 import { Menu, X } from 'lucide-react';
 
 export function Navbar({ locale = 'pt' }: { locale?: Locale }) {
   const t = getDict(locale).nav;
-  const links = t.links;
+  const home = localePath(locale);
+  const otherLocale = LOCALES.find((l) => l !== locale) ?? locale;
+
+  // Âncoras com o caminho da home na frente: assim a navbar funciona igual na
+  // home (rolagem no mesmo documento) e nas páginas de projeto (volta e rola).
+  const links = t.links.map((l) => ({ ...l, hash: l.href, href: `${home}${l.href}` }));
 
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -23,7 +28,7 @@ export function Navbar({ locale = 'pt' }: { locale?: Locale }) {
   }, []);
 
   useEffect(() => {
-    const ids = links.map((l) => l.href.slice(1));
+    const ids = links.map((l) => l.hash.slice(1));
     const sections = ids
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => el !== null);
@@ -73,7 +78,7 @@ export function Navbar({ locale = 'pt' }: { locale?: Locale }) {
       >
         <div className="frame flex h-16 items-center justify-between md:h-20">
           <a
-            href="#top"
+            href={`${home}#top`}
             onClick={() => setOpen(false)}
             className="group flex items-baseline gap-2 sm:gap-3"
           >
@@ -99,7 +104,7 @@ export function Navbar({ locale = 'pt' }: { locale?: Locale }) {
 
 <nav className="hidden items-center gap-5 md:flex lg:gap-7">
             {links.map((l) => {
-              const isActive = active === l.href;
+              const isActive = active === l.hash;
               return (
                 <a
                   key={l.href}
@@ -135,7 +140,7 @@ export function Navbar({ locale = 'pt' }: { locale?: Locale }) {
 
           <div className="flex items-center gap-2">
             <Link
-              href={t.langHref}
+              href={localePath(otherLocale)}
               aria-label={t.langAria}
               className="inline-flex h-10 items-center justify-center rounded-full px-3.5 font-mono text-[11px] uppercase tracking-[0.18em] transition-colors hover:bg-[color:var(--accent)] hover:text-[color:var(--accent-contrast)] hover:border-[color:var(--accent)]"
               style={{ border: '1.5px solid var(--fg)', color: 'var(--fg)' }}

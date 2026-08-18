@@ -1,7 +1,9 @@
-export function SkipLink() {
+import { getDict, type Locale } from '@/config/i18n';
+
+export function SkipLink({ locale = 'pt' }: { locale?: Locale }) {
   return (
     <a href="#main" className="skip-link">
-      Pular para o conteúdo
+      {getDict(locale).skipLink}
     </a>
   );
 }

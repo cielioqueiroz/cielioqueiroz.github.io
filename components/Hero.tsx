@@ -53,7 +53,7 @@ export function Hero({ locale = 'pt' }: { locale?: Locale }) {
                 className="depth-3"
                 style={{ borderRadius: 'var(--r-lg)' }}
               >
-                <Portrait />
+                <Portrait locale={locale} />
               </Tilt3D>
               <figcaption className="mt-3 flex items-baseline justify-between font-mono text-[10px] uppercase tracking-[0.2em] tabular" style={{ color: 'var(--fg-muted)' }}>
                 <span>
@@ -139,8 +139,6 @@ export function Hero({ locale = 'pt' }: { locale?: Locale }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="pill group"
-                data-cursor="lg"
-                data-cursor-label={t.hero.open}
               >
                 <FaLinkedin size={14} />
                 LinkedIn
@@ -151,8 +149,6 @@ export function Hero({ locale = 'pt' }: { locale?: Locale }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="pill group cursor-pointer"
-                data-cursor="lg"
-                data-cursor-label={t.hero.open}
               >
                 <FaGithub size={14} />
                 GitHub
@@ -163,8 +159,6 @@ export function Hero({ locale = 'pt' }: { locale?: Locale }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="pill group cursor-pointer"
-                data-cursor="lg"
-                data-cursor-label={t.hero.open}
               >
                 <FaInstagram size={14} />
                 Instagram

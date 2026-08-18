@@ -1,0 +1,61 @@
+/* Vozes tipográficas: metadado (mono), display e realces inline. */
+@layer components {
+  .kicker {
+    @apply font-mono text-[11px] uppercase tracking-[0.22em];
+    color: var(--fg-muted);
+  }
+
+  /* Numeração de seção como marca-texto (texto por cima) */
+  .marker {
+    @apply inline-flex items-center font-mono text-[11px] font-medium uppercase tracking-[0.22em];
+    background: var(--accent);
+    color: var(--accent-contrast);
+    padding: 0.22rem 0.6rem;
+    border-radius: var(--r-xs);
+  }
+
+  /* Marca-texto inline (realça palavras) */
+  .hl {
+    background: var(--accent);
+    color: var(--accent-contrast);
+    padding: 0.06em 0.24em;
+    border-radius: var(--r-xs);
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  /* Rajdhani já é condensada — sem tracking negativo, senão as letras colam */
+  .display {
+    font-family: var(--font-display), 'Helvetica Neue', Arial, sans-serif;
+    font-optical-sizing: auto;
+    letter-spacing: 0;
+    text-wrap: balance;
+  }
+
+  .body-serif {
+    font-family: var(--font-display), 'Helvetica Neue', Arial, sans-serif;
+    font-optical-sizing: auto;
+    letter-spacing: 0.005em;
+    text-wrap: pretty;
+  }
+
+  .underline-grow {
+    position: relative;
+    display: inline-block;
+  }
+  .underline-grow::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  .underline-grow:hover::after {
+    transform: scaleX(1);
+  }
+}

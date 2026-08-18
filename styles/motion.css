@@ -1,0 +1,40 @@
+/* Revelação ao rolar e o contrato de `prefers-reduced-motion`. */
+
+/* Scroll-driven reveal — progressive enhancement.
+   Sem suporte (ex.: Firefox), o conteúdo aparece normalmente.
+   Com suporte, sobe e revela suavemente ao entrar na viewport. */
+@keyframes reveal-rise {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 2% cover 22%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* O ticker (faixa rolante) é mantido de propósito — efeito contínuo do design. */
+  .animate-rise,
+  .animate-fade,
+  .animate-sweep,
+  .animate-spin,
+  .animate-ping {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}

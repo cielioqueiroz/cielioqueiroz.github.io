@@ -1,0 +1,83 @@
+/* Reset, tokens de raio, textura de fundo e estados globais de foco. */
+@layer base {
+  /* As variáveis de cor (:root / .dark) são injetadas em <head> a partir de
+     config/theme.ts — fonte única do tema. Não declare cores aqui. */
+
+  /* Sistema de raios — cantos suaves "soft-luxury". Escala única para o site
+     inteiro; trocar aqui propaga a tudo. */
+  :root {
+    --r-xs: 8px;   /* chips, markers, tags */
+    --r-sm: 12px;  /* pills, botões, células */
+    --r-md: 18px;  /* cards, boxes, KPIs */
+    --r-lg: 26px;  /* retrato, tabelas, contêineres grandes */
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    text-wrap: pretty;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.14;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.35 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  .dark body::before {
+    mix-blend-mode: screen;
+    opacity: 0.06;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 100% 0%, var(--accent-glow), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 0% 100%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 55%);
+  }
+
+  .dark body::after {
+    background:
+      radial-gradient(ellipse 70% 50% at 100% 0%, var(--accent-glow), transparent 60%),
+      radial-gradient(ellipse 55% 45% at 0% 100%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 55%);
+  }
+
+  body > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: var(--r-xs);
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum';
+  }
+}

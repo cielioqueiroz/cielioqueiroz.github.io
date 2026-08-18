@@ -1,0 +1,217 @@
+/* Superfícies: caixas, vidro, elevação, aurora, tilt 3D e a moldura do retrato. */
+@layer components {
+  /* Caixa de borda suave — base de cards */
+  .box {
+    border: 1.5px solid var(--fg);
+    background: var(--bg);
+    border-radius: var(--r-md);
+  }
+
+  /* Glass surface — luxo discreto, sem brilho exagerado */
+  .glass {
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border: 1px solid color-mix(in srgb, var(--fg) 14%, transparent);
+    border-radius: var(--r-md);
+    box-shadow:
+      0 1px 0 0 color-mix(in srgb, var(--accent) 18%, transparent) inset,
+      0 30px 60px -30px color-mix(in srgb, var(--fg) 35%, transparent),
+      0 8px 24px -12px color-mix(in srgb, var(--fg) 18%, transparent);
+  }
+
+  .glass-strong {
+    background: color-mix(in srgb, var(--bg) 84%, transparent);
+    backdrop-filter: blur(22px) saturate(160%);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    border: 1px solid color-mix(in srgb, var(--fg) 18%, transparent);
+    border-radius: var(--r-lg);
+    box-shadow:
+      0 1px 0 0 color-mix(in srgb, var(--accent) 22%, transparent) inset,
+      0 40px 80px -30px color-mix(in srgb, var(--fg) 45%, transparent),
+      0 12px 28px -14px color-mix(in srgb, var(--fg) 22%, transparent);
+  }
+
+  /* Sistema de elevação — sombras profundas com brilho de fumaça no topo */
+  .depth-1 {
+    box-shadow:
+      0 2px 4px -2px color-mix(in srgb, var(--fg) 14%, transparent),
+      0 8px 18px -8px color-mix(in srgb, var(--fg) 12%, transparent);
+  }
+
+  .depth-2 {
+    box-shadow:
+      0 4px 8px -4px color-mix(in srgb, var(--fg) 18%, transparent),
+      0 16px 36px -16px color-mix(in srgb, var(--fg) 22%, transparent),
+      0 1px 0 0 color-mix(in srgb, var(--accent) 12%, transparent) inset;
+  }
+
+  .depth-3 {
+    box-shadow:
+      0 8px 16px -8px color-mix(in srgb, var(--fg) 22%, transparent),
+      0 30px 60px -20px color-mix(in srgb, var(--fg) 30%, transparent),
+      0 1px 0 0 color-mix(in srgb, var(--accent) 18%, transparent) inset;
+  }
+
+  /* Aurora backdrop — três elipses orbitando lento */
+  .aurora-backdrop {
+    overflow: hidden;
+  }
+
+  .aurora {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.55;
+    will-change: transform;
+  }
+
+  .aurora--a {
+    width: 55vw;
+    height: 55vw;
+    left: 60%;
+    top: -10%;
+    background: radial-gradient(circle, var(--accent) 0%, transparent 65%);
+    animation: aurora-drift-a 26s ease-in-out infinite;
+  }
+
+  .aurora--b {
+    width: 48vw;
+    height: 48vw;
+    left: -10%;
+    top: 30%;
+    background: radial-gradient(circle, var(--accent-ink) 0%, transparent 65%);
+    animation: aurora-drift-b 32s ease-in-out infinite;
+    opacity: 0.4;
+  }
+
+  .aurora--c {
+    width: 40vw;
+    height: 40vw;
+    left: 40%;
+    top: 60%;
+    background: radial-gradient(circle, var(--accent-2) 0%, transparent 60%);
+    animation: aurora-drift-c 38s ease-in-out infinite;
+    opacity: 0.35;
+  }
+
+  .dark .aurora--a { opacity: 0.35; }
+  .dark .aurora--b { opacity: 0.28; }
+  .dark .aurora--c { opacity: 0.22; }
+
+  @keyframes aurora-drift-a {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33%      { transform: translate(-10%, 8%) scale(1.08); }
+    66%      { transform: translate(6%, -4%) scale(0.95); }
+  }
+  @keyframes aurora-drift-b {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(14%, -10%) scale(1.12); }
+  }
+  @keyframes aurora-drift-c {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    40%      { transform: translate(-12%, -6%) scale(0.9); }
+    80%      { transform: translate(8%, 10%) scale(1.06); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .aurora { animation: none !important; }
+  }
+
+  /* Card 3D — base para tilt e spotlight (consumida por componentes client) */
+  .card-3d {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1),
+                box-shadow 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+    will-change: transform;
+  }
+
+  .card-3d > * {
+    transform-style: preserve-3d;
+  }
+
+  /* Spotlight glow — cursor-tracked, ativado por --mx/--my */
+  .spotlight {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .spotlight::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    background: radial-gradient(
+      circle 320px at var(--mx, 50%) var(--my, 50%),
+      color-mix(in srgb, var(--accent) 22%, transparent),
+      transparent 70%
+    );
+    z-index: 1;
+  }
+
+  .spotlight:hover::before {
+    opacity: 1;
+  }
+
+  .card-3d:hover .tilt-glare {
+    opacity: 1;
+  }
+
+  .portrait-frame {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border: 2px solid var(--fg);
+    border-radius: var(--r-lg);
+    background: var(--bg-deep);
+  }
+
+  .portrait-frame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Raio na PRÓPRIA imagem: com transform/animação o Chrome ignora o
+       overflow:hidden arredondado do contêiner e os cantos retos vazam. */
+    border-radius: calc(var(--r-lg) - 2px);
+    transition: transform 1.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  /* Sem véus/vinhetas sobre a foto — no tema monocromático eles viravam
+     manchas brancas quadradas dentro da moldura arredondada. O destaque
+     fica por conta do hover (zoom + lift do Tilt3D). */
+  .portrait-frame:hover img {
+    transform: scale(1.04);
+  }
+
+  .portrait-frame .crosshair {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    z-index: 4;
+    pointer-events: none;
+  }
+  .portrait-frame .crosshair::before,
+  .portrait-frame .crosshair::after {
+    content: '';
+    position: absolute;
+    background: var(--accent);
+  }
+  .portrait-frame .crosshair::before {
+    width: 100%;
+    height: 1px;
+    top: 50%;
+  }
+  .portrait-frame .crosshair::after {
+    width: 1px;
+    height: 100%;
+    left: 50%;
+  }
+  .portrait-frame .crosshair.tl { top: 14px; left: 14px; }
+  .portrait-frame .crosshair.tr { top: 14px; right: 14px; }
+  .portrait-frame .crosshair.bl { bottom: 14px; left: 14px; }
+  .portrait-frame .crosshair.br { bottom: 14px; right: 14px; }
+}

@@ -1,14 +1,22 @@
 import type { Metadata, Viewport } from 'next';
+import { notFound } from 'next/navigation';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Rajdhani, Karla, Geist_Mono } from 'next/font/google';
 import { site } from '@/config/site';
 import { themeStyleCss, themeColor } from '@/config/theme';
+import { LOCALES, getDict, isLocale, localePath, type Locale } from '@/config/i18n';
 import { Providers } from './providers';
-import { SplashScreen } from '@/components/SplashScreen';
 import { SkipLink } from '@/components/SkipLink';
-import { MagneticCursor } from '@/components/MagneticCursor';
-import './globals.css';
+import '@/styles/globals.css';
+
+/**
+ * Layout raiz. Vive dentro de `[locale]` de propósito: é o único lugar onde o
+ * atributo `lang` do <html> pode ser escrito já no HTML do servidor. Antes o
+ * layout ficava na raiz com `lang="pt-BR"` fixo e um efeito no cliente
+ * corrigia depois — o que significava que o HTML entregue ao Google e aos
+ * leitores de tela em /en declarava português.
+ */
 
 // Rajdhani não é variável — pesos explícitos (500 texto display, 600/700 títulos)
 const display = Rajdhani({
@@ -52,6 +60,10 @@ const personSchema = {
   alumniOf: { '@type': 'EducationalOrganization', name: 'UNOPAR' },
 };
 
+export function generateStaticParams() {
+  return LOCALES.map((locale) => ({ locale }));
+}
+
 export const viewport: Viewport = {
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: themeColor.light },
@@ -59,36 +71,61 @@ export const viewport: Viewport = {
   ],
 };
 
-export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
-  title: `${site.name} — ${site.title}`,
-  description: site.tagline,
-  alternates: {
-    canonical: `${site.url}/`,
-    languages: {
-      'pt-BR': `${site.url}/`,
-      en: `${site.url}/en/`,
-    },
-  },
-  openGraph: {
-    title: `${site.name} — ${site.title}`,
-    description: site.tagline,
-    url: site.url,
-    siteName: site.name,
-    type: 'website',
-    locale: 'pt_BR',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: `${site.name} — ${site.title}`,
-    description: site.tagline,
-  },
-};
+/** hreflang idêntico em todas as páginas do site, montado a partir de um caminho. */
+export function languageAlternates(path = '/') {
+  return {
+    'pt-BR': `${site.url}${localePath('pt', path)}`,
+    en: `${site.url}${localePath('en', path)}`,
+  };
+}
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  if (!isLocale(locale)) return {};
+  const t = getDict(locale);
+
+  return {
+    metadataBase: new URL(site.url),
+    title: t.meta.title,
+    description: t.meta.description,
+    alternates: {
+      canonical: `${site.url}${localePath(locale)}`,
+      languages: languageAlternates('/'),
+    },
+    openGraph: {
+      title: t.meta.title,
+      description: t.meta.description,
+      url: `${site.url}${localePath(locale)}`,
+      siteName: site.name,
+      type: 'website',
+      locale: locale === 'pt' ? 'pt_BR' : 'en_US',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: t.meta.title,
+      description: t.meta.description,
+    },
+  };
+}
+
+export default async function LocaleLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  if (!isLocale(locale)) notFound();
+  const t = getDict(locale as Locale);
+
   return (
     <html
-      lang="pt-BR"
+      lang={t.htmlLang}
       className={`${display.variable} ${body.variable} ${mono.variable}`}
       suppressHydrationWarning
     >
@@ -101,12 +138,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
         />
-        <SkipLink />
-        <MagneticCursor />
-        <Providers>
-          <SplashScreen />
-          {children}
-        </Providers>
+        <SkipLink locale={locale} />
+        <Providers>{children}</Providers>
         <Analytics />
         <SpeedInsights />
       </body>

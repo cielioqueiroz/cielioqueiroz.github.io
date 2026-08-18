@@ -1,29 +1,44 @@
 /**
- * Dicionário PT/EN — fonte única de texto de interface.
+ * Dicionário PT/EN — fonte única de TEXTO DE INTERFACE.
  *
- * A rota `/` renderiza com `pt`; a rota `/en` renderiza com `en`.
- * Componentes de seção recebem `locale` (default 'pt') e leem daqui.
- * Dados factuais (experiência, certificados, números) continuam em
- * config/site.ts; aqui mora só o que muda com o idioma.
+ * O que mora aqui: rótulos, títulos de seção, mensagens de estado.
+ * O que NÃO mora aqui:
+ *   - dados factuais (experiência, certificados, números) → config/site.ts
+ *   - conteúdo do portfólio (estudos de caso)            → content/case-studies.ts
+ *
+ * Todas as rotas vivem em `app/[locale]`. O português é o padrão e não tem
+ * prefixo na URL (o middleware cuida disso), então use `localePath()` para
+ * montar qualquer link interno em vez de escrever o caminho na mão.
  */
 
-export type Locale = 'pt' | 'en';
+export const LOCALES = ['pt', 'en'] as const;
+
+export type Locale = (typeof LOCALES)[number];
+
+export const DEFAULT_LOCALE: Locale = 'pt';
+
+export function isLocale(value: string): value is Locale {
+  return (LOCALES as readonly string[]).includes(value);
+}
+
+/**
+ * Caminho interno para um idioma. O padrão fica na raiz (`/sobre`), os demais
+ * ganham prefixo (`/en/sobre`). `trailingSlash: true` está ligado no
+ * next.config, então o retorno sempre termina em barra.
+ */
+export function localePath(locale: Locale, path = '/'): string {
+  const clean = path.startsWith('/') ? path : `/${path}`;
+  const prefix = locale === DEFAULT_LOCALE ? '' : `/${locale}`;
+  const joined = `${prefix}${clean === '/' ? '/' : clean}`;
+  return joined.endsWith('/') ? joined : `${joined}/`;
+}
 
 export type LedeSegment = { text: string; em?: boolean };
-
-export type CaseStudy = {
-  name: string;
-  repo: string;
-  demo: string | null;
-  context: string;
-  solution: string;
-  stack: string[];
-  takeaway: string;
-};
 
 const pt = {
   htmlLang: 'pt-BR',
   numberLocale: 'pt-BR',
+  skipLink: 'Pular para o conteúdo',
 
   meta: {
     title: 'Ciélio Queiroz — Desenvolvedor Front-end & Analista de Dados',
@@ -48,7 +63,6 @@ const pt = {
     themeToggleDark: 'Mudar pra tema escuro',
     themeToggleLight: 'Mudar pra tema claro',
     langLabel: 'EN',
-    langHref: '/en/',
     langAria: 'Read this site in English',
   },
 
@@ -59,6 +73,7 @@ const pt = {
       'Administrador formado, dev em formação. Construo interfaces e transformo planilhas em decisões.',
     portrait: 'Retrato',
     portraitNo: 'nº 01 / 2026',
+    portraitAlt: (name: string) => `Retrato de ${name}`,
     statusLabel: 'Status',
     statusValue: 'Disponível',
     focusLabel: 'Foco',
@@ -122,52 +137,13 @@ const pt = {
     takeawayLabel: 'Aprendizado',
     codeBtn: 'Código',
     demoBtn: 'Demo ao vivo',
-    caseStudies: [
-      {
-        name: 'Gabarito AI',
-        repo: 'https://github.com/cielioqueiroz/gabarito_AI',
-        demo: 'https://gabarito-lyart.vercel.app',
-        context:
-          'Estudar para concurso público exige transformar um edital de dezenas de páginas em um plano de estudos executável — trabalho manual, repetitivo e fácil de abandonar.',
-        solution:
-          'Console de estudos com IA: o usuário sobe o edital em PDF e o app gera plano de estudos, flashcards com repetição espaçada (método Leitner) e questões comentadas usando o Claude, com autenticação e persistência no Supabase.',
-        stack: ['Next.js 16', 'TypeScript', 'Supabase', 'Claude API', 'Vercel'],
-        takeaway:
-          'IA em produção de verdade: prompts estruturados, custo por requisição e estados de carregamento honestos.',
-      },
-      {
-        name: 'Calculadora de Investimentos',
-        repo: 'https://github.com/cielioqueiroz/calculadora-investimentos',
-        demo: 'https://cielioqueiroz.github.io/calculadora-investimentos/',
-        context:
-          'Quinze anos lidando com fluxo de caixa me ensinaram que juros compostos decidem qualquer plano — mas a maioria das calculadoras esconde as premissas do cálculo.',
-        solution:
-          'Simulador brasileiro de investimentos: juros compostos com aportes mensais, comparador de produtos, planejador de metas e cotações em tempo real (B3, cripto e câmbio) — tudo no navegador, sem backend.',
-        stack: ['React', 'TypeScript', 'Vite'],
-        takeaway:
-          'Precisão numérica em JavaScript, consumo de APIs públicas e arquitetura front-end sem servidor.',
-      },
-      {
-        name: 'Este portfólio',
-        repo: 'https://github.com/cielioqueiroz/cielioqueiroz.github.io',
-        demo: null,
-        context:
-          'Um dev em transição de carreira precisa provar competência sem histórico de empregos na área — então o próprio site vira o argumento técnico.',
-        solution:
-          'One-page estático em Next.js com tema de fonte única (um arquivo controla site, banner OG e manifest), CV em PDF gerado no navegador, vitrine de repositórios ao vivo via GitHub API, versão PT/EN e cena 3D em three.js.',
-        stack: ['Next.js 15', 'React 19', 'TypeScript', 'Tailwind', 'three.js', '@react-pdf/renderer'],
-        takeaway:
-          'Performance como requisito (LCP, bundle, reduced-motion) e acessibilidade AA de ponta a ponta.',
-      },
-    ] as CaseStudy[],
+    readCase: 'Ler o caso',
     archiveTitle: 'Arquivo ao vivo',
     archiveDesc: 'Lista atualizada em tempo real via ',
     archiveDescAfter: '. Fixados (pinned) primeiro, depois por data de push.',
-    updated: 'Atualizado',
-    refreshAria: 'Atualizar lista',
-    errorPrefix: 'Não foi possível consultar a GitHub API agora',
-    errorRetry: 'recarregar',
-    errorOr: 'ou visite o',
+    updated: 'Atualizado em',
+    errorPrefix: 'Não foi possível consultar a GitHub API agora.',
+    errorOr: 'Visite o',
     errorProfile: 'perfil no GitHub',
     empty: 'Nenhum projeto público no momento. Visite o',
     showing: (shown: number, total: number) =>
@@ -175,14 +151,26 @@ const pt = {
     viewAll: 'Ver tudo no GitHub',
     pinned: '◆ fixado',
     liveDemo: '◆ Demo ao vivo',
-    cursorDemo: 'ver demo',
-    cursorCode: 'ver código',
-    timeAgo: {
-      now: 'agora mesmo',
-      s: (n: number) => `há ${n}s`,
-      m: (n: number) => `há ${n} min`,
-      h: (n: number) => `há ${n}h`,
-    },
+    /** Descrição de fallback para repositório sem `description` no GitHub. */
+    repoFallback: (name: string) => `Projeto: ${name}`,
+  },
+
+  /** Página de detalhe de um estudo de caso — /projetos/[slug]. */
+  projectPage: {
+    back: 'Todos os projetos',
+    kicker: 'Estudo de caso',
+    contextLabel: 'O problema',
+    solutionLabel: 'O que construí',
+    stackLabel: 'Stack',
+    takeawayLabel: 'O que aprendi',
+    linksLabel: 'Links',
+    repoBtn: 'Ver o código',
+    demoBtn: 'Abrir demo',
+    nextLabel: 'Próximo caso',
+    notFoundTitle: 'Projeto não encontrado',
+    notFoundText: 'Esse estudo de caso não existe (ou mudou de endereço).',
+    notFoundCta: 'Voltar para os projetos',
+    metaSuffix: 'Estudo de caso',
   },
 
   skills: {
@@ -222,12 +210,36 @@ const pt = {
     thAccount: 'Conta',
     thAmount: 'Valor (R$)',
     thAV: 'AV %',
-    thAH: 'AH % (YoY)',
+    thDelta: 'Δ cenário',
     swipeHint: '← Deslize para ver mais →',
     dreFootnote:
-      'Fonte: planilha modelo · dados ilustrativos · AV (vertical) e AH (horizontal/YoY) calculados sobre receita bruta.',
-    rowLabels: {} as Record<string, string>,
-    kpiLabels: {} as Record<string, string>,
+      'Fonte: planilha modelo · dados ilustrativos · AV (vertical) calculada sobre a receita bruta.',
+    scenarioLabel: 'Cenário de receita',
+    scenarioHint:
+      'Arraste para simular. Deduções e CPV acompanham a receita; despesas operacionais, depreciação e resultado financeiro são fixos — é essa combinação que gera alavancagem operacional.',
+    scenarioBase: 'Cenário-base',
+    scenarioReset: 'Voltar ao base',
+    scenarioVsBase: 'vs. base',
+    rowLabels: {
+      grossRevenue: 'Receita Bruta de Vendas',
+      deductions: '(–) Deduções e Impostos',
+      netRevenue: 'Receita Líquida',
+      cogs: '(–) Custo dos Produtos Vendidos',
+      grossProfit: 'Lucro Bruto',
+      opex: '(–) Despesas Operacionais',
+      ebitda: 'EBITDA',
+      depreciation: '(–) Depreciação e Amortização',
+      ebit: 'EBIT',
+      financialResult: 'Resultado Financeiro',
+      taxes: '(–) IR e CSLL',
+      netIncome: 'Lucro Líquido do Exercício',
+    } as Record<string, string>,
+    kpiLabels: {
+      grossMargin: 'Margem Bruta',
+      ebitdaMargin: 'Margem EBITDA',
+      netMargin: 'Margem Líquida',
+      revenueYoY: 'YoY Receita',
+    } as Record<string, string>,
     fluxoTitle: 'Controle Financeiro Familiar',
     fluxoPeriod: 'Janeiro – Junho 2026',
     incomeLabel: 'Receitas',
@@ -240,8 +252,18 @@ const pt = {
     thBalance: 'Saldo',
     thCommitted: 'Comprom.',
     thStatus: 'Status',
-    months: {} as Record<string, string>,
-    statuses: {} as Record<string, string>,
+    months: {
+      jan: 'Janeiro',
+      feb: 'Fevereiro',
+      mar: 'Março',
+      apr: 'Abril',
+      may: 'Maio',
+      jun: 'Junho',
+    } as Record<string, string>,
+    statuses: {
+      positive: 'positivo',
+      watch: 'atenção',
+    } as Record<string, string>,
     periodTotal: 'Total do período',
     totalStatus: 'positivo',
     fluxoFootnote:
@@ -260,6 +282,19 @@ const pt = {
     cvGenerating: 'Gerando…',
     motto: ['Da ', 'planilha', ' ao ', 'protótipo'],
     edition: (year: number) => `Vol. I · Edição ${year}`,
+  },
+
+  notFound: {
+    section: '§ E404 — Erratas',
+    kicker: 'Erro 404',
+    titleA: 'Esta edição',
+    titleB: 'não foi',
+    titleC: 'impressa',
+    text: 'A página que você procura saiu da pauta — ou nunca chegou à redação.',
+    home: 'Voltar à capa',
+    index: 'Índice da edição',
+    edition: 'Vol. I · Edição 2026',
+    metaTitle: 'Página não encontrada',
   },
 
   cv: {
@@ -281,6 +316,7 @@ export type Dict = typeof pt;
 const en: Dict = {
   htmlLang: 'en',
   numberLocale: 'en-US',
+  skipLink: 'Skip to content',
 
   meta: {
     title: 'Ciélio Queiroz — Front-end Developer & Data Analyst',
@@ -305,7 +341,6 @@ const en: Dict = {
     themeToggleDark: 'Switch to dark theme',
     themeToggleLight: 'Switch to light theme',
     langLabel: 'PT',
-    langHref: '/',
     langAria: 'Ler este site em português',
   },
 
@@ -316,6 +351,7 @@ const en: Dict = {
       'Trained administrator, developer in the making. I build interfaces and turn spreadsheets into decisions.',
     portrait: 'Portrait',
     portraitNo: 'no. 01 / 2026',
+    portraitAlt: (name: string) => `Portrait of ${name}`,
     statusLabel: 'Status',
     statusValue: 'Available',
     focusLabel: 'Focus',
@@ -379,52 +415,13 @@ const en: Dict = {
     takeawayLabel: 'Takeaway',
     codeBtn: 'Code',
     demoBtn: 'Live demo',
-    caseStudies: [
-      {
-        name: 'Gabarito AI',
-        repo: 'https://github.com/cielioqueiroz/gabarito_AI',
-        demo: 'https://gabarito-lyart.vercel.app',
-        context:
-          'Studying for Brazilian civil-service exams means turning a dense, dozens-of-pages syllabus into an actionable study plan — manual, repetitive work that is easy to abandon.',
-        solution:
-          'An AI study console: upload the official syllabus as a PDF and the app generates a study plan, spaced-repetition flashcards (Leitner method) and annotated practice questions using Claude, with auth and persistence on Supabase.',
-        stack: ['Next.js 16', 'TypeScript', 'Supabase', 'Claude API', 'Vercel'],
-        takeaway:
-          'Real production AI: structured prompts, per-request cost awareness and honest loading states.',
-      },
-      {
-        name: 'Investment Calculator',
-        repo: 'https://github.com/cielioqueiroz/calculadora-investimentos',
-        demo: 'https://cielioqueiroz.github.io/calculadora-investimentos/',
-        context:
-          'Fifteen years of cash-flow management taught me that compound interest decides every plan — yet most calculators hide the assumptions behind the math.',
-        solution:
-          'A Brazilian investment simulator: compound interest with monthly contributions, product comparison, goal planning and real-time market data (B3, crypto, FX) — all in the browser, no backend.',
-        stack: ['React', 'TypeScript', 'Vite'],
-        takeaway:
-          'Numeric precision in JavaScript, public API consumption and a serverless front-end architecture.',
-      },
-      {
-        name: 'This portfolio',
-        repo: 'https://github.com/cielioqueiroz/cielioqueiroz.github.io',
-        demo: null,
-        context:
-          'A career-changing developer needs to prove competence without industry job history — so the site itself becomes the technical argument.',
-        solution:
-          'A static Next.js one-pager with a single-source theme (one file drives the site, OG banner and manifest), a PDF résumé generated in the browser, a live repository showcase via the GitHub API, a PT/EN version and a three.js 3D scene.',
-        stack: ['Next.js 15', 'React 19', 'TypeScript', 'Tailwind', 'three.js', '@react-pdf/renderer'],
-        takeaway:
-          'Performance as a requirement (LCP, bundle, reduced-motion) and end-to-end AA accessibility.',
-      },
-    ] as CaseStudy[],
+    readCase: 'Read the case',
     archiveTitle: 'Live archive',
     archiveDesc: 'List updated in real time via the ',
     archiveDescAfter: '. Pinned first, then by push date.',
-    updated: 'Updated',
-    refreshAria: 'Refresh list',
-    errorPrefix: 'Could not reach the GitHub API right now',
-    errorRetry: 'retry',
-    errorOr: 'or visit the',
+    updated: 'Updated on',
+    errorPrefix: 'Could not reach the GitHub API right now.',
+    errorOr: 'Visit the',
     errorProfile: 'GitHub profile',
     empty: 'No public projects at the moment. Visit the',
     showing: (shown: number, total: number) =>
@@ -432,14 +429,24 @@ const en: Dict = {
     viewAll: 'View all on GitHub',
     pinned: '◆ pinned',
     liveDemo: '◆ Live demo',
-    cursorDemo: 'view demo',
-    cursorCode: 'view code',
-    timeAgo: {
-      now: 'just now',
-      s: (n: number) => `${n}s ago`,
-      m: (n: number) => `${n} min ago`,
-      h: (n: number) => `${n}h ago`,
-    },
+    repoFallback: (name: string) => `Project: ${name}`,
+  },
+
+  projectPage: {
+    back: 'All projects',
+    kicker: 'Case study',
+    contextLabel: 'The problem',
+    solutionLabel: 'What I built',
+    stackLabel: 'Stack',
+    takeawayLabel: 'What I learned',
+    linksLabel: 'Links',
+    repoBtn: 'View the code',
+    demoBtn: 'Open demo',
+    nextLabel: 'Next case',
+    notFoundTitle: 'Project not found',
+    notFoundText: 'This case study does not exist (or moved somewhere else).',
+    notFoundCta: 'Back to projects',
+    metaSuffix: 'Case study',
   },
 
   skills: {
@@ -490,29 +497,35 @@ const en: Dict = {
     thAccount: 'Account',
     thAmount: 'Amount (R$)',
     thAV: 'Vertical %',
-    thAH: 'YoY %',
+    thDelta: 'Δ scenario',
     swipeHint: '← Swipe to see more →',
     dreFootnote:
-      'Source: model spreadsheet · illustrative data · vertical and YoY analysis calculated over gross revenue.',
+      'Source: model spreadsheet · illustrative data · vertical analysis calculated over gross revenue.',
+    scenarioLabel: 'Revenue scenario',
+    scenarioHint:
+      'Drag to simulate. Deductions and COGS follow revenue; operating expenses, depreciation and financial result are fixed — that combination is what produces operating leverage.',
+    scenarioBase: 'Base case',
+    scenarioReset: 'Reset to base',
+    scenarioVsBase: 'vs. base',
     rowLabels: {
-      'Receita Bruta de Vendas': 'Gross Sales Revenue',
-      '(–) Deduções e Impostos': '(–) Deductions & Taxes',
-      'Receita Líquida': 'Net Revenue',
-      '(–) Custo dos Produtos Vendidos': '(–) Cost of Goods Sold',
-      'Lucro Bruto': 'Gross Profit',
-      '(–) Despesas Operacionais': '(–) Operating Expenses',
-      'EBITDA': 'EBITDA',
-      '(–) Depreciação e Amortização': '(–) Depreciation & Amortization',
-      'EBIT': 'EBIT',
-      'Resultado Financeiro': 'Financial Result',
-      '(–) IR e CSLL': '(–) Income Taxes',
-      'Lucro Líquido do Exercício': 'Net Income',
+      grossRevenue: 'Gross Sales Revenue',
+      deductions: '(–) Deductions & Taxes',
+      netRevenue: 'Net Revenue',
+      cogs: '(–) Cost of Goods Sold',
+      grossProfit: 'Gross Profit',
+      opex: '(–) Operating Expenses',
+      ebitda: 'EBITDA',
+      depreciation: '(–) Depreciation & Amortization',
+      ebit: 'EBIT',
+      financialResult: 'Financial Result',
+      taxes: '(–) Income Taxes',
+      netIncome: 'Net Income',
     },
     kpiLabels: {
-      'Margem Bruta': 'Gross margin',
-      'Margem EBITDA': 'EBITDA margin',
-      'Margem Líquida': 'Net margin',
-      'YoY Receita': 'Revenue YoY',
+      grossMargin: 'Gross margin',
+      ebitdaMargin: 'EBITDA margin',
+      netMargin: 'Net margin',
+      revenueYoY: 'Revenue YoY',
     },
     fluxoTitle: 'Household Budget Tracker',
     fluxoPeriod: 'January – June 2026',
@@ -527,16 +540,16 @@ const en: Dict = {
     thCommitted: 'Committed',
     thStatus: 'Status',
     months: {
-      'Janeiro': 'January',
-      'Fevereiro': 'February',
-      'Março': 'March',
-      'Abril': 'April',
-      'Maio': 'May',
-      'Junho': 'June',
+      jan: 'January',
+      feb: 'February',
+      mar: 'March',
+      apr: 'April',
+      may: 'May',
+      jun: 'June',
     },
     statuses: {
-      'positivo': 'positive',
-      'atenção': 'watch',
+      positive: 'positive',
+      watch: 'watch',
     },
     periodTotal: 'Period total',
     totalStatus: 'positive',
@@ -556,6 +569,19 @@ const en: Dict = {
     cvGenerating: 'Generating…',
     motto: ['From ', 'spreadsheet', ' to ', 'prototype'],
     edition: (year: number) => `Vol. I · ${year} Edition`,
+  },
+
+  notFound: {
+    section: '§ E404 — Errata',
+    kicker: 'Error 404',
+    titleA: 'This edition',
+    titleB: 'never went',
+    titleC: 'to print',
+    text: 'The page you are looking for was cut from the issue — or never reached the newsroom.',
+    home: 'Back to the cover',
+    index: 'Table of contents',
+    edition: 'Vol. I · 2026 Edition',
+    metaTitle: 'Page not found',
   },
 
   cv: {

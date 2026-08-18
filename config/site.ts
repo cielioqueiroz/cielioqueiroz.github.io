@@ -185,52 +185,6 @@ export const site = {
     { title: 'Língua Inglesa II', issuer: 'UNOPAR', category: 'Administração' },
   ],
 
-  dataCases: {
-    dre: {
-      title: 'DRE — Nexus Corporação S.A.',
-      subtitle: 'Demonstrativo de Resultados do Exercício',
-      period: 'Exercício 2024',
-      rows: [
-        { label: 'Receita Bruta de Vendas', value: 95_840_000, av: 1.0, ah: 0.156, kind: 'header' },
-        { label: '(–) Deduções e Impostos', value: -12_200_000, av: -0.127, ah: 0.142 },
-        { label: 'Receita Líquida', value: 83_640_000, av: 0.873, ah: 0.158, kind: 'subtotal' },
-        { label: '(–) Custo dos Produtos Vendidos', value: -48_320_000, av: -0.504, ah: 0.131 },
-        { label: 'Lucro Bruto', value: 35_320_000, av: 0.369, ah: 0.196, kind: 'subtotal' },
-        { label: '(–) Despesas Operacionais', value: -19_840_000, av: -0.207, ah: 0.092 },
-        { label: 'EBITDA', value: 18_120_000, av: 0.189, ah: 0.224, kind: 'highlight' },
-        { label: '(–) Depreciação e Amortização', value: -2_640_000, av: -0.028, ah: 0.061 },
-        { label: 'EBIT', value: 15_480_000, av: 0.162, ah: 0.255, kind: 'subtotal' },
-        { label: 'Resultado Financeiro', value: -1_140_000, av: -0.012, ah: -0.083 },
-        { label: '(–) IR e CSLL', value: -5_430_980, av: -0.057, ah: 0.288 },
-        { label: 'Lucro Líquido do Exercício', value: 8_909_020, av: 0.093, ah: 0.318, kind: 'total' },
-      ],
-      kpis: [
-        { label: 'Margem Bruta', value: '36,9 %' },
-        { label: 'Margem EBITDA', value: '18,9 %' },
-        { label: 'Margem Líquida', value: '9,3 %' },
-        { label: 'YoY Receita', value: '+15,6 %' },
-      ],
-    },
-    fluxo: {
-      title: 'Controle Financeiro Familiar',
-      subtitle: 'Resumo mensal — Receitas, Despesas e Saldo',
-      period: 'Janeiro – Junho 2026',
-      rows: [
-        { mes: 'Janeiro', receitas: 15_735, despesas: 13_967, saldo: 1_768, status: 'positivo' },
-        { mes: 'Fevereiro', receitas: 16_120, despesas: 14_240, saldo: 1_880, status: 'positivo' },
-        { mes: 'Março', receitas: 15_980, despesas: 15_320, saldo: 660, status: 'atenção' },
-        { mes: 'Abril', receitas: 16_540, despesas: 13_870, saldo: 2_670, status: 'positivo' },
-        { mes: 'Maio', receitas: 17_200, despesas: 14_590, saldo: 2_610, status: 'positivo' },
-        { mes: 'Junho', receitas: 16_870, despesas: 15_840, saldo: 1_030, status: 'positivo' },
-      ],
-      totals: {
-        receitas: 98_445,
-        despesas: 87_827,
-        saldo: 10_618,
-        pctComprometido: 0.8921,
-      },
-    },
-  },
 } as const;
 
 export type Site = typeof site;

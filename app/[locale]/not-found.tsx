@@ -1,8 +1,18 @@
 import Link from 'next/link';
 import { ArrowLeft, ArrowDownRight } from 'lucide-react';
 import { site } from '@/config/site';
+import { DEFAULT_LOCALE, getDict, localePath } from '@/config/i18n';
 
+/**
+ * O `not-found` do App Router não recebe `params`, então não há como saber o
+ * idioma da URL que falhou. Usa o padrão — a alternativa seria transformar a
+ * página em client component só para ler o pathname, o que custa mais do que
+ * um 404 em português para um visitante de /en.
+ */
 export default function NotFound() {
+  const locale = DEFAULT_LOCALE;
+  const t = getDict(locale).notFound;
+
   return (
     <main className="flex min-h-screen flex-col">
       <div className="frame pt-10 md:pt-14">
@@ -10,7 +20,7 @@ export default function NotFound() {
           className="animate-fade flex flex-wrap items-center justify-between gap-3 border-t pb-3"
           style={{ borderColor: 'var(--fg)' }}
         >
-          <div className="marker tabular pt-3">§ E404 — Erratas</div>
+          <div className="marker tabular pt-3">{t.section}</div>
           <div className="kicker tabular pt-3">{site.domain}</div>
         </div>
       </div>
@@ -21,7 +31,7 @@ export default function NotFound() {
             className="mr-2 inline-block w-8 align-middle"
             style={{ borderTop: '2px solid var(--accent-ink)' }}
           />
-          Erro 404
+          {t.kicker}
         </p>
 
         <h1
@@ -33,15 +43,16 @@ export default function NotFound() {
             letterSpacing: '-0.03em',
           }}
         >
-          <span className="block">Esta edição</span>
+          <span className="block">{t.titleA}</span>
           <span
             className="block italic"
             style={{ color: 'var(--accent-ink)', fontVariationSettings: "'opsz' 144, 'SOFT' 100" }}
           >
-            não foi
+            {t.titleB}
           </span>
           <span className="block">
-            impressa<span style={{ color: 'var(--accent-ink)' }}>.</span>
+            {t.titleC}
+            <span style={{ color: 'var(--accent-ink)' }}>.</span>
           </span>
         </h1>
 
@@ -49,16 +60,16 @@ export default function NotFound() {
           className="body-serif mt-10 max-w-xl animate-rise stagger-3 text-xl leading-[1.4] md:text-2xl"
           style={{ color: 'var(--fg-soft)' }}
         >
-          A página que você procura saiu da pauta — ou nunca chegou à redação.
+          {t.text}
         </p>
 
         <div className="mt-12 flex flex-wrap items-center gap-3 animate-rise stagger-4">
-          <Link href="/" className="pill-solid group">
+          <Link href={localePath(locale)} className="pill-solid group">
             <ArrowLeft size={14} className="transition-transform group-hover:-translate-x-1" />
-            Voltar à capa
+            {t.home}
           </Link>
-          <Link href="/#sobre" className="pill">
-            Índice da edição
+          <Link href={`${localePath(locale)}#sobre`} className="pill">
+            {t.index}
             <ArrowDownRight size={14} />
           </Link>
         </div>
@@ -69,7 +80,7 @@ export default function NotFound() {
           className="border-t pt-4 font-mono text-[10px] uppercase tracking-[0.22em] tabular"
           style={{ borderColor: 'var(--rule)', color: 'var(--fg-muted)' }}
         >
-          Vol. I · Edição 2026
+          {t.edition}
         </div>
       </div>
     </main>

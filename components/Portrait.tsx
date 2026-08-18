@@ -1,42 +1,21 @@
-'use client';
-
-import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import { getDict, type Locale } from '@/config/i18n';
 import { site } from '@/config/site';
+import portrait from '@/public/portrait.webp';
 
-const PORTRAIT_SRC = '/portrait.webp';
-const PORTRAIT_FALLBACK = '/portrait.jpg';
-const PORTRAIT_W = 512;
-const PORTRAIT_H = 518;
-
-export function Portrait() {
-  const [src, setSrc] = useState<string | null>(null);
-  const [failed, setFailed] = useState(false);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    const tryLoad = (url: string, onFail: () => void) => {
-      const probe = new window.Image();
-      probe.onload = () => {
-        if (!cancelled) setSrc(url);
-      };
-      probe.onerror = () => {
-        if (!cancelled) onFail();
-      };
-      probe.src = url;
-    };
-
-    tryLoad(PORTRAIT_SRC, () => {
-
-      tryLoad(PORTRAIT_FALLBACK, () => {
-        if (!cancelled) setFailed(true);
-      });
-    });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+/**
+ * Retrato do hero — Server Component.
+ *
+ * Antes era client: renderizava vazio, esperava o JS carregar, sondava
+ * `/portrait.webp` com `new Image()` e só então definia o `src`. Como esta é
+ * a maior imagem acima da dobra, essa cascata atrasava o LCP em toda visita
+ * para proteger contra um arquivo que está versionado no repositório.
+ *
+ * Agora a imagem vai no HTML com `priority`, dimensões vindas do import
+ * estático (zero layout shift) e placeholder borrado durante o carregamento.
+ */
+export function Portrait({ locale = 'pt' }: { locale?: Locale }) {
+  const alt = getDict(locale).hero.portraitAlt(site.name);
 
   return (
     <div className="portrait-frame aspect-[4/5]">
@@ -45,50 +24,14 @@ export function Portrait() {
       <span className="crosshair bl" aria-hidden />
       <span className="crosshair br" aria-hidden />
 
-{!src && (
-        <div
-          aria-hidden
-          className="absolute inset-0 flex flex-col items-center justify-center text-center"
-          style={{ zIndex: 1 }}
-        >
-          <span
-            className="display italic leading-none"
-            style={{
-              fontWeight: 500,
-              fontSize: 'clamp(5rem, 22vw, 9rem)',
-              color: 'var(--accent-ink)',
-              fontVariationSettings: "'opsz' 144",
-            }}
-          >
-            {site.initials}
-          </span>
-          {failed && (
-            <span
-              className="mt-4 px-6 font-mono text-[9px] uppercase tracking-[0.2em]"
-              style={{ color: 'var(--fg-muted)' }}
-            >
-              salve portrait.jpg em /public
-            </span>
-          )}
-        </div>
-      )}
-
-      {src && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={src}
-          alt={`Retrato de ${site.name}`}
-          width={PORTRAIT_W}
-          height={PORTRAIT_H}
-          loading="eager"
-          decoding="async"
-          style={{
-            position: 'relative',
-            zIndex: 2,
-            animation: 'splash-fade-in 0.6s ease-out both',
-          }}
-        />
-      )}
+      <Image
+        src={portrait}
+        alt={alt}
+        priority
+        placeholder="blur"
+        sizes="(max-width: 768px) 280px, 320px"
+        style={{ position: 'relative', zIndex: 2 }}
+      />
     </div>
   );
 }

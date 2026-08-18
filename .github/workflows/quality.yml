@@ -1,0 +1,39 @@
+# Orçamento de qualidade: o portfólio afirma que "o site é a prova".
+# Este workflow transforma a afirmação em número verificável a cada push.
+name: Quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npx next lint
+
+      - name: Build
+        run: npm run build
+        env:
+          # Opcional: sem o token o build ainda passa, só com o limite público
+          # da API do GitHub (60 req/h por IP do runner).
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Orçamento de bundle
+        run: node scripts/check-bundle-budget.mjs

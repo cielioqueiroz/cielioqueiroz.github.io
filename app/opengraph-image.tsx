@@ -134,7 +134,9 @@ export default async function Image() {
               overflow: 'hidden',
             }}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
+            {/* O banner é renderizado pelo satori, onde next/image não existe. O alt
+                vazio é proposital: a imagem é decorativa dentro do card. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={portraitDataUri}
               alt=""

@@ -35,7 +35,8 @@ Voz: experiência de negócio + entusiasmo de quem está aprendendo em público.
 ## Design Principles
 
 1. **O site é a prova** — performance, a11y e acabamento valem mais que qualquer texto.
-   Verificável, não declarado: o orçamento de bundle roda no CI (`npm run budget`).
+   Verificável, não declarado: o orçamento de bundle e a suíte de testes rodam no CI
+   (`npm run budget`, `npm test`). Regra que o site afirma e ninguém checa é texto de venda.
 2. **Dados como diferencial** — mostrar a ponte admin/financeiro → dev em vez de esconder.
    A DRE é interativa de propósito: um modelo que recalcula prova mais que uma tabela impressa.
 3. **Identidade única e coerente** — uma fonte de tema (`config/theme.ts`); tudo deriva dela.

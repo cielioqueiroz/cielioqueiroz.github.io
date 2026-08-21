@@ -13,5 +13,7 @@ next-env.d.ts
 
 # Notas e arquivos de trabalho locais (não sobem pro repo)
 NOTES-lighthouse.md
-docs/
+docs/*
+# ...menos os registros de decisão: esses são do projeto, não meus.
+!docs/adr/
 .vercel

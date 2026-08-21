@@ -21,9 +21,9 @@ Disponível em **português** (raiz do domínio) e **inglês** (`/en/`).
 |---|---|---|
 | 01 | Apresentação | Capa com retrato, nome, tagline e CTAs sociais |
 | 02 | Sobre mim | Trajetória de admin/financeiro para dev, com pull quote |
-| 03 | Projetos | Estudos de caso com página própria + arquivo de repositórios do GitHub |
+| 03 | Projetos | Estudos de caso com página própria + arquivo de repositórios do GitHub, abrindo pelos fixados |
 | 04 | Skills | Inventário tipográfico de tecnologias agrupadas por área |
-| 05 | Credenciais | Lista de 47 certificados, filtráveis por categoria |
+| 05 | Credenciais | Diploma e certificados, filtráveis por categoria |
 | 06 | Planilhas vivas | DRE com simulador de cenário e fluxo de caixa familiar |
 | 07 | Colofão | Contato e créditos editoriais |
 
@@ -42,15 +42,17 @@ Disponível em **português** (raiz do domínio) e **inglês** (`/en/`).
 | Dados de projetos | [GitHub REST API](https://docs.github.com/en/rest) — buscada no servidor, revalidada a cada hora |
 | CV em PDF | [@react-pdf/renderer](https://react-pdf.org/) — gerado no navegador sob demanda |
 | 3D | [three.js](https://threejs.org/) + React Three Fiber — shader de ondas no hero |
+| Testes | [Vitest](https://vitest.dev/) — regra de negócio, roteamento e integridade de conteúdo |
 | Hospedagem | [Vercel](https://vercel.com/) — deploy automático a cada push em `main` |
 
 ### Características técnicas
 
 - **Roteamento i18n sem duplicação** — todas as páginas vivem em `app/[locale]`; o `middleware.ts` mantém o português na raiz (`/`) e prefixa apenas o inglês (`/en/`). O atributo `lang` do `<html>` sai correto já no HTML do servidor.
-- **Repositórios renderizados no servidor** com revalidação horária (ISR): aparecem no HTML (indexáveis), sem estado de carregamento e sem gastar a cota da API do visitante.
+- **Repositórios renderizados no servidor** com revalidação horária (ISR): aparecem no HTML (indexáveis), sem estado de carregamento e sem gastar a cota da API do visitante. A vitrine abre pelos repositórios fixados no perfil, declarados em `config/site.ts` — sem depender de serviço de terceiro (ver [ADR 0005](./docs/adr/0005-fixados-mantidos-a-mao.md)).
 - **Página por estudo de caso** (`/projetos/[slug]`) com metadados, `hreflang` e JSON-LD próprios.
 - **DRE interativa** — um slider move a receita entre −30% e +30% e a cascata inteira se recalcula. Despesas operacionais são fixas no modelo, o que torna a alavancagem operacional visível.
 - **Orçamento de bundle no CI** — `scripts/check-bundle-budget.mjs` falha o build se o JS compartilhado passar de 115 kB gzipados.
+- **90 testes automatizados** rodando antes do build no CI. Cobrem o que o TypeScript não pega: a cascata da DRE fecha e reproduz os números publicados; o middleware não encadeia redirect nem deixa a mesma página responder em duas URLs; nenhuma categoria aparece sem tradução no site em inglês; nenhum estudo de caso vai ao ar com o campo em inglês vazio ou copiado do português.
 - **Ondas 3D** via WebGL com shader GLSL — desativadas em hardware fraco (≤ 2 núcleos) e congeladas com `prefers-reduced-motion`.
 - **Aurora CSS** — gradiente multi-camada animado em CSS puro, sem WebGL.
 - **Revelação ao rolar** via CSS scroll-driven (`animation-timeline: view()`), com fallback e respeito a `prefers-reduced-motion`.
@@ -121,8 +123,11 @@ my-portifolio/
 │   └── motion.css               Reveal e contrato de reduced-motion
 ├── scripts/
 │   └── check-bundle-budget.mjs  Orçamento de JS no CI
+├── CONTEXT.md                   Glossário do domínio — o vocabulário do projeto
+├── docs/adr/                    Registros de decisão (por que é assim, não como)
+├── *.test.ts                    Testes ao lado do que testam (Vitest)
 ├── .github/workflows/
-│   ├── quality.yml              Typecheck + lint + build + orçamento
+│   ├── quality.yml              Testes + build + typecheck + lint + orçamento
 │   └── pages-redirect.yml       Publica o redirect do domínio antigo
 ├── next.config.mjs
 ├── tailwind.config.ts
@@ -161,8 +166,24 @@ Copie `.env.example` para `.env.local` se quiser configurá-la.
 | `npm run dev` | Servidor de desenvolvimento com hot reload |
 | `npm run build` | Build de produção |
 | `npm run start` | Serve o build de produção localmente |
-| `npm run lint` | Lint via ESLint |
+| `npm run lint` | Lint via ESLint (flat config, sem o `next lint` descontinuado) |
+| `npm test` | Roda a suíte de testes uma vez |
+| `npm run test:watch` | Testes em modo observador |
 | `npm run budget` | Verifica o orçamento de bundle (exige `build` antes) |
+
+---
+
+## Vocabulário e decisões
+
+Dois arquivos existem para quem for ler o código (inclusive eu, daqui a seis meses):
+
+- **[`CONTEXT.md`](./CONTEXT.md)** — o glossário. O site usa palavras vizinhas para coisas
+  diferentes: *estudo de caso* não é *repositório*, *cenário* não é *premissa*, *credencial*
+  não é *certificado*. Trocar uma pela outra gera bug de conteúdo que nenhum tipo pega.
+- **[`docs/adr/`](./docs/adr/)** — registros de decisão. Só entram decisões caras de reverter,
+  surpreendentes para quem chega e resultado de uma escolha real: por que o português mora na
+  raiz, por que o site saiu do export estático, por que os repositórios são buscados no
+  servidor e por que a CSP tem duas frouxidões deliberadas.
 
 ---
 
@@ -172,7 +193,7 @@ O conteúdo está dividido por tipo — cada arquivo tem um motivo diferente par
 
 | Arquivo | O que fica lá |
 |---|---|
-| [`config/site.ts`](./config/site.ts) | Dados factuais: nome, contato, experiência, formação, skills, certificados, repositórios em destaque |
+| [`config/site.ts`](./config/site.ts) | Dados factuais: nome, contato, experiência, formação, skills, certificados e a lista de **repositórios fixados** — fixou outro no GitHub? Atualize `pinnedRepos` aqui, é o que define a ordem da vitrine |
 | [`config/i18n.ts`](./config/i18n.ts) | Textos de interface em PT e EN — rótulos, títulos de seção, mensagens |
 | [`content/case-studies.ts`](./content/case-studies.ts) | Estudos de caso. Um registro por projeto, com os campos redigidos em cada idioma — adicionar um caso cria a página `/projetos/<slug>` automaticamente |
 | [`content/financials.ts`](./content/financials.ts) | Premissas da DRE e linhas do fluxo de caixa |
@@ -186,7 +207,7 @@ Trocar a foto do retrato: substituir `public/portrait.webp` (formato 4:5 vertica
 
 O deploy é automático no **Vercel** via integração com o Git: todo push em `main` gera um novo deploy de produção. Pull requests ganham preview próprio.
 
-O workflow `quality.yml` roda typecheck, lint, build e o orçamento de bundle em cada push e PR — um erro aí não bloqueia o deploy do Vercel, mas sinaliza a regressão.
+O workflow `quality.yml` roda os testes, o build, o typecheck, o lint e o orçamento de bundle em cada push e PR — um erro aí não bloqueia o deploy do Vercel, mas sinaliza a regressão.
 
 ---
 

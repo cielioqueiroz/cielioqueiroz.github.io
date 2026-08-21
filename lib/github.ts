@@ -60,31 +60,18 @@ export async function fetchUserRepos(): Promise<Repo[]> {
 }
 
 /**
- * Lê os repositórios fixados (pinned) do perfil via endpoint público gratuito.
- * O GitHub só expõe pins pela API GraphQL autenticada; este serviço faz essa
- * ponte. Retorna os nomes na ordem em que estão fixados; em qualquer falha,
- * retorna [] — a ordenação cai na lista manual `featuredRepos` do config.
+ * Ordena a vitrine: os repositórios fixados primeiro, na ordem em que estão
+ * fixados no perfil, e o resto por data de push — mais recente antes.
+ *
+ * A lista de fixados vem de `config/site.ts`, não da rede. Havia aqui uma
+ * chamada a um serviço de terceiros que espelhava os pins do GitHub; ele
+ * responde 404 há tempo suficiente para a vitrine estar exibindo, em silêncio,
+ * a lista de reserva — exercícios antigos de CSS no topo do portfólio, que é
+ * exatamente o oposto do que a seção existe para fazer. Falha silenciosa é
+ * pior que ausência de recurso: agora não há terceiro no caminho.
  */
-export async function fetchPinnedRepoNames(): Promise<string[]> {
-  try {
-    const url = `https://gh-pinned-repos.egoist.dev/?username=${site.githubUsername}`;
-    const res = await fetch(url, { next: { revalidate: REVALIDATE_SECONDS } });
-    if (!res.ok) return [];
-    const data = (await res.json()) as Array<{ repo?: string }>;
-    return data.map((p) => p.repo).filter((n): n is string => typeof n === 'string');
-  } catch {
-    return [];
-  }
-}
-
-/**
- * Ordena os repositórios colocando os prioritários primeiro (na ordem dada) e o
- * restante por data de push, mais recente primeiro. A prioridade usa os pinned
- * quando disponíveis; senão cai na lista manual `featuredRepos` do config.
- */
-export function sortRepos(repos: Repo[], pinnedNames: string[] = []): Repo[] {
-  const priority = pinnedNames.length > 0 ? pinnedNames : [...site.featuredRepos];
-  const priorityOrder = new Map<string, number>(priority.map((name, i) => [name, i]));
+export function sortRepos(repos: Repo[], pinnedNames: readonly string[] = site.pinnedRepos): Repo[] {
+  const priorityOrder = new Map<string, number>(pinnedNames.map((name, i) => [name, i]));
   const featured = repos
     .filter((r) => priorityOrder.has(r.name))
     .sort((a, b) => priorityOrder.get(a.name)! - priorityOrder.get(b.name)!);
@@ -94,9 +81,35 @@ export function sortRepos(repos: Repo[], pinnedNames: string[] = []): Repo[] {
   return [...featured, ...rest];
 }
 
-/** Nome do repositório em forma legível: `task-manager` → `Task Manager`. */
+/** Palavras que só ficam maiúsculas quando abrem o nome. */
+const CONECTIVOS = new Set([
+  'de', 'da', 'do', 'das', 'dos',
+  'no', 'na', 'nos', 'nas',
+  'ao', 'aos', 'e', 'para', 'com', 'em',
+]);
+
+/** Siglas que perdem o sentido em caixa de título: `cv` vira `CV`, não `Cv`. */
+const SIGLAS = new Set(['cv', 'ai', 'ia', 'api', 'pdf', 'sql', 'crud', 'qr', 'imc', 'erp', 'rh']);
+
+/**
+ * Nome do repositório em forma legível, para o título do cartão:
+ * `task-manager` vira `Task Manager`, `buscador-de-cv` vira `Buscador de CV`.
+ *
+ * A caixa de título ingênua produz "Buscador De Cv" — o tipo de detalhe que
+ * denuncia automação preguiçosa justamente no cartão que o recrutador lê.
+ */
 export function prettyRepoName(name: string): string {
-  return name.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+  return name
+    .replace(/[-_]/g, ' ')
+    .split(' ')
+    .filter(Boolean)
+    .map((palavra, i) => {
+      const lower = palavra.toLowerCase();
+      if (SIGLAS.has(lower)) return lower.toUpperCase();
+      if (i > 0 && CONECTIVOS.has(lower)) return lower;
+      return palavra.charAt(0).toUpperCase() + palavra.slice(1);
+    })
+    .join(' ');
 }
 
 export type Showcase =
@@ -110,7 +123,8 @@ export type Showcase =
  */
 export async function getShowcase(): Promise<Showcase> {
   try {
-    const [repos, pinned] = await Promise.all([fetchUserRepos(), fetchPinnedRepoNames()]);
+    const repos = await fetchUserRepos();
+    const pinned = [...site.pinnedRepos];
     return {
       ok: true,
       repos: sortRepos(repos, pinned),

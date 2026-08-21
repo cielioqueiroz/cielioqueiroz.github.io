@@ -69,13 +69,22 @@ export const site = {
 
   githubUsername: 'cielioqueiroz',
 
-  featuredRepos: [
-    'calculadora-investimentos',
-    'controle-financeiro',
-    'crud-user-react',
-    'task-manager',
+  /**
+   * Os repositórios fixados no perfil do GitHub, na ordem em que estão lá.
+   *
+   * Esta lista É a fonte da verdade da vitrine: ela define quem aparece
+   * primeiro e quem ganha o selo "fixado". Mantida à mão de propósito — o
+   * GitHub só expõe os pins pela API GraphQL autenticada, e o serviço público
+   * que fazia essa ponte saiu do ar (ver docs/adr/0005). Fixou outro repo lá?
+   * Atualize aqui; são seis nomes e o teste avisa se algum destoar.
+   */
+  pinnedRepos: [
     'app-weather',
-    'dashboard-admin',
+    'calculadora-investimentos',
+    'buscador-de-cv',
+    'controle-financeiro',
+    'gabarito_AI',
+    'praca-araguaia',
   ],
 
   hiddenRepos: ['cielioqueiroz', 'my-personal-portfolio'],

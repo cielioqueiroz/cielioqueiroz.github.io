@@ -22,6 +22,12 @@ jobs:
       - name: Install
         run: npm ci
 
+      # Antes do build: são 90 asserções em ~1s sobre a cascata da DRE, o
+      # roteamento de idioma e a integridade do conteúdo. Se alguma quebrou,
+      # não faz sentido esperar o build inteiro para descobrir.
+      - name: Testes
+        run: npm test
+
       # Build primeiro: é ele que gera `.next/types`, onde mora a validação de
       # exports de arquivos de rota do App Router. Rodar o tsc antes deixava
       # essa classe de erro passar batido.
@@ -35,8 +41,10 @@ jobs:
       - name: Typecheck
         run: npx tsc --noEmit
 
+      # `next lint` foi descontinuado no Next 15.5 e some no 16; o ESLint é
+      # chamado direto, via flat config em eslint.config.mjs.
       - name: Lint
-        run: npx next lint
+        run: npm run lint
 
       - name: Orçamento de bundle
         run: node scripts/check-bundle-budget.mjs

@@ -32,6 +32,22 @@ function withTrailingSlash(pathname: string): string {
   return pathname.endsWith('/') ? pathname : `${pathname}/`;
 }
 
+/**
+ * Redirect 308 preservando exatamente o caminho que montamos.
+ *
+ * Cuidado com `request.nextUrl`: ele é um `NextURL`, e ao serializar reaplica
+ * a forma de barra final DA URL QUE CHEGOU — desfazendo em silêncio o que
+ * `withTrailingSlash` acabou de fazer. `/pt/projetos/x` saía daqui como
+ * `/projetos/x`, e então o `trailingSlash: true` disparava um SEGUNDO 308
+ * para `/projetos/x/`: exatamente a cadeia de redirect que este arquivo
+ * existe para evitar. Um `URL` comum não normaliza nada.
+ */
+function redirect(request: NextRequest, pathname: string): NextResponse {
+  const url = new URL(request.url);
+  url.pathname = pathname;
+  return NextResponse.redirect(url, 308);
+}
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -39,9 +55,7 @@ export function middleware(request: NextRequest) {
   // devolvemos o caminho com barra final para não encadear um segundo
   // redirect do trailingSlash em cima deste.
   if (matchLocalePrefix(pathname, DEFAULT_LOCALE)) {
-    const url = request.nextUrl.clone();
-    url.pathname = withTrailingSlash(pathname.slice(`/${DEFAULT_LOCALE}`.length) || '/');
-    return NextResponse.redirect(url, 308);
+    return redirect(request, withTrailingSlash(pathname.slice(`/${DEFAULT_LOCALE}`.length) || '/'));
   }
 
   // Idiomas com prefixo já batem com o segmento [locale]. Se veio em caixa
@@ -51,9 +65,7 @@ export function middleware(request: NextRequest) {
   if (prefixed) {
     const canonical = `/${prefixed}${pathname.slice(prefixed.length + 1)}`;
     if (pathname !== canonical) {
-      const url = request.nextUrl.clone();
-      url.pathname = withTrailingSlash(canonical);
-      return NextResponse.redirect(url, 308);
+      return redirect(request, withTrailingSlash(canonical));
     }
     return NextResponse.next();
   }

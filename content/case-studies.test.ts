@@ -1,3 +1,5 @@
+import { existsSync, readFileSync } from 'node:fs';
+import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { caseStudies, type CaseStudy } from '@/content/case-studies';
 import { LOCALES } from '@/config/i18n';
@@ -81,5 +83,58 @@ describe('endereço e identidade do caso', () => {
 
   it('há pelo menos um caso publicado — a seção § 03 depende disso', () => {
     expect(caseStudies.length).toBeGreaterThan(0);
+  });
+});
+
+describe('o print de cada caso', () => {
+  /**
+   * Lê largura e altura direto do cabeçalho do WebP, sem dependência nova.
+   * Layout de um WebP com compressão lossy:
+   *   0..3  "RIFF"   8..11 "WEBP"   12..15 "VP8 "
+   *   23..25 start code 9d 01 2a
+   *   26..27 largura e 28..29 altura — 14 bits, little-endian.
+   */
+  const dimensoes = (buf: Buffer) => {
+    expect(buf.subarray(0, 4).toString('ascii')).toBe('RIFF');
+    expect(buf.subarray(8, 12).toString('ascii')).toBe('WEBP');
+    expect(buf.subarray(12, 16).toString('ascii')).toBe('VP8 ');
+    expect(buf.subarray(23, 26).toString('hex')).toBe('9d012a');
+    return {
+      width: buf.readUInt16LE(26) & 0x3fff,
+      height: buf.readUInt16LE(28) & 0x3fff,
+    };
+  };
+
+  const arquivo = (cs: CaseStudy) => path.join(process.cwd(), 'public', cs.shot.src);
+
+  it.each(caseStudies.map((cs) => [cs.slug, cs] as const))('%s tem o arquivo no lugar', (_slug, cs) => {
+    expect(existsSync(arquivo(cs))).toBe(true);
+  });
+
+  it.each(caseStudies.map((cs) => [cs.slug, cs] as const))(
+    '%s declara as dimensões reais do arquivo',
+    (_slug, cs) => {
+      // Dimensão errada aqui não quebra nada visível no build: só faz a seção
+      // saltar quando a imagem termina de carregar, no navegador de quem lê.
+      expect(dimensoes(readFileSync(arquivo(cs)))).toEqual({
+        width: cs.shot.width,
+        height: cs.shot.height,
+      });
+    }
+  );
+
+  it('o caminho do print segue o slug', () => {
+    for (const cs of caseStudies) {
+      expect(cs.shot.src).toBe(`/projetos/${cs.slug}.webp`);
+    }
+  });
+
+  it('nenhum print passa de 120 kB', () => {
+    // São três imagens acima da dobra da § 03; juntas elas não podem custar
+    // mais que o próprio JavaScript do site.
+    for (const cs of caseStudies) {
+      const kb = readFileSync(arquivo(cs)).length / 1024;
+      expect(kb, `${cs.slug}: ${kb.toFixed(0)} kB`).toBeLessThanOrEqual(120);
+    }
   });
 });

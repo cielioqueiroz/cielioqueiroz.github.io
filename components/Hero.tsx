@@ -1,7 +1,5 @@
 import { site } from '@/config/site';
 import { getDict, type Locale } from '@/config/i18n';
-import { computeDre } from '@/lib/dre';
-import { dreModel } from '@/content/financials';
 import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
 import { Mail, ArrowDownRight } from 'lucide-react';
 import { Portrait } from './Portrait';
@@ -19,32 +17,6 @@ export function Hero({ locale = 'pt' }: { locale?: Locale }) {
     month: '2-digit',
     year: 'numeric',
   });
-
-  /**
-   * A tese do site em quatro números.
-   *
-   * Eles moravam só na § 06, no fim da página — onde boa parte de quem abre o
-   * site nunca chega. Na capa eles provam, na primeira tela, o que a tagline
-   * apenas afirma: que aqui tem alguém que fala a língua do negócio.
-   *
-   * Custo: zero JavaScript novo. É a mesma função pura da DRE, executada no
-   * servidor, com os mesmos valores que os testes travam.
-   */
-  const dre = computeDre(dreModel, 1);
-  const pct = (id: string, signed = false) => {
-    const v = dre.kpis.find((k) => k.id === id)?.value ?? 0;
-    const n = (v * 100).toLocaleString(t.numberLocale, {
-      minimumFractionDigits: 1,
-      maximumFractionDigits: 1,
-    });
-    return `${signed && v >= 0 ? '+' : ''}${n}%`;
-  };
-  const heroKpis = [
-    { label: t.hero.kpis.gross, value: pct('grossMargin') },
-    { label: t.hero.kpis.ebitda, value: pct('ebitdaMargin') },
-    { label: t.hero.kpis.net, value: pct('netMargin') },
-    { label: t.hero.kpis.yoy, value: pct('revenueYoY', true) },
-  ];
 
   return (
     <section id="top" className="relative overflow-hidden">
@@ -160,38 +132,7 @@ export function Hero({ locale = 'pt' }: { locale?: Locale }) {
               </div>
             </div>
 
-<div className="mt-12 animate-rise stagger-6">
-              <p className="kicker mb-4">{t.hero.kpisLabel}</p>
-              <dl
-                className="grid grid-cols-2 gap-x-6 gap-y-6 border-t pt-6 sm:grid-cols-4"
-                style={{ borderColor: 'var(--rule)' }}
-              >
-                {heroKpis.map((k) => (
-                  <div key={k.label}>
-                    <dt
-                      className="font-mono text-[10px] uppercase tracking-[0.18em]"
-                      style={{ color: 'var(--fg-muted)' }}
-                    >
-                      {k.label}
-                    </dt>
-                    <dd
-                      className="display tabular mt-2 text-[30px] leading-none md:text-[36px]"
-                      style={{ fontWeight: 500 }}
-                    >
-                      {k.value}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-              <p
-                className="mt-4 font-mono text-[10px] uppercase tracking-[0.16em]"
-                style={{ color: 'var(--fg-muted)' }}
-              >
-                {t.hero.kpisNote}
-              </p>
-            </div>
-
-            <div className="mt-12 flex flex-wrap items-center gap-3 animate-rise stagger-6">
+<div className="mt-14 flex flex-wrap items-center gap-3 animate-rise stagger-6">
               <CVButton variant="solid" locale={locale} />
               <a
                 href={site.socials.linkedin}

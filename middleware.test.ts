@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { NextRequest } from 'next/server';
-import { middleware } from '@/middleware';
+import { config, middleware } from '@/middleware';
+import { caseStudies } from '@/content/case-studies';
 
 /**
  * O middleware é a peça mais silenciosamente perigosa do projeto: erra e o
@@ -117,5 +118,59 @@ describe('a query string sobrevive ao roteamento', () => {
     const res = run('/pt/?utm_source=linkedin');
 
     expect(res.headers.get('location')).toContain('utm_source=linkedin');
+  });
+});
+
+describe('o matcher separa página de arquivo', () => {
+  /**
+   * Este bloco existe por causa de um bug que chegou em produção: os prints dos
+   * estudos de caso ficaram invisíveis porque o matcher mandava
+   * `/projetos/x.webp` para o roteamento de idioma. Testar `middleware()` não
+   * pegaria — a função nunca é chamada para esses caminhos, e é exatamente aí
+   * que mora o erro. Quem decide é a configuração, então é ela que é testada.
+   */
+  const matcher = new RegExp(`^${config.matcher[0]}$`);
+
+  it.each([
+    '/',
+    '/en/',
+    '/pt/',
+    '/projetos/praca-araguaia/',
+    '/en/projetos/buscador-de-cv/',
+    '/qualquer-coisa/',
+  ])('%s é página e passa pelo middleware', (path) => {
+    expect(matcher.test(path)).toBe(true);
+  });
+
+  it.each([
+    '/projetos/praca-araguaia.webp',
+    '/projetos/buscador-de-cv.webp',
+    '/projetos/controle-financeiro.webp',
+    '/portrait.webp',
+    '/portrait.jpg',
+    '/favicon.ico',
+    '/icon.svg',
+    '/robots.txt',
+    '/sitemap.xml',
+    '/manifest.webmanifest',
+    '/fonts/cv/Newsreader-Regular.ttf',
+    '/_next/static/chunk.js',
+  ])('%s é arquivo e é servido direto', (path) => {
+    expect(matcher.test(path)).toBe(false);
+  });
+
+  it.each(['/opengraph-image', '/twitter-image'])(
+    '%s é rota de metadado sem extensão — precisa ficar nomeada',
+    (path) => {
+      expect(matcher.test(path)).toBe(false);
+    }
+  );
+
+  it('todo print declarado no conteúdo é tratado como arquivo', () => {
+    // A trava de verdade: se um print novo entrar num caminho que o matcher
+    // considera página, ele some da tela sem quebrar build nem teste de rota.
+    for (const cs of caseStudies) {
+      expect(matcher.test(cs.shot.src), cs.shot.src).toBe(false);
+    }
   });
 });

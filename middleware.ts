@@ -77,8 +77,22 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
+  /**
+   * Páginas, e só elas.
+   *
+   * Aqui havia uma lista de nomes de arquivo — favicon, icon.svg, robots.txt,
+   * portrait — que alguém precisava lembrar de estender a cada asset novo.
+   * Esquecer custa caro e em silêncio: o middleware reescreve o caminho do
+   * arquivo para dentro de `[locale]`, onde não existe rota, e o arquivo some.
+   * Pior quando é imagem servida pelo `next/image`: o otimizador busca o
+   * original pela própria rota HTTP, leva o 404 e devolve 400 — a página
+   * carrega inteira, com um retângulo vazio no lugar da foto.
+   *
+   * A regra substitui a lista: caminho que termina em extensão é arquivo, e
+   * arquivo não passa por roteamento de idioma. Sobram nomeados só o `_next/`,
+   * que é interno, e as duas rotas de metadado que NÃO têm extensão.
+   */
   matcher: [
-    // Tudo, menos assets, rotas internas do Next e arquivos de metadados.
-    '/((?!_next/|favicon\\.ico|icon\\.svg|manifest\\.webmanifest|robots\\.txt|sitemap\\.xml|opengraph-image|twitter-image|fonts/|portrait\\.).*)',
+    '/((?!_next/|opengraph-image|twitter-image|.*\\.[a-zA-Z0-9]+$).*)',
   ],
 };

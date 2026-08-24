@@ -46,7 +46,7 @@ export default function NotFound() {
           <span className="block">{t.titleA}</span>
           <span
             className="block italic"
-            style={{ color: 'var(--accent-ink)', fontVariationSettings: "'opsz' 144, 'SOFT' 100" }}
+            style={{ color: 'var(--accent-ink)' }}
           >
             {t.titleB}
           </span>

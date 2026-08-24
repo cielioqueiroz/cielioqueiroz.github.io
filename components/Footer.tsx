@@ -45,7 +45,7 @@ export function Footer({ locale = 'pt' }: { locale?: Locale }) {
               wordBreak: 'break-word',
             }}
           >
-            <span className="italic" style={{ fontVariationSettings: "'opsz' 144" }}>
+            <span className="italic" >
               cielioqueiroz
             </span>
             <span style={{ color: 'var(--fg-muted)' }}>@</span>

@@ -102,7 +102,7 @@ export function Hero({ locale = 'pt' }: { locale?: Locale }) {
               </span>
               <span
                 className="block italic"
-                style={{ color: 'var(--accent-ink)', fontVariationSettings: "'opsz' 144, 'SOFT' 100" }}
+                style={{ color: 'var(--accent-ink)' }}
               >
                 <SplitReveal text="Queiroz" delay={280} stagger={50} italic />
                 <span className="not-italic" style={{ color: 'var(--fg)' }}>.</span>

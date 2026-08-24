@@ -18,7 +18,7 @@ export function About({ locale = 'pt' }: { locale?: Locale }) {
             <div className="rule-thick mb-6" />
             <h2 className="display text-display-md flex items-baseline gap-4" style={{ fontWeight: 500 }}>
               {t.headingA}
-              <span className="italic" style={{ color: 'var(--accent-ink)', fontVariationSettings: "'opsz' 60" }}>
+              <span className="italic" style={{ color: 'var(--accent-ink)' }}>
                 {t.headingB}
               </span>
             </h2>
@@ -75,7 +75,6 @@ export function About({ locale = 'pt' }: { locale?: Locale }) {
                   color: 'var(--accent-ink)',
                   fontWeight: 500,
                   fontStyle: 'italic',
-                  fontVariationSettings: "'opsz' 144",
                 }}
               >
                 {dropChar}

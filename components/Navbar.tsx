@@ -90,8 +90,7 @@ export function Navbar({ locale = 'pt' }: { locale?: Locale }) {
             </span>
             <span
               className="display text-lg italic sm:text-xl md:text-2xl"
-              style={{ fontVariationSettings: "'opsz' 24" }}
-            >
+              >
               {site.shortName}
             </span>
             <span

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowUpRight, ArrowRight } from 'lucide-react';
 import { site } from '@/config/site';
@@ -142,6 +143,24 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
               </div>
             </div>
           </header>
+
+          {/* O print em largura de página, entre a capa e o texto: é a prova de
+              que existe sistema no ar, antes de qualquer parágrafo sobre ele.
+              `priority` porque nesta página a imagem é o maior elemento da
+              primeira dobra — é ela que define o LCP. */}
+          <figure className="frame pb-16 md:pb-24">
+            <div className="overflow-hidden" style={{ borderRadius: 'var(--r-lg)', border: '1px solid var(--rule)' }}>
+              <Image
+                src={cs.shot.src}
+                alt={getDict(locale).projects.shotAlt(cs.name)}
+                width={cs.shot.width}
+                height={cs.shot.height}
+                sizes="(min-width: 1280px) 1200px, 100vw"
+                priority
+                className="h-auto w-full"
+              />
+            </div>
+          </figure>
 
           {/* Corpo — coluna estreita de leitura, deslocada. Ritmo diferente do
               grid 3/9 que domina a home. */}

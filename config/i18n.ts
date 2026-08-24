@@ -152,6 +152,8 @@ const pt = {
     codeBtn: 'Código',
     demoBtn: 'Demo ao vivo',
     readCase: 'Ler o caso',
+    /** Alt do print — descreve o que a imagem mostra, não o arquivo. */
+    shotAlt: (name: string) => `${name} em funcionamento`,
     archiveTitle: 'Arquivo ao vivo',
     archiveDesc: 'Lista sincronizada de hora em hora via ',
     archiveDescAfter: '. Fixados (pinned) primeiro, depois por data de push.',
@@ -429,6 +431,7 @@ const en: Dict = {
     codeBtn: 'Code',
     demoBtn: 'Live demo',
     readCase: 'Read the case',
+    shotAlt: (name: string) => `${name} running`,
     archiveTitle: 'Live archive',
     archiveDesc: 'List synced hourly via the ',
     archiveDescAfter: '. Pinned first, then by push date.',

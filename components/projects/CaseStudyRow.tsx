@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import { getDict, localePath, type Locale } from '@/config/i18n';
 import type { ResolvedCaseStudy } from '@/content/case-studies';
@@ -56,6 +57,22 @@ export function CaseStudyRow({
       </div>
 
       <div className="md:col-span-9">
+        {/* O print vem antes do texto: em trinta segundos de leitura, ver o
+            sistema funcionando convence mais do que ler que ele funciona.
+            `sizes` evita que o navegador baixe a versão de 1400px numa coluna
+            que, no desktop, tem uns 700 — e as dimensões declaradas no
+            conteúdo reservam o espaço antes do download, sem salto de layout. */}
+        <figure className="mb-8 overflow-hidden" style={{ borderRadius: 'var(--r-md)', border: '1px solid var(--rule)' }}>
+          <Image
+            src={cs.shot.src}
+            alt={t.shotAlt(cs.name)}
+            width={cs.shot.width}
+            height={cs.shot.height}
+            sizes="(min-width: 768px) 66vw, 100vw"
+            className="h-auto w-full"
+          />
+        </figure>
+
         <dl className="grid gap-x-8 gap-y-6 md:grid-cols-2">
           <div>
             <dt className="kicker mb-2">{t.contextLabel}</dt>

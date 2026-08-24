@@ -109,51 +109,26 @@ export function Certificates({ locale = 'pt' }: { locale?: Locale }) {
                   </p>
                 </div>
 
-                <ul className="md:col-span-9">
-                  <li className="rule mb-2" aria-hidden />
+                {/* Duas colunas: 49 certificados em linha corrida gastavam
+                    quase três mil pixels de rolagem. Título e emissor empilhados
+                    ocupam metade disso e continuam legíveis — a numeração por
+                    item saiu porque a contagem já está no filtro acima. */}
+                <ul className="md:col-span-9 grid gap-x-8 sm:grid-cols-2">
                   {g.items.map((c, i) => (
                     <li
                       key={`${c.title}-${i}`}
-                      className="group relative border-b py-4"
+                      className="group border-b py-3"
                       style={{ borderColor: 'var(--rule)' }}
                     >
-                      <span
-                        aria-hidden
-                        className="pointer-events-none absolute inset-y-0 left-0 origin-left scale-x-0 transition-transform duration-500 group-hover:scale-x-100"
-                        style={{
-                          width: '100%',
-                          background:
-                            'linear-gradient(90deg, color-mix(in srgb, var(--accent) 8%, transparent), transparent 70%)',
-                        }}
-                      />
-                      <div className="relative grid items-baseline gap-y-1.5 md:grid-cols-12 md:gap-x-6">
-                        <div className="flex items-baseline gap-3 md:col-span-8 md:gap-4">
-                          <span
-                            className="font-mono text-[10px] uppercase tracking-[0.18em] tabular shrink-0"
-                            style={{ color: 'var(--fg-muted)' }}
-                          >
-                            {String(i + 1).padStart(2, '0')}
-                          </span>
-                          <span className="body-serif text-[16px] leading-[1.3] md:text-[19px]">
-                            {c.title}
-                          </span>
-                        </div>
-
-                        <div className="pl-8 md:col-span-4 md:pl-0 md:text-right">
-                          <span
-                            className="font-mono text-[10px] uppercase tracking-[0.2em]"
-                            style={{ color: 'var(--fg-muted)' }}
-                          >
-                            {c.issuer}
-                            <span
-                              style={{ color: 'var(--accent-ink)' }}
-                              className="ml-2 opacity-0 transition-opacity group-hover:opacity-100"
-                            >
-                              ✓
-                            </span>
-                          </span>
-                        </div>
-                      </div>
+                      <p className="body-serif text-[15px] leading-[1.35] md:text-[16px]">
+                        {c.title}
+                      </p>
+                      <p
+                        className="mt-1 font-mono text-[10px] uppercase tracking-[0.16em]"
+                        style={{ color: 'var(--fg-muted)' }}
+                      >
+                        {c.issuer}
+                      </p>
                     </li>
                   ))}
                 </ul>

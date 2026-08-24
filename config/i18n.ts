@@ -193,7 +193,6 @@ const pt = {
     headingB: 'ofício.',
     index: (n: number) => `Índice · ${n} itens`,
     tech: (n: number) => `${n} tecnologias`,
-    inUse: '◆ em uso',
     categories: {} as Record<string, string>,
   },
 
@@ -469,7 +468,6 @@ const en: Dict = {
     headingB: 'craft.',
     index: (n: number) => `Index · ${n} items`,
     tech: (n: number) => `${n} technologies`,
-    inUse: '◆ in use',
     categories: {
       'Frontend': 'Frontend',
       'Backend & Linguagens': 'Backend & Languages',

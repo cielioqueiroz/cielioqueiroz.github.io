@@ -9,20 +9,28 @@ export const alt = `${site.name} — ${site.title}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
-// Satori só aceita TTF/OTF (não woff2). Enviamos um User-Agent antigo para a
-// API de CSS do Google Fonts servir a URL TrueType de fallback.
+/**
+ * Satori só aceita TTF/OTF. O Google Fonts decide o formato pelo User-Agent,
+ * então mandamos um antigo o bastante para não conhecer woff.
+ *
+ * O UA daqui era um Firefox 7 — que JÁ suporta woff, e recebia woff de volta.
+ * Com a Rajdhani passava por sorte; com a Newsreader o satori quebraria com
+ * "Unsupported font format". O Android 4 não negocia woff e devolve TrueType.
+ * O formato aceito no regex é a segunda trava: se um dia o Google mudar de
+ * ideia, o build falha aqui em vez de gerar um banner sem texto.
+ */
 async function loadGoogleFont(spec: string): Promise<ArrayBuffer> {
   const url = `https://fonts.googleapis.com/css2?family=${spec}&display=swap`;
   const css = await fetch(url, {
     headers: {
       'User-Agent':
-        'Mozilla/5.0 (X11; Linux i686; rv:7.0) Gecko/20100101 Firefox/7.0',
+        'Mozilla/5.0 (Linux; U; Android 4.0.3; en-us) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30',
     },
   }).then((r) => r.text());
   const match = css.match(
-    /src:\s*url\((https:[^)]+)\)\s*format\('(woff|truetype|opentype)'\)/
+    /src:\s*url\((https:[^)]+)\)\s*format\('(truetype|opentype)'\)/
   );
-  if (!match) throw new Error(`Font not found for: ${spec}`);
+  if (!match) throw new Error(`Fonte TrueType não encontrada para: ${spec}`);
   return fetch(match[1]).then((r) => r.arrayBuffer());
 }
 
@@ -32,8 +40,8 @@ export default async function Image() {
   const portraitDataUri = `data:image/jpeg;base64,${portraitBuffer.toString('base64')}`;
 
   const [displayBold, displayMed, mono] = await Promise.all([
-    loadGoogleFont('Rajdhani:wght@700'),
-    loadGoogleFont('Rajdhani:wght@500'),
+    loadGoogleFont('Newsreader:wght@700'),
+    loadGoogleFont('Newsreader:wght@500'),
     loadGoogleFont('Geist+Mono:wght@500'),
   ]);
 
@@ -56,7 +64,7 @@ export default async function Image() {
           display: 'flex',
           flexDirection: 'column',
           backgroundColor: BG,
-          fontFamily: 'Rajdhani',
+          fontFamily: 'Newsreader',
           color: FG,
           position: 'relative',
         }}
@@ -192,7 +200,7 @@ export default async function Image() {
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                fontFamily: 'Rajdhani',
+                fontFamily: 'Newsreader',
                 fontWeight: 700,
                 fontSize: 116,
                 lineHeight: 0.9,
@@ -262,8 +270,8 @@ export default async function Image() {
     {
       ...size,
       fonts: [
-        { name: 'Rajdhani', data: displayBold, weight: 700, style: 'normal' },
-        { name: 'Rajdhani', data: displayMed, weight: 500, style: 'normal' },
+        { name: 'Newsreader', data: displayBold, weight: 700, style: 'normal' },
+        { name: 'Newsreader', data: displayMed, weight: 500, style: 'normal' },
         { name: 'Geist Mono', data: mono, weight: 500, style: 'normal' },
       ],
     }

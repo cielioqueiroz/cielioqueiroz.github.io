@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { notFound } from 'next/navigation';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { Rajdhani, Karla, Geist_Mono } from 'next/font/google';
+import { Newsreader, Karla, Geist_Mono } from 'next/font/google';
 import { site } from '@/config/site';
 import { jsonLd } from '@/lib/json-ld';
 import { themeStyleCss, themeColor } from '@/config/theme';
@@ -26,10 +26,15 @@ import '@/styles/globals.css';
  * leitores de tela em /en declarava português.
  */
 
-// Rajdhani não é variável — pesos explícitos (500 texto display, 600/700 títulos)
-const display = Rajdhani({
+/**
+ * Newsreader é variável (peso 200–800 + eixo óptico 6–72) e tem itálico de
+ * verdade — a Rajdhani, que estava aqui antes, não tinha nenhum dos dois: toda
+ * ênfase do site era itálico sintetizado pelo navegador. O eixo óptico é
+ * dirigido por `font-optical-sizing: auto` no CSS, não à mão.
+ */
+const display = Newsreader({
   subsets: ['latin'],
-  weight: ['500', '600', '700'],
+  style: ['normal', 'italic'],
   variable: '--font-display',
   display: 'swap',
 });

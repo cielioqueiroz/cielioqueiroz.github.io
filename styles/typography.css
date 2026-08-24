@@ -42,16 +42,21 @@
     box-decoration-break: clone;
   }
 
-  /* Rajdhani já é condensada — sem tracking negativo, senão as letras colam */
+  /* Newsreader tem eixo óptico: `font-optical-sizing: auto` já ajusta o
+     desenho ao tamanho. O tracking fica com as classes de tamanho
+     (text-display-*), que sabem em que corpo o texto está. */
   .display {
-    font-family: var(--font-display), 'Helvetica Neue', Arial, sans-serif;
+    font-family: var(--font-display), Georgia, 'Times New Roman', serif;
     font-optical-sizing: auto;
     letter-spacing: 0;
     text-wrap: balance;
   }
 
+  /* A voz de leitura editorial: nomes próprios, títulos de certificado,
+     descrições. Aponta para a fonte de display — o que só passou a fazer
+     sentido quando ela virou uma serifa de verdade. */
   .body-serif {
-    font-family: var(--font-display), 'Helvetica Neue', Arial, sans-serif;
+    font-family: var(--font-display), Georgia, 'Times New Roman', serif;
     font-optical-sizing: auto;
     letter-spacing: 0.005em;
     text-wrap: pretty;

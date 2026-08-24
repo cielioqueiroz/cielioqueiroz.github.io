@@ -104,6 +104,15 @@ const pt = {
     summaryLabel: 'Resumo',
     summaryText:
       'React, Next.js, TypeScript · Power BI, SQL, Python · Automação com n8n. Aprendizado em loop desde 2024.',
+    /** Os quatro números da DRE que sobem para a capa — a tese do site, provada antes de ser afirmada. */
+    kpisLabel: 'Modelo em números',
+    kpis: {
+      gross: 'Margem bruta',
+      ebitda: 'Margem EBITDA',
+      net: 'Margem líquida',
+      yoy: 'Receita a/a',
+    },
+    kpisNote: 'Cenário-base da § 06 — recalculável no site',
     contact: 'Contato',
     open: 'abrir',
     emailGroupAria: 'Contato por e-mail',
@@ -381,6 +390,14 @@ const en: Dict = {
     summaryLabel: 'Summary',
     summaryText:
       'React, Next.js, TypeScript · Power BI, SQL, Python · Automation with n8n. Learning in public since 2024.',
+    kpisLabel: 'The model, in numbers',
+    kpis: {
+      gross: 'Gross margin',
+      ebitda: 'EBITDA margin',
+      net: 'Net margin',
+      yoy: 'Revenue YoY',
+    },
+    kpisNote: 'Base scenario from § 06 — recalculable on the site',
     contact: 'Contact',
     open: 'open',
     emailGroupAria: 'Contact by e-mail',

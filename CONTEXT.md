@@ -143,6 +143,14 @@ _Evite_: dark mode, tema escuro (o tema claro é o mesmo conceito invertido).
 Um valor de cor declarado uma única vez e consumido por tudo que precisa dele — página,
 banner social, manifesto do app, currículo. Cor escrita fora do token é cor que vai divergir.
 
+**Cor de prejuízo**:
+O único valor cromático autorizado no site — o vermelho contábil. Aparece exclusivamente em
+número negativo (linha de despesa, mês em alerta, cenário no vermelho) e em mais nada:
+nem em link, nem em estado de erro, nem em destaque de layout. É a convenção de quinze anos
+de planilha virando regra de identidade — e é o que impede o monocromático de ser ausência
+de decisão.
+_Evite_: cor de erro, vermelho de alerta, destaque.
+
 **Orçamento de bundle**:
 O teto de JavaScript que todo visitante baixa, verificado a cada push. Não é meta: é limite —
 estourar reprova o build.

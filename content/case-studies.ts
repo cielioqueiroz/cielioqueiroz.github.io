@@ -82,7 +82,7 @@ export const caseStudies: readonly CaseStudy[] = [
     repo: 'https://github.com/cielioqueiroz/controle-financeiro',
     demo: 'https://capital-financeiro.vercel.app',
     stack: ['React 19', 'TypeScript', 'Vite', 'Neon', 'PostgreSQL', 'Tailwind CSS'],
-    shot: { src: '/projetos/controle-financeiro.webp', width: 1400, height: 602 },
+    shot: { src: '/projetos/controle-financeiro.webp', width: 1400, height: 688 },
     name: {
       pt: 'Capital Financeiro',
       en: 'Capital Financeiro',

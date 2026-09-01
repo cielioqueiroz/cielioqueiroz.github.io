@@ -130,7 +130,7 @@ describe('o print de cada caso', () => {
   });
 
   it('nenhum print passa de 120 kB', () => {
-    // São três imagens acima da dobra da § 03; juntas elas não podem custar
+    // São cinco imagens acima da dobra da § 03; juntas elas não podem custar
     // mais que o próprio JavaScript do site.
     for (const cs of caseStudies) {
       const kb = readFileSync(arquivo(cs)).length / 1024;

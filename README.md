@@ -276,10 +276,12 @@ Exemplos do que cada grupo pega antes do ar: a cascata da DRE fecha e reproduz o
 
 **Orçamento de bundle** — JS compartilhado por todas as rotas, gzipado:
 
-| | |
-|---|---|
-| Hoje | `████████████████████░░░` **100,7 kB** |
-| Teto | `███████████████████████` **115 kB** — acima disso, o build falha |
+![Bundle: 100,7 kB de um teto de 115 kB](https://img.shields.io/badge/JS_compartilhado-100,7_kB_%2F_115_kB-6E9F18?style=for-the-badge&labelColor=1c1c1f)
+
+| | Valor | O que acontece |
+|---|---|---|
+| Hoje | **100,7 kB** | 88% do teto — folga para crescer sem travar o trabalho |
+| Teto | **115 kB** | acima disso o `npm run build` **falha** no CI |
 
 O teto não é decoração: subir de patamar exige mudar `BUDGET_KB` e justificar no commit por que o aumento vale a pena.
 

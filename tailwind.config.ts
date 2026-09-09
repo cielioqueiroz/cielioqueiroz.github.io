@@ -20,10 +20,17 @@ const config: Config = {
         sans: ['var(--font-body)', 'system-ui', 'sans-serif'],
         mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
       },
+      /**
+       * O peso faz parte da escala, junto do tamanho — e não repetido inline em
+       * cada título. A Newsreader é variável (200–800), então o valor é livre,
+       * e cai conforme o tamanho sobe: um traço que parece certo a 16px fica
+       * pesado a 120px. É a mesma compensação óptica que o `opsz` faz sozinho
+       * no desenho da letra, aplicada agora ao peso.
+       */
       fontSize: {
-        'display-xl': ['clamp(4rem, 13vw, 11rem)', { lineHeight: '0.88', letterSpacing: '-0.04em' }],
-        'display-lg': ['clamp(3rem, 9vw, 7.5rem)', { lineHeight: '0.92', letterSpacing: '-0.03em' }],
-        'display-md': ['clamp(2rem, 5vw, 4rem)', { lineHeight: '1', letterSpacing: '-0.025em' }],
+        'display-xl': ['clamp(4rem, 13vw, 11rem)', { lineHeight: '0.88', letterSpacing: '-0.04em', fontWeight: '380' }],
+        'display-lg': ['clamp(3rem, 9vw, 7.5rem)', { lineHeight: '0.92', letterSpacing: '-0.03em', fontWeight: '420' }],
+        'display-md': ['clamp(2rem, 5vw, 4rem)', { lineHeight: '1', letterSpacing: '-0.025em', fontWeight: '500' }],
       },
       animation: {
         'rise': 'rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both',

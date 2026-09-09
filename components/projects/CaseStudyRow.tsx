@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { TransitionLink } from '../TransitionLink';
 import Image from 'next/image';
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import { getDict, localePath, type Locale } from '@/config/i18n';
@@ -35,16 +35,16 @@ export function CaseStudyRow({
           {t.caseLabel} {String(index + 1).padStart(2, '0')}
         </p>
         <h3 className="display mt-3 text-3xl leading-[1.05] md:text-[36px]" style={{ fontWeight: 500 }}>
-          <Link href={href} className="underline-grow">
+          <TransitionLink href={href} className="underline-grow">
             {cs.name}
-          </Link>
+          </TransitionLink>
         </h3>
 
         <div className="mt-6 flex flex-wrap gap-2">
-          <Link href={href} className="pill-solid group">
+          <TransitionLink href={href} className="pill-solid group">
             {t.readCase}
             <ArrowRight size={13} className="transition-transform group-hover:translate-x-1" />
-          </Link>
+          </TransitionLink>
           <a href={cs.repo} target="_blank" rel="noopener noreferrer" className="pill group">
             {t.codeBtn}
             <ArrowUpRight size={13} className="transition-transform group-hover:rotate-45" />

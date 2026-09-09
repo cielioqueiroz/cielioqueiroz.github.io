@@ -320,6 +320,53 @@ const pt = {
     failedMailSubject: 'Currículo — Ciélio Queiroz',
   },
 
+  motion: {
+    pause: 'Pausar movimento',
+    resume: 'Ativar movimento',
+  },
+
+  style: {
+    navLabel: 'Estilo',
+    kicker: 'Sistema de design',
+    titleA: 'Fumaça',
+    titleB: 'Grafite',
+    lede: 'O sistema que sustenta este site: uma paleta acromática, três famílias tipográficas e um punhado de peças que se repetem. Tudo o que está abaixo é lido do código — mudar o token muda esta página.',
+    back: 'Voltar à capa',
+
+    colorMarker: '§ 01 — Cor',
+    colorTitle: 'Uma cor só, em muitas intensidades',
+    colorDesc:
+      'Monocromático por decisão, não por falta: os prints dos projetos já são coloridos, e qualquer cor de marca competiria com eles. O vermelho é funcional — marca número negativo — e não faz parte da identidade.',
+    tokenHeader: 'Token',
+    valueHeader: 'Valor',
+    contrastHeader: 'Contraste',
+    onSurface: (surface: string) => `sobre ${surface}`,
+    contrastNote:
+      'Razão calculada em tempo de build a partir da própria paleta, pelo padrão WCAG 2. Texto normal precisa de 4.5; a partir de 24px, 3.0 basta.',
+    ruleNote:
+      'A régua fica em 1.5 de propósito: é fio decorativo, que a norma isenta. Escurecê-la para passar num teste que não se aplica custaria o desenho.',
+
+    typeMarker: '§ 02 — Tipografia',
+    typeTitle: 'Três vozes',
+    typeDesc:
+      'Uma serifada com itálico de verdade para o que tem voz, uma sem serifa para o que tem função, e uma monoespaçada para o que é dado. A Newsreader é variável: um arquivo cobre de 200 a 800.',
+    scaleLabel: 'Escala',
+    axisLabel: 'Eixo de peso',
+    sampleText: 'Frontend Developer',
+
+    componentMarker: '§ 03 — Peças',
+    componentTitle: 'O que se repete',
+    componentDesc:
+      'Cada peça existe uma vez no CSS e aparece em toda parte. A lista abaixo é a fonte, não uma reprodução dela.',
+
+    motionMarker: '§ 04 — Movimento',
+    motionTitle: 'Cenas de rolagem',
+    motionDesc:
+      'Cinco cenas, marcadas por atributo no HTML. Nenhuma anima opacidade: o conteúdo nasce visível, e se o JavaScript falhar a página fica parada, nunca em branco.',
+    motionRespect:
+      'Quem pede menos movimento no sistema não recebe nenhuma delas — e o controle no rodapé pausa tudo a qualquer momento.',
+  },
+
   copyEmail: {
     copy: 'Copiar',
     copied: 'Copiado',
@@ -608,6 +655,53 @@ const en: Dict = {
     failed: 'Could not generate the PDF here.',
     failedCta: 'Ask for it by e-mail',
     failedMailSubject: 'Résumé — Ciélio Queiroz',
+  },
+
+  motion: {
+    pause: 'Pause motion',
+    resume: 'Resume motion',
+  },
+
+  style: {
+    navLabel: 'Style',
+    kicker: 'Design system',
+    titleA: 'Graphite',
+    titleB: 'Smoke',
+    lede: 'The system behind this site: an achromatic palette, three type families and a handful of parts that repeat. Everything below is read from the code — change the token and this page changes.',
+    back: 'Back to the cover',
+
+    colorMarker: '§ 01 — Colour',
+    colorTitle: 'One colour, many intensities',
+    colorDesc:
+      'Monochrome by decision, not by omission: the project screenshots are already colourful, and any brand colour would compete with them. The red is functional — it marks negative numbers — and is not part of the identity.',
+    tokenHeader: 'Token',
+    valueHeader: 'Value',
+    contrastHeader: 'Contrast',
+    onSurface: (surface: string) => `on ${surface}`,
+    contrastNote:
+      'Ratio computed at build time from the palette itself, following WCAG 2. Normal text needs 4.5; from 24px up, 3.0 is enough.',
+    ruleNote:
+      'The rule sits at 1.5 on purpose: it is a decorative hairline, which the standard exempts. Darkening it to pass a test that does not apply would cost the design.',
+
+    typeMarker: '§ 02 — Typography',
+    typeTitle: 'Three voices',
+    typeDesc:
+      'A serif with a true italic for what has a voice, a sans for what has a function, and a mono for what is data. Newsreader is variable: one file covers 200 to 800.',
+    scaleLabel: 'Scale',
+    axisLabel: 'Weight axis',
+    sampleText: 'Frontend Developer',
+
+    componentMarker: '§ 03 — Parts',
+    componentTitle: 'What repeats',
+    componentDesc:
+      'Each part exists once in the CSS and shows up everywhere. The list below is the source, not a reproduction of it.',
+
+    motionMarker: '§ 04 — Motion',
+    motionTitle: 'Scroll scenes',
+    motionDesc:
+      'Five scenes, marked by attribute in the HTML. None animates opacity: content is born visible, and if JavaScript fails the page stays still, never blank.',
+    motionRespect:
+      'Anyone asking for less motion at the system level gets none of them — and the control in the footer pauses everything at any time.',
   },
 
   copyEmail: {

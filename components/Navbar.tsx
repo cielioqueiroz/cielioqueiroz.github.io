@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { site } from '@/config/site';
 import { LOCALES, getDict, localePath, type Locale } from '@/config/i18n';
 import { ThemeToggle } from './ThemeToggle';
+import { TransitionLink } from './TransitionLink';
 import { Menu, X } from 'lucide-react';
 
 export function Navbar({ locale = 'pt' }: { locale?: Locale }) {
@@ -138,14 +139,14 @@ export function Navbar({ locale = 'pt' }: { locale?: Locale }) {
           </nav>
 
           <div className="flex items-center gap-2">
-            <Link
+            <TransitionLink
               href={localePath(otherLocale)}
               aria-label={t.langAria}
               className="inline-flex h-10 items-center justify-center rounded-full px-3.5 font-mono text-[11px] uppercase tracking-[0.18em] transition-colors hover:bg-[color:var(--accent)] hover:text-[color:var(--accent-contrast)] hover:border-[color:var(--accent)]"
               style={{ border: '1.5px solid var(--fg)', color: 'var(--fg)' }}
             >
               {t.langLabel}
-            </Link>
+            </TransitionLink>
             <ThemeToggle locale={locale} />
 
             <button

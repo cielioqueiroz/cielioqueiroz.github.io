@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * Cenas de rolagem — GSAP + ScrollTrigger.
@@ -26,7 +26,25 @@ import { useEffect } from "react";
  * não revelava nada. Aqui revela nos três.
  */
 export function ScrollFX() {
+  // Reage ao MotionToggle: pausar desmonta as cenas e devolve os elementos ao
+  // lugar; retomar remonta. Sem isto o botão só mudaria de ícone.
+  const [paused, setPaused] = useState(false);
+
   useEffect(() => {
+    try {
+      if (localStorage.getItem('motion-paused') === 'true') setPaused(true);
+    } catch {
+      // Sem storage legível, começa com movimento — o padrão do site.
+    }
+    const onChange = (e: Event) => {
+      setPaused(Boolean((e as CustomEvent<{ paused: boolean }>).detail?.paused));
+    };
+    window.addEventListener('motionpreferencechange', onChange);
+    return () => window.removeEventListener('motionpreferencechange', onChange);
+  }, []);
+
+  useEffect(() => {
+    if (paused) return;
     let cancelled = false;
     let media: gsap.MatchMedia | undefined;
 
@@ -161,7 +179,7 @@ export function ScrollFX() {
       cancelled = true;
       media?.revert();
     };
-  }, []);
+  }, [paused]);
 
   return null;
 }

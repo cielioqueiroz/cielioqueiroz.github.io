@@ -1,12 +1,15 @@
 import { site } from '@/config/site';
-import { getDict, type Locale } from '@/config/i18n';
+import { getDict, localePath, type Locale } from '@/config/i18n';
 import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
 import { Mail } from 'lucide-react';
 import { CopyEmailButton } from './CopyEmailButton';
 import { CVFooterRow } from './CVFooterRow';
+import { MotionToggle } from './MotionToggle';
+import { TransitionLink } from './TransitionLink';
 
 export function Footer({ locale = 'pt' }: { locale?: Locale }) {
   const t = getDict(locale).footer;
+  const styleLabel = getDict(locale).style.navLabel;
   const year = new Date().getFullYear();
 
   const socials = [
@@ -115,6 +118,17 @@ export function Footer({ locale = 'pt' }: { locale?: Locale }) {
           <p className="md:col-span-4 font-mono text-[10px] uppercase tracking-[0.22em] tabular md:text-right" style={{ color: 'var(--fg-muted)' }}>
             {t.edition(year)}
           </p>
+        </div>
+
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+          <MotionToggle locale={locale} />
+          <TransitionLink
+            href={localePath(locale, '/estilo')}
+            className="font-mono text-[10px] uppercase tracking-[0.18em] transition-colors hover:text-[color:var(--accent-ink)]"
+            style={{ color: 'var(--fg-muted)' }}
+          >
+            {styleLabel} →
+          </TransitionLink>
         </div>
       </div>
     </footer>

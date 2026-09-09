@@ -100,7 +100,7 @@ export function Hero({ locale = 'pt' }: { locale?: Locale }) {
           </aside>
 
 <div className="order-1 md:order-2 md:col-span-9">
-            <h1 data-parallax="0.14" className="display text-display-lg" style={{ fontWeight: 500 }}>
+            <h1 data-parallax="0.14" className="display text-display-lg">
               <span className="block">
                 <SplitReveal text="Ciélio" stagger={45} />
               </span>

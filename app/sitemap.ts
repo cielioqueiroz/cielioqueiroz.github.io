@@ -30,6 +30,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: isDefault ? 0.7 : 0.6,
     }));
 
-    return [home, ...projects];
+    const style = {
+      url: `${site.url}${localePath(locale, '/estilo')}`,
+      lastModified,
+      changeFrequency: 'yearly' as const,
+      priority: isDefault ? 0.5 : 0.4,
+    };
+
+    return [home, ...projects, style];
   });
 }

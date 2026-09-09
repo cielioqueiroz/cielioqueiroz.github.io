@@ -41,7 +41,7 @@ export function Certificates({ locale = 'pt' }: { locale?: Locale }) {
           <div className="md:col-span-9">
             <div className="rule-thick mb-6" />
             <div className="flex flex-wrap items-baseline justify-between gap-4">
-              <h2 className="display text-display-md" style={{ fontWeight: 500 }}>
+              <h2 data-scroll-heading className="display text-display-md" style={{ fontWeight: 500 }}>
                 {t.headingA} <span className="italic" style={{ color: 'var(--accent-ink)' }}>&amp;</span> {t.headingB}
               </h2>
               <p className="font-mono text-[11px] uppercase tracking-[0.22em] tabular" style={{ color: 'var(--fg-muted)' }}>
@@ -113,7 +113,7 @@ export function Certificates({ locale = 'pt' }: { locale?: Locale }) {
                     quase três mil pixels de rolagem. Título e emissor empilhados
                     ocupam metade disso e continuam legíveis — a numeração por
                     item saiu porque a contagem já está no filtro acima. */}
-                <ul className="md:col-span-9 grid gap-x-8 sm:grid-cols-2">
+                <ul data-scroll-stagger className="md:col-span-9 grid gap-x-8 sm:grid-cols-2">
                   {g.items.map((c, i) => (
                     <li
                       key={`${c.title}-${i}`}

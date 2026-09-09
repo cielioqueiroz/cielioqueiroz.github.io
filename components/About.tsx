@@ -16,7 +16,7 @@ export function About({ locale = 'pt' }: { locale?: Locale }) {
           </div>
           <div className="md:col-span-9">
             <div className="rule-thick mb-6" />
-            <h2 className="display text-display-md flex items-baseline gap-4" style={{ fontWeight: 500 }}>
+            <h2 data-scroll-heading className="display text-display-md flex items-baseline gap-4" style={{ fontWeight: 500 }}>
               {t.headingA}
               <span className="italic" style={{ color: 'var(--accent-ink)' }}>
                 {t.headingB}

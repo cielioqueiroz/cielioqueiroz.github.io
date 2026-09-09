@@ -34,7 +34,7 @@ export function CaseStudyRow({
         >
           {t.caseLabel} {String(index + 1).padStart(2, '0')}
         </p>
-        <h3 className="display mt-3 text-3xl leading-[1.05] md:text-[36px]" style={{ fontWeight: 500 }}>
+        <h3 data-scroll-heading className="display mt-3 text-3xl leading-[1.05] md:text-[36px]" style={{ fontWeight: 500 }}>
           <Link href={href} className="underline-grow">
             {cs.name}
           </Link>
@@ -66,6 +66,7 @@ export function CaseStudyRow({
             conteúdo reservam o espaço antes do download, sem salto de layout. */}
         <figure className="mb-8 overflow-hidden" style={{ borderRadius: 'var(--r-md)', border: '1px solid var(--rule)' }}>
           <Image
+            data-scroll-image
             src={cs.shot.src}
             alt={t.shotAlt(cs.name)}
             width={cs.shot.width}

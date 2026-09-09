@@ -3,63 +3,146 @@
 import { useEffect } from "react";
 
 /**
- * Parallax ao rolar. Complementa `.reveal` (styles/motion.css), que já cuida da
- * revelação das seções via `animation-timeline: view()` — aqui só entra o
- * deslocamento em profundidade, que o CSS scroll-driven não resolve bem.
+ * Cenas de rolagem — GSAP + ScrollTrigger.
  *
- * Marque o elemento com `data-parallax="<fator>"`: negativo sobe, positivo
- * desce, em fração da altura da janela ao longo da travessia da seção.
+ * Vocabulário, por atributo:
+ *   [data-scroll-heading]  título sobe acompanhando a rolagem (scrub)
+ *   [data-scroll-card]     bloco entra ao aparecer e desfaz ao voltar
+ *   [data-scroll-stagger]  filhos entram em cascata
+ *   [data-scroll-image]    imagem desliza e assenta a escala
+ *   [data-parallax="f"]    deslocamento contínuo; negativo sobe, positivo desce
  *
- * Feito à mão em vez de GSAP porque a CSP do projeto (ver next.config.mjs)
- * proíbe 'unsafe-eval', de que o GSAP depende para compilar seus setters.
+ * Nenhuma cena anima `opacity`: o conteúdo já nasce visível e o movimento é só
+ * transform. Assim uma falha no carregamento do GSAP não deixa a página em
+ * branco, e não há piscada entre o HTML chegar e a animação assumir.
+ *
+ * `.reveal` entra junto com os cards porque a regra CSS equivalente dependia de
+ * `animation-timeline: view()`, que Firefox e Safari não suportam — lá o site
+ * revelava nada. Aqui revela nos três.
  */
 export function ScrollFX() {
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let cancelled = false;
+    let media: gsap.MatchMedia | undefined;
 
-    const targets = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-parallax]")
-    )
-      .map((el) => ({
-        el,
-        section: el.closest("section") ?? el,
-        factor: Number(el.dataset.parallax),
-      }))
-      .filter(({ factor }) => Number.isFinite(factor) && factor !== 0);
+    void (async () => {
+      const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([
+        import("gsap"),
+        import("gsap/ScrollTrigger"),
+      ]);
+      if (cancelled) return;
 
-    if (!targets.length) return;
+      gsap.registerPlugin(ScrollTrigger);
+      media = gsap.matchMedia();
 
-    let frame = 0;
+      media.add(
+        {
+          motion: "(prefers-reduced-motion: no-preference)",
+          mobile: "(max-width: 800px)",
+        },
+        (context) => {
+          if (!context.conditions?.motion) return;
+          const mobile = Boolean(context.conditions.mobile);
+          const select = gsap.utils.toArray as <T>(t: string) => T[];
 
-    const render = () => {
-      frame = 0;
-      const viewport = window.innerHeight;
+          select<HTMLElement>("[data-scroll-heading]").forEach((heading) => {
+            gsap.from(heading, {
+              y: mobile ? 26 : 56,
+              ease: "none",
+              scrollTrigger: {
+                trigger: heading,
+                start: "top bottom",
+                end: "top 55%",
+                scrub: 0.6,
+              },
+            });
+          });
 
-      for (const { el, section, factor } of targets) {
-        const { top, height } = section.getBoundingClientRect();
-        if (top > viewport || top + height < 0) continue;
+          select<HTMLElement>(".reveal, [data-scroll-card]").forEach((card, i) => {
+            gsap.from(card, {
+              y: mobile ? 34 : 62,
+              rotation: mobile ? 0 : i % 2 === 0 ? -1.2 : 1.2,
+              duration: 0.8,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: card,
+                start: "top 92%",
+                toggleActions: "play none none reverse",
+              },
+            });
+          });
 
-        // 0 quando a seção entra por baixo, 1 quando sai por cima.
-        const progress = (viewport - top) / (viewport + height);
-        const shift = (progress - 0.5) * factor * viewport;
-        el.style.transform = `translate3d(0, ${shift.toFixed(2)}px, 0)`;
-      }
-    };
+          select<HTMLElement>("[data-scroll-stagger]").forEach((group) => {
+            gsap.from(Array.from(group.children), {
+              y: mobile ? 18 : 34,
+              duration: 0.7,
+              ease: "power3.out",
+              stagger: 0.05,
+              scrollTrigger: {
+                trigger: group,
+                start: "top 90%",
+                toggleActions: "play none none reverse",
+              },
+            });
+          });
 
-    const onScroll = () => {
-      if (frame) return;
-      frame = requestAnimationFrame(render);
-    };
+          select<HTMLElement>("[data-scroll-image]").forEach((image, i) => {
+            const up = i % 2 === 0;
+            gsap.fromTo(
+              image,
+              { yPercent: up ? -4 : 4, scale: 1.08 },
+              {
+                yPercent: up ? 4 : -4,
+                scale: 1.01,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: image.parentElement ?? image,
+                  start: "top bottom",
+                  end: "bottom top",
+                  scrub: 0.6,
+                },
+              },
+            );
+          });
 
-    render();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
+          select<HTMLElement>("[data-parallax]").forEach((el) => {
+            const factor = Number(el.dataset.parallax);
+            if (!Number.isFinite(factor) || factor === 0) return;
+            // Curso em pixels da janela, não da própria altura: um fundo que
+            // cobre a seção inteira e um retrato de 280px devem andar junto.
+            const travel = factor * window.innerHeight * (mobile ? 0.5 : 1);
+            gsap.fromTo(
+              el,
+              { y: -travel / 2 },
+              {
+                y: travel / 2,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: el.closest("section") ?? el,
+                  start: "top bottom",
+                  end: "bottom top",
+                  scrub: 0.7,
+                },
+              },
+            );
+          });
+
+          // As fontes chegam depois do primeiro cálculo e mudam a altura da
+          // página; sem recalcular, todo gatilho abaixo da dobra fica deslocado.
+          let alive = true;
+          void document.fonts?.ready.then(() => {
+            if (alive) ScrollTrigger.refresh();
+          });
+          return () => {
+            alive = false;
+          };
+        },
+      );
+    })();
 
     return () => {
-      if (frame) cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      for (const { el } of targets) el.style.transform = "";
+      cancelled = true;
+      media?.revert();
     };
   }, []);
 

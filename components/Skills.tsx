@@ -17,7 +17,7 @@ export function Skills({ locale = 'pt' }: { locale?: Locale }) {
           <div className="md:col-span-9">
             <div className="rule-thick mb-6" />
             <div className="flex flex-wrap items-baseline justify-between gap-4">
-              <h2 className="display text-display-md" style={{ fontWeight: 500 }}>
+              <h2 data-scroll-heading className="display text-display-md" style={{ fontWeight: 500 }}>
                 {t.headingA} <span className="italic" style={{ color: 'var(--accent-ink)' }}>&amp;</span> {t.headingB}
               </h2>
               <p className="font-mono text-[11px] uppercase tracking-[0.22em] tabular" style={{ color: 'var(--fg-muted)' }}>
@@ -51,7 +51,7 @@ export function Skills({ locale = 'pt' }: { locale?: Locale }) {
                   cabe em nove fileiras. O ícone e o nome bastam — a numeração e
                   o rótulo de hover eram moldura que só existia porque a linha
                   era larga demais. */}
-              <ul className="md:col-span-9 grid grid-cols-2 gap-x-6 sm:grid-cols-3 md:gap-x-8">
+              <ul data-scroll-stagger className="md:col-span-9 grid grid-cols-2 gap-x-6 sm:grid-cols-3 md:gap-x-8">
                 {group.items.map((skill) => (
                   <li
                     key={skill.name}

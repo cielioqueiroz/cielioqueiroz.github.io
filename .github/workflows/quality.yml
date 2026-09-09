@@ -48,3 +48,9 @@ jobs:
 
       - name: Orçamento de bundle
         run: node scripts/check-bundle-budget.mjs
+
+      # Corta em `high`, não em `low`: o objetivo é barrar o que exige ação
+      # hoje, não parar a entrega por um aviso moderado numa dependência de
+      # build. O Dependabot cuida do resto, no ritmo dele.
+      - name: Vulnerabilidades nas dependências
+        run: npm audit --audit-level=high

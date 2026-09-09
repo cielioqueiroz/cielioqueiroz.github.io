@@ -1,0 +1,38 @@
+# Vigia de dependências.
+#
+# O `npm audit` no workflow de qualidade avisa que existe vulnerabilidade;
+# quem abre o PR com a correção é este arquivo. Um sem o outro deixa metade
+# do trabalho na mão.
+version: 2
+
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: America/Belem
+    # Uma tacada só para tudo que for patch/minor: são atualizações de rotina
+    # e vinte PRs por semana só ensinam a ignorá-los. Major continua vindo
+    # separado, porque aí a leitura do changelog é obrigatória.
+    groups:
+      rotina:
+        update-types:
+          - minor
+          - patch
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(deps)"
+
+  # As actions do CI também envelhecem, e uma action comprometida executa
+  # com o token do repositório.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: America/Belem
+    commit-message:
+      prefix: "chore(ci)"

@@ -12,7 +12,7 @@ export function CVButton({
   variant?: 'solid' | 'outline';
   locale?: Locale;
 }) {
-  const { generating, failed, download } = useCVDownload();
+  const { generating, failed, download, warm } = useCVDownload();
   const t = getDict(locale).cv;
 
   return (
@@ -20,6 +20,8 @@ export function CVButton({
       <button
         type="button"
         onClick={download}
+        onPointerEnter={warm}
+        onFocus={warm}
         disabled={generating}
         aria-busy={generating}
         className={variant === 'solid' ? 'pill-solid' : 'pill'}

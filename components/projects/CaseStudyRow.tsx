@@ -25,7 +25,9 @@ export function CaseStudyRow({
       className="reveal grid gap-y-6 border-t pt-10 md:grid-cols-12 md:gap-x-8"
       style={{ borderColor: 'var(--fg)' }}
     >
-      <div className="md:col-span-3">
+      {/* A coluna do título sobe contra o print, que fica parado: é o contraste
+          entre as duas que faz o parallax ser percebido. */}
+      <div data-parallax="-0.09" className="md:col-span-3">
         <p
           className="font-mono text-[11px] uppercase tracking-[0.22em] tabular"
           style={{ color: 'var(--accent-ink)' }}

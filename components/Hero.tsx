@@ -44,7 +44,7 @@ export function Hero({ locale = 'pt' }: { locale?: Locale }) {
 
             {/* Wrapper só para o parallax: `animate-rise` fixa o transform da
                 figure (fill-mode `both`) e sobrescreveria o estilo inline. */}
-            <div data-parallax="-0.12">
+            <div data-parallax="-0.2">
             <figure className="animate-rise stagger-1 mx-auto mb-6 max-w-[280px] md:max-w-none">
               {/* borderRadius no wrapper: a sombra depth-3 e o glare seguem o
                   raio — sem ele, o brilho branco desenha um retângulo por trás

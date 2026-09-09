@@ -1,25 +1,53 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { site } from '@/config/site';
 
 /**
  * Gera o currículo em PDF sob demanda. O bundle do @react-pdf/renderer e o
  * CVDocument são carregados via dynamic import — ficam fora do chunk inicial.
  */
+
+/**
+ * Carrega o renderizador uma vez só. Guardar a promessa (e não o módulo)
+ * também colapsa chamadas simultâneas: warm + clique disputam o mesmo import.
+ */
+let modules: Promise<{
+  pdf: typeof import('@react-pdf/renderer')['pdf'];
+  CVDocument: typeof import('./CVDocument')['CVDocument'];
+}> | null = null;
+
+function loadModules() {
+  modules ??= Promise.all([import('@react-pdf/renderer'), import('./CVDocument')])
+    .then(([{ pdf }, { CVDocument }]) => ({ pdf, CVDocument }))
+    .catch((err) => {
+      // Sem isto, um import que falhou (rede caiu) ficaria memoizado e toda
+      // tentativa seguinte rejeitaria de imediato, sem nunca voltar à rede.
+      modules = null;
+      throw err;
+    });
+  return modules;
+}
+
 export function useCVDownload() {
   const [generating, setGenerating] = useState(false);
   const [failed, setFailed] = useState(false);
+
+  /**
+   * O renderizador é o pedaço mais pesado da página. Buscá-lo quando o ponteiro
+   * chega ao botão troca a espera pelo tempo da intenção: no clique, só sobra a
+   * renderização.
+   */
+  const warm = useCallback(() => {
+    loadModules().catch(() => {});
+  }, []);
 
   const download = async () => {
     if (generating) return;
     setGenerating(true);
     setFailed(false);
     try {
-      const [{ pdf }, { CVDocument }] = await Promise.all([
-        import('@react-pdf/renderer'),
-        import('./CVDocument'),
-      ]);
+      const { pdf, CVDocument } = await loadModules();
       const blob = await pdf(<CVDocument site={site} />).toBlob();
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -40,5 +68,5 @@ export function useCVDownload() {
     }
   };
 
-  return { generating, failed, download };
+  return { generating, failed, download, warm };
 }

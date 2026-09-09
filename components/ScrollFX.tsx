@@ -8,51 +8,58 @@ import { useEffect } from "react";
  * deslocamento em profundidade, que o CSS scroll-driven não resolve bem.
  *
  * Marque o elemento com `data-parallax="<fator>"`: negativo sobe, positivo
- * desce, em fração da própria altura ao longo da travessia da seção.
+ * desce, em fração da altura da janela ao longo da travessia da seção.
+ *
+ * Feito à mão em vez de GSAP porque a CSP do projeto (ver next.config.mjs)
+ * proíbe 'unsafe-eval', de que o GSAP depende para compilar seus setters.
  */
 export function ScrollFX() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const targets = document.querySelectorAll<HTMLElement>("[data-parallax]");
+    const targets = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-parallax]")
+    )
+      .map((el) => ({
+        el,
+        section: el.closest("section") ?? el,
+        factor: Number(el.dataset.parallax),
+      }))
+      .filter(({ factor }) => Number.isFinite(factor) && factor !== 0);
+
     if (!targets.length) return;
 
-    let cancelled = false;
-    let cleanup: (() => void) | undefined;
+    let frame = 0;
 
-    (async () => {
-      const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([
-        import("gsap"),
-        import("gsap/ScrollTrigger"),
-      ]);
-      if (cancelled) return;
+    const render = () => {
+      frame = 0;
+      const viewport = window.innerHeight;
 
-      gsap.registerPlugin(ScrollTrigger);
+      for (const { el, section, factor } of targets) {
+        const { top, height } = section.getBoundingClientRect();
+        if (top > viewport || top + height < 0) continue;
 
-      const ctx = gsap.context(() => {
-        targets.forEach((el) => {
-          const factor = Number(el.dataset.parallax);
-          if (!Number.isFinite(factor) || factor === 0) return;
+        // 0 quando a seção entra por baixo, 1 quando sai por cima.
+        const progress = (viewport - top) / (viewport + height);
+        const shift = (progress - 0.5) * factor * viewport;
+        el.style.transform = `translate3d(0, ${shift.toFixed(2)}px, 0)`;
+      }
+    };
 
-          gsap.to(el, {
-            yPercent: factor * 100,
-            ease: "none",
-            scrollTrigger: {
-              trigger: el.closest("section") ?? el,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: true,
-            },
-          });
-        });
-      });
+    const onScroll = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(render);
+    };
 
-      cleanup = () => ctx.revert();
-    })();
+    render();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
 
     return () => {
-      cancelled = true;
-      cleanup?.();
+      if (frame) cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      for (const { el } of targets) el.style.transform = "";
     };
   }, []);
 

@@ -42,7 +42,10 @@ export function Hero({ locale = 'pt' }: { locale?: Locale }) {
 
           <aside className="order-2 md:order-1 md:col-span-3 md:pt-4">
 
-            <figure data-parallax="-0.12" className="animate-rise stagger-1 mx-auto mb-6 max-w-[280px] md:max-w-none">
+            {/* Wrapper só para o parallax: `animate-rise` fixa o transform da
+                figure (fill-mode `both`) e sobrescreveria o estilo inline. */}
+            <div data-parallax="-0.12">
+            <figure className="animate-rise stagger-1 mx-auto mb-6 max-w-[280px] md:max-w-none">
               {/* borderRadius no wrapper: a sombra depth-3 e o glare seguem o
                   raio — sem ele, o brilho branco desenha um retângulo por trás
                   da moldura arredondada */}
@@ -62,6 +65,7 @@ export function Hero({ locale = 'pt' }: { locale?: Locale }) {
                 <span>{t.hero.portraitNo}</span>
               </figcaption>
             </figure>
+            </div>
 
             <p className="marker mb-4 animate-rise stagger-2">
               <span className="inline-block w-8" style={{ borderTop: '2px solid var(--accent-ink)', verticalAlign: 'middle', marginRight: '0.5rem' }} />

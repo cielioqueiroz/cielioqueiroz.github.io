@@ -42,7 +42,7 @@ export function Skills() {
                 </p>
               </div>
 
-<ul className="md:col-span-9">
+<ul data-stagger className="md:col-span-9">
                 <li className="rule mb-2" aria-hidden />
                 {group.items.map((skill, i) => (
                   <li

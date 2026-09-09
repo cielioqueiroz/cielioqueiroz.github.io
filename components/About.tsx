@@ -26,7 +26,7 @@ export function About() {
 
         <div className="reveal mt-16 grid gap-12 md:grid-cols-12 md:gap-x-8">
           
-          <aside className="order-2 md:order-1 md:col-span-3 space-y-10">
+          <aside data-parallax="-0.08" className="order-2 md:order-1 md:col-span-3 space-y-10">
             <div>
               <p className="kicker mb-3">Experiência</p>
               <p className="display text-5xl tabular md:text-6xl" style={{ fontWeight: 500 }}>
@@ -34,7 +34,7 @@ export function About() {
                 <span className="text-3xl align-top" style={{ color: 'var(--accent-ink)' }}>+</span>
               </p>
               <p className="mt-2 text-[13px] leading-[1.5]" style={{ color: 'var(--fg-muted)' }}>
-                anos em gestão administrativa &amp; financeira
+                anos em negócio — bagagem que acelera decisões de produto
               </p>
             </div>
 
@@ -55,15 +55,15 @@ export function About() {
               <ul className="space-y-2 text-[14px]" style={{ color: 'var(--fg-soft)' }}>
                 <li className="flex items-center gap-2">
                   <span className="font-mono text-[10px]" style={{ color: 'var(--accent-ink)' }}>→</span>
-                  Next.js / App Router
+                  React / Next.js avançado
                 </li>
                 <li className="flex items-center gap-2">
                   <span className="font-mono text-[10px]" style={{ color: 'var(--accent-ink)' }}>→</span>
-                  TypeScript avançado
+                  Integração de IA generativa
                 </li>
                 <li className="flex items-center gap-2">
                   <span className="font-mono text-[10px]" style={{ color: 'var(--accent-ink)' }}>→</span>
-                  Engenharia de dados
+                  REST APIs · TypeScript
                 </li>
               </ul>
             </div>
@@ -95,23 +95,25 @@ export function About() {
             </div>
 
 <figure
+              data-fade-up
               className="my-12 border-l-[3px] pl-6 md:my-16 md:pl-10"
               style={{ borderColor: 'var(--fg)' }}
             >
               <blockquote className="display hang text-2xl leading-[1.25] md:text-[34px]" style={{ fontWeight: 400, fontStyle: 'italic' }}>
-                &ldquo;Cada planilha que automatizei me ensinou
-                <span className="hl"> que código bom é, no fim, </span>
-                gente economizando tempo.&rdquo;
+                &ldquo;Eu não aprendi a programar para mudar de carreira —
+                <span className="hl"> aprendi para construir o software </span>
+                que eu sempre quis ter.&rdquo;
               </blockquote>
               <figcaption className="kicker mt-4">— {site.shortName}, 2026</figcaption>
             </figure>
 
 <div className="mt-10 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-[0.18em]" style={{ color: 'var(--fg-muted)' }}>
-              <span>◇ Frontend</span>
-              <span>◇ Análise de dados</span>
-              <span>◇ Automação</span>
-              <span>◇ Gestão</span>
-              <span>◇ Aprendizado contínuo</span>
+              <span>◇ React</span>
+              <span>◇ TypeScript</span>
+              <span>◇ Next.js</span>
+              <span>◇ REST APIs</span>
+              <span>◇ Generative AI</span>
+              <span>◇ AI Integration</span>
             </div>
           </div>
         </div>

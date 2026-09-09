@@ -6,6 +6,7 @@ import { Providers } from './providers';
 import { SplashScreen } from '@/components/SplashScreen';
 import { SkipLink } from '@/components/SkipLink';
 import { MagneticCursor } from '@/components/MagneticCursor';
+import { ScrollFX } from '@/components/ScrollFX';
 import './globals.css';
 
 const display = Schibsted_Grotesk({
@@ -43,7 +44,19 @@ const personSchema = {
     addressRegion: 'PA',
     addressCountry: 'BR',
   },
-  knowsAbout: ['React', 'Next.js', 'TypeScript', 'Power BI', 'SQL', 'Python', 'n8n'],
+  knowsAbout: [
+    'React',
+    'Next.js',
+    'TypeScript',
+    'REST APIs',
+    'Generative AI',
+    'AI Integration',
+    'JavaScript',
+    'Tailwind CSS',
+    'Node.js',
+    'n8n',
+    'SQL',
+  ],
   alumniOf: { '@type': 'EducationalOrganization', name: 'UNOPAR' },
 };
 
@@ -91,6 +104,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <SkipLink />
         <MagneticCursor />
+        <ScrollFX />
         <Providers>
           <SplashScreen />
           {children}

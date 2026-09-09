@@ -40,7 +40,7 @@ export function Hero() {
           
           <aside className="order-2 md:order-1 md:col-span-3 md:pt-4">
             
-            <figure className="animate-rise stagger-1 mx-auto mb-6 max-w-[280px] md:max-w-none">
+            <figure data-parallax="-0.12" className="animate-rise stagger-1 mx-auto mb-6 max-w-[280px] md:max-w-none">
               <Tilt3D max={10} lift={18} spotlight={false} className="depth-3">
                 <Portrait />
               </Tilt3D>
@@ -57,8 +57,8 @@ export function Hero() {
               Sobre a capa
             </p>
             <p className="animate-rise stagger-3 text-[14px] leading-[1.55]" style={{ color: 'var(--fg-soft)' }}>
-              Administrador formado, dev em formação. Construo interfaces e
-              transformo planilhas em decisões.
+              Frontend Developer. React · TypeScript · Next.js · AI Integration.
+              15 anos de negócio como fundação.
             </p>
 
             <div className="rule mt-8 mb-6" />
@@ -86,7 +86,7 @@ export function Hero() {
           </aside>
 
 <div className="order-1 md:order-2 md:col-span-9">
-            <h1 className="display text-display-lg" style={{ fontWeight: 500 }}>
+            <h1 data-parallax="0.16" className="display text-display-lg" style={{ fontWeight: 500 }}>
               <span className="block">
                 <SplitReveal text="Ciélio" stagger={45} />
               </span>
@@ -102,17 +102,17 @@ export function Hero() {
             <div className="mt-10 grid gap-8 md:grid-cols-12 md:items-end">
               <div className="md:col-span-7 animate-rise stagger-4">
                 <p className="body-serif text-2xl leading-[1.3] md:text-[28px]" style={{ color: 'var(--fg-soft)' }}>
-                  Desenvolvedor <em className="italic" style={{ color: 'var(--accent-ink)' }}>front-end</em> e
-                  entusiasta de <em className="italic" style={{ color: 'var(--accent-ink)' }}>dados</em> — escrevendo
-                  software depois de mais de quinze anos traduzindo números em planilhas.
+                  <em className="italic" style={{ color: 'var(--accent-ink)' }}>Frontend Developer</em> — React,
+                  TypeScript e Next.js — integrando <em className="italic" style={{ color: 'var(--accent-ink)' }}>IA generativa</em> em
+                  produtos que resolvem problemas reais.
                 </p>
               </div>
 
               <div className="md:col-span-5 md:pl-8 animate-rise stagger-5" style={{ borderLeft: '1px solid var(--rule)' }}>
-                <p className="kicker mb-3">Resumo</p>
+                <p className="kicker mb-3">Stack</p>
                 <p className="text-sm leading-[1.6]" style={{ color: 'var(--fg-muted)' }}>
-                  React, Next.js, TypeScript &nbsp;·&nbsp; Power&nbsp;BI, SQL, Python
-                  &nbsp;·&nbsp; Automação com n8n. Aprendizado em loop desde 2024.
+                  React · Next.js · TypeScript · REST APIs
+                  &nbsp;·&nbsp; Claude / OpenAI · n8n · SQL
                 </p>
               </div>
             </div>

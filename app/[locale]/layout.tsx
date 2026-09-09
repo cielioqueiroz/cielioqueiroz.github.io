@@ -16,6 +16,7 @@ import {
 } from '@/config/i18n';
 import { Providers } from './providers';
 import { SkipLink } from '@/components/SkipLink';
+import { ScrollFX } from '@/components/ScrollFX';
 import '@/styles/globals.css';
 
 /**
@@ -71,7 +72,19 @@ const personSchema = {
     addressRegion: 'PA',
     addressCountry: 'BR',
   },
-  knowsAbout: ['React', 'Next.js', 'TypeScript', 'Power BI', 'SQL', 'Python', 'n8n'],
+  knowsAbout: [
+    'React',
+    'Next.js',
+    'TypeScript',
+    'JavaScript',
+    'REST APIs',
+    'Generative AI',
+    'AI Integration',
+    'Tailwind CSS',
+    'Node.js',
+    'n8n',
+    'SQL',
+  ],
   alumniOf: { '@type': 'EducationalOrganization', name: 'UNOPAR' },
 };
 
@@ -146,6 +159,7 @@ export default async function LocaleLayout({
           dangerouslySetInnerHTML={{ __html: jsonLd(personSchema) }}
         />
         <SkipLink locale={locale} />
+        <ScrollFX />
         <Providers>{children}</Providers>
         <Analytics />
         <SpeedInsights />

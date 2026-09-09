@@ -42,7 +42,7 @@ export function Hero({ locale = 'pt' }: { locale?: Locale }) {
 
           <aside className="order-2 md:order-1 md:col-span-3 md:pt-4">
 
-            <figure className="animate-rise stagger-1 mx-auto mb-6 max-w-[280px] md:max-w-none">
+            <figure data-parallax="-0.12" className="animate-rise stagger-1 mx-auto mb-6 max-w-[280px] md:max-w-none">
               {/* borderRadius no wrapper: a sombra depth-3 e o glare seguem o
                   raio — sem ele, o brilho branco desenha um retângulo por trás
                   da moldura arredondada */}
@@ -96,7 +96,7 @@ export function Hero({ locale = 'pt' }: { locale?: Locale }) {
           </aside>
 
 <div className="order-1 md:order-2 md:col-span-9">
-            <h1 className="display text-display-lg" style={{ fontWeight: 500 }}>
+            <h1 data-parallax="0.14" className="display text-display-lg" style={{ fontWeight: 500 }}>
               <span className="block">
                 <SplitReveal text="Ciélio" stagger={45} />
               </span>

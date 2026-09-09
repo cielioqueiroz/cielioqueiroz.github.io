@@ -3,9 +3,9 @@ export const site = {
   fullName: 'Jaciélio Da Silva Queiroz',
   shortName: 'Ciélio Queiroz',
   initials: 'CQ',
-  title: 'Desenvolvedor Front-end & Analista de Dados',
+  title: 'Frontend Developer · React · TypeScript · Next.js · AI Integration',
   tagline:
-    'Construindo interfaces, automatizando processos e transformando dados em decisão.',
+    'Frontend Developer especializado em React, TypeScript e Next.js, com integração de IA generativa e APIs REST.',
   location: 'Santana do Araguaia – PA',
   phone: '+55 (94) 99278-3184',
 
@@ -15,9 +15,9 @@ export const site = {
   domain: 'cielio-portfolio.vercel.app',
 
   about: [
-    'Sou Jaciélio (Ciélio) Queiroz — administrador de formação com mais de 15 anos em gestão administrativa e financeira, agora mergulhando em desenvolvimento web e ciência de dados.',
-    'Minha trajetória uniu contas a pagar/receber, fluxo de caixa e controle fiscal a projetos que tocaram React, Power BI, SQL e automação com n8n — sempre buscando otimizar processos e gerar resultado.',
-    'Hoje crio interfaces modernas com React/Next.js e dashboards analíticos, conectando minha visão de negócio à capacidade de construir software que resolve problemas reais.',
+    'Sou Ciélio Queiroz — Frontend Developer focado em React, TypeScript e Next.js, com um diferencial que poucos têm: mais de 15 anos resolvendo problemas reais de negócio antes de escrever a primeira linha de código.',
+    'Construo interfaces que vão além do visual — consumo e integro APIs REST, implemento fluxos com IA generativa (Claude, OpenAI, n8n) e entrego experiências que fazem sentido para quem usa.',
+    'Hoje estou focado em oportunidades como Frontend Developer ou React Developer, especialmente em produtos que usam IA para construir algo que realmente importa.',
   ],
 
   experience: [
@@ -123,10 +123,10 @@ export const site = {
     {
       category: 'Automação & IA',
       items: [
+        { name: 'Claude / Anthropic', icon: 'SiClaude' },
+        { name: 'OpenAI / ChatGPT', icon: 'SiOpenai' },
         { name: 'n8n', icon: 'SiN8N' },
         { name: 'Power Apps', icon: 'SiMicrosoft' },
-        { name: 'ChatGPT / IA', icon: 'SiOpenai' },
-        { name: 'Claude Code', icon: 'SiClaude' },
       ],
     },
     {

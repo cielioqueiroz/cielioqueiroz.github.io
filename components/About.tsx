@@ -27,7 +27,7 @@ export function About({ locale = 'pt' }: { locale?: Locale }) {
 
         <div className="reveal mt-16 grid gap-12 md:grid-cols-12 md:gap-x-8">
 
-          <aside className="order-2 md:order-1 md:col-span-3 space-y-10">
+          <aside data-parallax="-0.08" className="order-2 md:order-1 md:col-span-3 space-y-10">
             <div>
               <p className="kicker mb-3">{t.expLabel}</p>
               <p className="display text-5xl tabular md:text-6xl" style={{ fontWeight: 500 }}>

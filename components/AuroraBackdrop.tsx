@@ -19,7 +19,7 @@ export function AuroraBackdrop({ intensity = 1 }: { intensity?: number }) {
   };
 
   return (
-    <div aria-hidden style={style} className="aurora-backdrop">
+    <div aria-hidden data-parallax="0.18" style={style} className="aurora-backdrop">
       <span className="aurora aurora--a" />
       <span className="aurora aurora--b" />
       <span className="aurora aurora--c" />

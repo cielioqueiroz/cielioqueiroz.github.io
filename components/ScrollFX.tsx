@@ -1,54 +1,59 @@
 "use client";
 
 import { useEffect } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
-
+/**
+ * Parallax ao rolar. Complementa `.reveal` (styles/motion.css), que já cuida da
+ * revelação das seções via `animation-timeline: view()` — aqui só entra o
+ * deslocamento em profundidade, que o CSS scroll-driven não resolve bem.
+ *
+ * Marque o elemento com `data-parallax="<fator>"`: negativo sobe, positivo
+ * desce, em fração da própria altura ao longo da travessia da seção.
+ */
 export function ScrollFX() {
   useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (mq.matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const ctx = gsap.context(() => {
-      gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((el) => {
-        const speed = Number(el.dataset.parallax) || 0.2;
-        gsap.to(el, {
-          yPercent: speed * 100,
-          ease: "none",
-          scrollTrigger: {
-            trigger: el.closest("section") ?? el,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: true,
-          },
+    const targets = document.querySelectorAll<HTMLElement>("[data-parallax]");
+    if (!targets.length) return;
+
+    let cancelled = false;
+    let cleanup: (() => void) | undefined;
+
+    (async () => {
+      const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([
+        import("gsap"),
+        import("gsap/ScrollTrigger"),
+      ]);
+      if (cancelled) return;
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      const ctx = gsap.context(() => {
+        targets.forEach((el) => {
+          const factor = Number(el.dataset.parallax);
+          if (!Number.isFinite(factor) || factor === 0) return;
+
+          gsap.to(el, {
+            yPercent: factor * 100,
+            ease: "none",
+            scrollTrigger: {
+              trigger: el.closest("section") ?? el,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true,
+            },
+          });
         });
       });
 
-      gsap.utils.toArray<HTMLElement>("[data-fade-up]").forEach((el) => {
-        gsap.from(el, {
-          y: 48,
-          opacity: 0,
-          duration: 0.9,
-          ease: "power3.out",
-          scrollTrigger: { trigger: el, start: "top 85%" },
-        });
-      });
+      cleanup = () => ctx.revert();
+    })();
 
-      gsap.utils.toArray<HTMLElement>("[data-stagger]").forEach((group) => {
-        gsap.from(Array.from(group.children), {
-          y: 32,
-          opacity: 0,
-          duration: 0.7,
-          ease: "power3.out",
-          stagger: 0.08,
-          scrollTrigger: { trigger: group, start: "top 85%" },
-        });
-      });
-    });
-
-    return () => ctx.revert();
+    return () => {
+      cancelled = true;
+      cleanup?.();
+    };
   }, []);
 
   return null;

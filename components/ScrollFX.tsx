@@ -16,9 +16,14 @@ import { useEffect } from "react";
  * transform. Assim uma falha no carregamento do GSAP não deixa a página em
  * branco, e não há piscada entre o HTML chegar e a animação assumir.
  *
- * `.reveal` entra junto com os cards porque a regra CSS equivalente dependia de
+ * Também não há rotação. A referência que inspirou estas cenas inclina os
+ * cards dela, que são blocos estreitos e soltos; aqui os blocos têm a largura
+ * da página e carregam as réguas horizontais do layout — inclinar um grau
+ * entorta a régua de ponta a ponta, e o que era gesto vira defeito.
+ *
+ * `.reveal` entra junto porque a regra CSS equivalente dependia de
  * `animation-timeline: view()`, que Firefox e Safari não suportam — lá o site
- * revelava nada. Aqui revela nos três.
+ * não revelava nada. Aqui revela nos três.
  */
 export function ScrollFX() {
   useEffect(() => {
@@ -58,18 +63,30 @@ export function ScrollFX() {
             });
           });
 
-          select<HTMLElement>(".reveal, [data-scroll-card]").forEach((card, i) => {
-            gsap.from(card, {
-              y: mobile ? 34 : 62,
-              rotation: mobile ? 0 : i % 2 === 0 ? -1.2 : 1.2,
+          const rise = (el: HTMLElement, distance: number) => {
+            gsap.from(el, {
+              y: distance,
               duration: 0.8,
               ease: "power3.out",
               scrollTrigger: {
-                trigger: card,
+                trigger: el,
                 start: "top 92%",
                 toggleActions: "play none none reverse",
               },
             });
+          };
+
+          select<HTMLElement>("[data-scroll-card]").forEach((card) => {
+            rise(card, mobile ? 26 : 44);
+          });
+
+          // Um `.reveal` que já contém cena não recebe movimento próprio: o
+          // filho somaria os dois e o gesto sairia confuso. Quem tem cena
+          // dentro deixa a cena falar.
+          const SCENES = "[data-scroll-heading], [data-parallax], [data-scroll-stagger], [data-scroll-image], [data-scroll-card]";
+          select<HTMLElement>(".reveal").forEach((block) => {
+            if (block.querySelector(SCENES)) return;
+            rise(block, mobile ? 20 : 32);
           });
 
           select<HTMLElement>("[data-scroll-stagger]").forEach((group) => {

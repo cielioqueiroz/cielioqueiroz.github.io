@@ -82,13 +82,14 @@ export function About({ locale = 'pt' }: { locale?: Locale }) {
               {firstRest}
             </p>
 
-<div className="mt-6 space-y-5 text-[17px] leading-[1.7]" style={{ color: 'var(--fg-soft)' }}>
+<div data-scroll-card className="mt-6 space-y-5 text-[17px] leading-[1.7]" style={{ color: 'var(--fg-soft)' }}>
               {rest.map((p, i) => (
                 <p key={i}>{p}</p>
               ))}
             </div>
 
 <figure
+              data-scroll-card
               className="my-12 border-l-[3px] pl-6 md:my-16 md:pl-10"
               style={{ borderColor: 'var(--fg)' }}
             >
@@ -100,7 +101,7 @@ export function About({ locale = 'pt' }: { locale?: Locale }) {
               <figcaption className="kicker mt-4">{t.quoteAttribution}</figcaption>
             </figure>
 
-<div className="mt-10 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-[0.18em]" style={{ color: 'var(--fg-muted)' }}>
+<div data-scroll-card className="mt-10 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-[0.18em]" style={{ color: 'var(--fg-muted)' }}>
               {t.chips.map((chip) => (
                 <span key={chip}>{chip}</span>
               ))}

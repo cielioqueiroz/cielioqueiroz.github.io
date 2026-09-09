@@ -34,7 +34,7 @@ export function CaseStudyRow({
         >
           {t.caseLabel} {String(index + 1).padStart(2, '0')}
         </p>
-        <h3 data-scroll-heading className="display mt-3 text-3xl leading-[1.05] md:text-[36px]" style={{ fontWeight: 500 }}>
+        <h3 className="display mt-3 text-3xl leading-[1.05] md:text-[36px]" style={{ fontWeight: 500 }}>
           <Link href={href} className="underline-grow">
             {cs.name}
           </Link>
@@ -76,7 +76,7 @@ export function CaseStudyRow({
           />
         </figure>
 
-        <dl className="grid gap-x-8 gap-y-6 md:grid-cols-2">
+        <dl data-scroll-card className="grid gap-x-8 gap-y-6 md:grid-cols-2">
           <div>
             <dt className="kicker mb-2">{t.contextLabel}</dt>
             <dd className="text-[15px] leading-[1.65]" style={{ color: 'var(--fg-soft)' }}>

@@ -1,43 +1,4 @@
-import {
-  FaHtml5,
-  FaCss3Alt,
-  FaReact,
-  FaNodeJs,
-  FaPython,
-  FaGitAlt,
-  FaGithub,
-} from 'react-icons/fa';
-import {
-  SiJavascript,
-  SiTypescript,
-  SiNextdotjs,
-  SiTailwindcss,
-  SiMui,
-  SiVite,
-  SiJupyter,
-  SiOpenai,
-  SiClaude,
-} from 'react-icons/si';
-import { IconType } from 'react-icons';
-
-const iconMap: Record<string, IconType> = {
-  FaHtml5,
-  FaCss3Alt,
-  FaReact,
-  FaNodeJs,
-  FaPython,
-  FaGitAlt,
-  FaGithub,
-  SiJavascript,
-  SiTypescript,
-  SiNextdotjs,
-  SiTailwindcss,
-  SiMui,
-  SiVite,
-  SiJupyter,
-  SiOpenai,
-  SiClaude,
-};
+import { iconMap } from './skill-icons';
 
 function initials(name: string): string {
   const cleaned = name.replace(/\s*\/.*$/, '').trim();
@@ -52,23 +13,16 @@ export function SkillIcon({
   iconName,
   label,
   size = 32,
-  color,
 }: {
   iconName: string;
   label: string;
   size?: number;
-  color?: string;
 }) {
   const Icon = iconMap[iconName];
 
   if (Icon) {
     return (
-      <Icon
-        size={size}
-        style={{ color: color ?? 'currentColor' }}
-        aria-hidden
-        focusable={false}
-      />
+      <Icon size={size} aria-hidden focusable={false} />
     );
   }
 
@@ -80,7 +34,6 @@ export function SkillIcon({
         width: size,
         height: size,
         background: 'color-mix(in srgb, currentColor 12%, transparent)',
-        color: color ?? 'currentColor',
         fontSize: size * 0.4,
         border: '1px solid color-mix(in srgb, currentColor 30%, transparent)',
       }}

@@ -3,16 +3,21 @@ export const site = {
   fullName: 'Jaciélio Da Silva Queiroz',
   shortName: 'Ciélio Queiroz',
   initials: 'CQ',
-  title: 'Frontend Developer · React · TypeScript · Next.js · AI Integration',
+  title: 'Desenvolvedor Front-end & Analista de Dados',
   tagline:
-    'Construindo interfaces modernas com React e integrando IA generativa em produtos reais.',
+    'Construindo interfaces, automatizando processos e transformando dados em decisão.',
   location: 'Santana do Araguaia – PA',
   phone: '+55 (94) 99278-3184',
 
+  /** URL canônica do site (Vercel). Fonte única — SEO, OG, sitemap e CV leem daqui. */
+  url: 'https://cielio-portfolio.vercel.app',
+  /** Domínio para exibição em texto (sem protocolo). */
+  domain: 'cielio-portfolio.vercel.app',
+
   about: [
-    'Sou Ciélio Queiroz — Frontend Developer focado em React, TypeScript e Next.js, com um diferencial que poucos têm: mais de 15 anos resolvendo problemas reais de negócio antes de escrever a primeira linha de código.',
-    'Construo interfaces que vão além do visual — integro APIs REST, implemento fluxos com IA generativa (Claude, OpenAI, n8n) e entrego experiências que fazem sentido para quem usa. Minha formação em administração me dá clareza sobre o que o produto precisa resolver, não só como ele deve parecer.',
-    'Hoje estou focado em oportunidades como Frontend Developer ou React Developer, especialmente em produtos que usam IA para criar algo que realmente importa.',
+    'Sou Jaciélio (Ciélio) Queiroz — administrador de formação com mais de 15 anos em gestão administrativa e financeira, agora mergulhando em desenvolvimento web e ciência de dados.',
+    'Minha trajetória uniu contas a pagar/receber, fluxo de caixa e controle fiscal a projetos que tocaram React, Power BI, SQL e automação com n8n — sempre buscando otimizar processos e gerar resultado.',
+    'Hoje crio interfaces modernas com React/Next.js e dashboards analíticos, conectando minha visão de negócio à capacidade de construir software que resolve problemas reais.',
   ],
 
   experience: [
@@ -64,13 +69,22 @@ export const site = {
 
   githubUsername: 'cielioqueiroz',
 
-  featuredRepos: [
-    'calculadora-investimentos',
-    'controle-financeiro',
-    'crud-user-react',
-    'task-manager',
+  /**
+   * Os repositórios fixados no perfil do GitHub, na ordem em que estão lá.
+   *
+   * Esta lista É a fonte da verdade da vitrine: ela define quem aparece
+   * primeiro e quem ganha o selo "fixado". Mantida à mão de propósito — o
+   * GitHub só expõe os pins pela API GraphQL autenticada, e o serviço público
+   * que fazia essa ponte saiu do ar (ver docs/adr/0005). Fixou outro repo lá?
+   * Atualize aqui; são seis nomes e o teste avisa se algum destoar.
+   */
+  pinnedRepos: [
     'app-weather',
-    'dashboard-admin',
+    'calculadora-investimentos',
+    'buscador-de-cv',
+    'controle-financeiro',
+    'gabarito_AI',
+    'praca-araguaia',
   ],
 
   hiddenRepos: ['cielioqueiroz', 'my-personal-portfolio'],
@@ -79,48 +93,48 @@ export const site = {
     {
       category: 'Frontend',
       items: [
-        { name: 'HTML5', icon: 'FaHtml5', color: '#E34F26' },
-        { name: 'CSS3', icon: 'FaCss3Alt', color: '#1572B6' },
-        { name: 'JavaScript', icon: 'SiJavascript', color: '#F7DF1E' },
-        { name: 'TypeScript', icon: 'SiTypescript', color: '#3178C6' },
-        { name: 'React', icon: 'FaReact', color: '#61DAFB' },
-        { name: 'Next.js', icon: 'SiNextdotjs', color: '#000000' },
-        { name: 'Tailwind CSS', icon: 'SiTailwindcss', color: '#06B6D4' },
-        { name: 'Material UI', icon: 'SiMui', color: '#007FFF' },
-        { name: 'Vite', icon: 'SiVite', color: '#646CFF' },
+        { name: 'HTML5', icon: 'FaHtml5' },
+        { name: 'CSS3', icon: 'FaCss3Alt' },
+        { name: 'JavaScript', icon: 'SiJavascript' },
+        { name: 'TypeScript', icon: 'SiTypescript' },
+        { name: 'React', icon: 'FaReact' },
+        { name: 'Next.js', icon: 'SiNextdotjs' },
+        { name: 'Tailwind CSS', icon: 'SiTailwindcss' },
+        { name: 'Material UI', icon: 'SiMui' },
+        { name: 'Vite', icon: 'SiVite' },
       ],
     },
     {
       category: 'Backend & Linguagens',
       items: [
-        { name: 'Node.js', icon: 'FaNodeJs', color: '#339933' },
-        { name: 'Python', icon: 'FaPython', color: '#3776AB' },
+        { name: 'Node.js', icon: 'FaNodeJs' },
+        { name: 'Python', icon: 'FaPython' },
       ],
     },
     {
       category: 'Dados & BI',
       items: [
-        { name: 'Power BI', icon: 'SiPowerbi', color: '#F2C811' },
-        { name: 'SQL Server', icon: 'SiMicrosoftsqlserver', color: '#CC2927' },
-        { name: 'Jupyter', icon: 'SiJupyter', color: '#F37626' },
-        { name: 'Excel', icon: 'SiMicrosoftexcel', color: '#217346' },
+        { name: 'Power BI', icon: 'SiPowerbi' },
+        { name: 'SQL Server', icon: 'SiMicrosoftsqlserver' },
+        { name: 'Jupyter', icon: 'SiJupyter' },
+        { name: 'Excel', icon: 'SiMicrosoftexcel' },
       ],
     },
     {
-      category: 'IA & Automação',
+      category: 'Automação & IA',
       items: [
-        { name: 'Claude / Anthropic', icon: 'SiClaude', color: '#CC785C' },
-        { name: 'OpenAI / ChatGPT', icon: 'SiOpenai', color: '#10A37F' },
-        { name: 'n8n', icon: 'SiN8n', color: '#EA4B71' },
-        { name: 'Power Apps', icon: 'SiMicrosoft', color: '#742774' },
+        { name: 'n8n', icon: 'SiN8N' },
+        { name: 'Power Apps', icon: 'SiMicrosoft' },
+        { name: 'ChatGPT / IA', icon: 'SiOpenai' },
+        { name: 'Claude Code', icon: 'SiClaude' },
       ],
     },
     {
       category: 'Ferramentas',
       items: [
-        { name: 'Git', icon: 'FaGitAlt', color: '#F05032' },
-        { name: 'GitHub', icon: 'FaGithub', color: '#181717' },
-        { name: 'VS Code', icon: 'SiVisualstudiocode', color: '#007ACC' },
+        { name: 'Git', icon: 'FaGitAlt' },
+        { name: 'GitHub', icon: 'FaGithub' },
+        { name: 'VS Code', icon: 'SiVisualstudiocode' },
       ],
     },
   ],
@@ -180,52 +194,6 @@ export const site = {
     { title: 'Língua Inglesa II', issuer: 'UNOPAR', category: 'Administração' },
   ],
 
-  dataCases: {
-    dre: {
-      title: 'DRE — Nexus Corporação S.A.',
-      subtitle: 'Demonstrativo de Resultados do Exercício',
-      period: 'Exercício 2024',
-      rows: [
-        { label: 'Receita Bruta de Vendas', value: 95_840_000, av: 1.0, ah: 0.156, kind: 'header' },
-        { label: '(–) Deduções e Impostos', value: -12_200_000, av: -0.127, ah: 0.142 },
-        { label: 'Receita Líquida', value: 83_640_000, av: 0.873, ah: 0.158, kind: 'subtotal' },
-        { label: '(–) Custo dos Produtos Vendidos', value: -48_320_000, av: -0.504, ah: 0.131 },
-        { label: 'Lucro Bruto', value: 35_320_000, av: 0.369, ah: 0.196, kind: 'subtotal' },
-        { label: '(–) Despesas Operacionais', value: -19_840_000, av: -0.207, ah: 0.092 },
-        { label: 'EBITDA', value: 18_120_000, av: 0.189, ah: 0.224, kind: 'highlight' },
-        { label: '(–) Depreciação e Amortização', value: -2_640_000, av: -0.028, ah: 0.061 },
-        { label: 'EBIT', value: 15_480_000, av: 0.162, ah: 0.255, kind: 'subtotal' },
-        { label: 'Resultado Financeiro', value: -1_140_000, av: -0.012, ah: -0.083 },
-        { label: '(–) IR e CSLL', value: -5_430_980, av: -0.057, ah: 0.288 },
-        { label: 'Lucro Líquido do Exercício', value: 8_909_020, av: 0.093, ah: 0.318, kind: 'total' },
-      ],
-      kpis: [
-        { label: 'Margem Bruta', value: '36,9 %' },
-        { label: 'Margem EBITDA', value: '18,9 %' },
-        { label: 'Margem Líquida', value: '9,3 %' },
-        { label: 'YoY Receita', value: '+15,6 %' },
-      ],
-    },
-    fluxo: {
-      title: 'Controle Financeiro Familiar',
-      subtitle: 'Resumo mensal — Receitas, Despesas e Saldo',
-      period: 'Janeiro – Junho 2026',
-      rows: [
-        { mes: 'Janeiro', receitas: 15_735, despesas: 13_967, saldo: 1_768, status: 'positivo' },
-        { mes: 'Fevereiro', receitas: 16_120, despesas: 14_240, saldo: 1_880, status: 'positivo' },
-        { mes: 'Março', receitas: 15_980, despesas: 15_320, saldo: 660, status: 'atenção' },
-        { mes: 'Abril', receitas: 16_540, despesas: 13_870, saldo: 2_670, status: 'positivo' },
-        { mes: 'Maio', receitas: 17_200, despesas: 14_590, saldo: 2_610, status: 'positivo' },
-        { mes: 'Junho', receitas: 16_870, despesas: 15_840, saldo: 1_030, status: 'positivo' },
-      ],
-      totals: {
-        receitas: 98_445,
-        despesas: 87_827,
-        saldo: 10_618,
-        pctComprometido: 0.8921,
-      },
-    },
-  },
 } as const;
 
 export type Site = typeof site;

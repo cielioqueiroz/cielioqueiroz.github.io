@@ -9,20 +9,28 @@ export const alt = `${site.name} — ${site.title}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
-// Satori só aceita TTF/OTF (não woff2). Enviamos um User-Agent antigo para a
-// API de CSS do Google Fonts servir a URL TrueType de fallback.
+/**
+ * Satori só aceita TTF/OTF. O Google Fonts decide o formato pelo User-Agent,
+ * então mandamos um antigo o bastante para não conhecer woff.
+ *
+ * O UA daqui era um Firefox 7 — que JÁ suporta woff, e recebia woff de volta.
+ * Com a Rajdhani passava por sorte; com a Newsreader o satori quebraria com
+ * "Unsupported font format". O Android 4 não negocia woff e devolve TrueType.
+ * O formato aceito no regex é a segunda trava: se um dia o Google mudar de
+ * ideia, o build falha aqui em vez de gerar um banner sem texto.
+ */
 async function loadGoogleFont(spec: string): Promise<ArrayBuffer> {
   const url = `https://fonts.googleapis.com/css2?family=${spec}&display=swap`;
   const css = await fetch(url, {
     headers: {
       'User-Agent':
-        'Mozilla/5.0 (X11; Linux i686; rv:7.0) Gecko/20100101 Firefox/7.0',
+        'Mozilla/5.0 (Linux; U; Android 4.0.3; en-us) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30',
     },
   }).then((r) => r.text());
   const match = css.match(
-    /src:\s*url\((https:[^)]+)\)\s*format\('(woff|truetype|opentype)'\)/
+    /src:\s*url\((https:[^)]+)\)\s*format\('(truetype|opentype)'\)/
   );
-  if (!match) throw new Error(`Font not found for: ${spec}`);
+  if (!match) throw new Error(`Fonte TrueType não encontrada para: ${spec}`);
   return fetch(match[1]).then((r) => r.arrayBuffer());
 }
 
@@ -31,13 +39,13 @@ export default async function Image() {
   const portraitBuffer = await fs.readFile(portraitPath);
   const portraitDataUri = `data:image/jpeg;base64,${portraitBuffer.toString('base64')}`;
 
-  const [grotesk, groteskMed, mono] = await Promise.all([
-    loadGoogleFont('Schibsted+Grotesk:wght@800'),
-    loadGoogleFont('Schibsted+Grotesk:wght@500'),
+  const [displayBold, displayMed, mono] = await Promise.all([
+    loadGoogleFont('Newsreader:wght@700'),
+    loadGoogleFont('Newsreader:wght@500'),
     loadGoogleFont('Geist+Mono:wght@500'),
   ]);
 
-  // Paleta "Obsidian & Champagne" — segue config/theme.ts (tema claro).
+  // Paleta "Fumaça Grafite" — segue config/theme.ts (tema escuro).
   const { BG, BG_DEEP, FG, FG_MUTED, ACCENT, INK_ON_ACCENT, RULE } = banner;
 
   const monoLabel = {
@@ -56,7 +64,7 @@ export default async function Image() {
           display: 'flex',
           flexDirection: 'column',
           backgroundColor: BG,
-          fontFamily: 'Schibsted Grotesk',
+          fontFamily: 'Newsreader',
           color: FG,
           position: 'relative',
         }}
@@ -71,7 +79,7 @@ export default async function Image() {
             borderRadius: 24,
           }}
         />
-        {/* Wash champanhe no canto superior direito */}
+        {/* Fumaça branca no canto superior direito */}
         <div
           style={{
             position: 'absolute',
@@ -81,7 +89,7 @@ export default async function Image() {
             height: 300,
             display: 'flex',
             background: `radial-gradient(ellipse 100% 100% at 100% 0%, ${ACCENT}, transparent 70%)`,
-            opacity: 0.55,
+            opacity: 0.22,
           }}
         />
 
@@ -134,7 +142,9 @@ export default async function Image() {
               overflow: 'hidden',
             }}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
+            {/* O banner é renderizado pelo satori, onde next/image não existe. O alt
+                vazio é proposital: a imagem é decorativa dentro do card. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={portraitDataUri}
               alt=""
@@ -142,14 +152,14 @@ export default async function Image() {
               height={392}
               style={{ width: 312, height: 392, objectFit: 'cover' }}
             />
-            {/* duotone lima */}
+            {/* véu de fumaça no retrato */}
             <div
               style={{
                 position: 'absolute',
                 inset: 0,
                 display: 'flex',
                 background: `linear-gradient(150deg, ${ACCENT} 0%, transparent 48%, ${ACCENT} 100%)`,
-                opacity: 0.4,
+                opacity: 0.14,
               }}
             />
             {/* crosshairs nos cantos */}
@@ -168,7 +178,7 @@ export default async function Image() {
 
           {/* TEXTO */}
           <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-            {/* tag lima */}
+            {/* tag marca-texto branca */}
             <div
               style={{
                 display: 'flex',
@@ -190,8 +200,8 @@ export default async function Image() {
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                fontFamily: 'Schibsted Grotesk',
-                fontWeight: 800,
+                fontFamily: 'Newsreader',
+                fontWeight: 700,
                 fontSize: 116,
                 lineHeight: 0.9,
                 letterSpacing: '-0.04em',
@@ -251,7 +261,7 @@ export default async function Image() {
             <span>n8n</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, color: FG }}>
-            <span>cielioqueiroz.github.io</span>
+            <span>{site.domain}</span>
             <div style={{ width: 10, height: 10, borderRadius: 999, background: ACCENT }} />
           </div>
         </div>
@@ -260,8 +270,8 @@ export default async function Image() {
     {
       ...size,
       fonts: [
-        { name: 'Schibsted Grotesk', data: grotesk, weight: 800, style: 'normal' },
-        { name: 'Schibsted Grotesk', data: groteskMed, weight: 500, style: 'normal' },
+        { name: 'Newsreader', data: displayBold, weight: 700, style: 'normal' },
+        { name: 'Newsreader', data: displayMed, weight: 500, style: 'normal' },
         { name: 'Geist Mono', data: mono, weight: 500, style: 'normal' },
       ],
     }

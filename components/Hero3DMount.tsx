@@ -12,11 +12,13 @@ export function Hero3DMount() {
   const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
-    // Só pulamos em hardware claramente fraco (≤2 núcleos). A cena monta mesmo
-    // com prefers-reduced-motion — nesse caso ela aparece PARADA (sem rotação),
-    // mantendo a profundidade 3D sem violar a preferência de movimento.
+    // A cena 3D é enfeite de desktop: em telas pequenas ou touch o custo de
+    // GPU/bundle do three.js não se paga. Também pulamos hardware fraco
+    // (≤2 núcleos). A cena monta mesmo com prefers-reduced-motion — nesse
+    // caso ela aparece PARADA (sem rotação), mantendo a profundidade 3D.
+    const desktop = window.matchMedia('(min-width: 768px) and (pointer: fine)').matches;
     const lowEnd = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2;
-    if (lowEnd) return;
+    if (!desktop || lowEnd) return;
 
     const onIdle = (cb: () => void) => {
       if ('requestIdleCallback' in window) {

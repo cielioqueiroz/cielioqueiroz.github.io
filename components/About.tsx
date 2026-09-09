@@ -1,76 +1,71 @@
-import { site } from '@/config/site';
+import { getDict, type Locale } from '@/config/i18n';
 
-export function About() {
-  const [first, ...rest] = site.about;
+export function About({ locale = 'pt' }: { locale?: Locale }) {
+  const t = getDict(locale).about;
+  const [first, ...rest] = t.paragraphs;
   const dropChar = first.charAt(0);
   const firstRest = first.slice(1);
 
   return (
     <section id="sobre" className="section">
       <div className="frame">
-        
+
         <div className="reveal grid items-end gap-y-3 md:grid-cols-12 md:gap-x-8">
           <div className="md:col-span-3">
-            <p className="marker">§ 02</p>
+            <p className="marker">{t.marker}</p>
           </div>
           <div className="md:col-span-9">
             <div className="rule-thick mb-6" />
             <h2 className="display text-display-md flex items-baseline gap-4" style={{ fontWeight: 500 }}>
-              Sobre
-              <span className="italic" style={{ color: 'var(--accent-ink)', fontVariationSettings: "'opsz' 60" }}>
-                mim.
+              {t.headingA}
+              <span className="italic" style={{ color: 'var(--accent-ink)' }}>
+                {t.headingB}
               </span>
             </h2>
           </div>
         </div>
 
         <div className="reveal mt-16 grid gap-12 md:grid-cols-12 md:gap-x-8">
-          
-          <aside data-parallax="-0.08" className="order-2 md:order-1 md:col-span-3 space-y-10">
+
+          <aside className="order-2 md:order-1 md:col-span-3 space-y-10">
             <div>
-              <p className="kicker mb-3">Experiência</p>
+              <p className="kicker mb-3">{t.expLabel}</p>
               <p className="display text-5xl tabular md:text-6xl" style={{ fontWeight: 500 }}>
                 15
                 <span className="text-3xl align-top" style={{ color: 'var(--accent-ink)' }}>+</span>
               </p>
               <p className="mt-2 text-[13px] leading-[1.5]" style={{ color: 'var(--fg-muted)' }}>
-                anos em negócio — bagagem que acelera decisões de produto
+                {t.expText}
               </p>
             </div>
 
             <div className="rule" />
 
             <div>
-              <p className="kicker mb-3">Formação</p>
-              <p className="body-serif text-2xl leading-[1.1]">Administração</p>
+              <p className="kicker mb-3">{t.eduLabel}</p>
+              <p className="body-serif text-2xl leading-[1.1]">{t.eduDegree}</p>
               <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.18em] tabular" style={{ color: 'var(--fg-muted)' }}>
-                UNOPAR · 2022
+                {t.eduMeta}
               </p>
             </div>
 
             <div className="rule" />
 
             <div>
-              <p className="kicker mb-3">Estuda agora</p>
+              <p className="kicker mb-3">{t.studyLabel}</p>
               <ul className="space-y-2 text-[14px]" style={{ color: 'var(--fg-soft)' }}>
-                <li className="flex items-center gap-2">
-                  <span className="font-mono text-[10px]" style={{ color: 'var(--accent-ink)' }}>→</span>
-                  React / Next.js avançado
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="font-mono text-[10px]" style={{ color: 'var(--accent-ink)' }}>→</span>
-                  Integração de IA generativa
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="font-mono text-[10px]" style={{ color: 'var(--accent-ink)' }}>→</span>
-                  REST APIs · TypeScript
-                </li>
+                {t.studyItems.map((item) => (
+                  <li key={item} className="flex items-center gap-2">
+                    <span className="font-mono text-[10px]" style={{ color: 'var(--accent-ink)' }}>→</span>
+                    {item}
+                  </li>
+                ))}
               </ul>
             </div>
           </aside>
 
 <div className="order-1 md:order-2 md:col-span-9">
-            
+
             <p className="body-serif text-[19px] leading-[1.65] md:text-[22px] md:leading-[1.55]" style={{ color: 'var(--fg-soft)' }}>
               <span
                 className="float-left mr-3 mt-1 leading-[0.85]"
@@ -80,7 +75,6 @@ export function About() {
                   color: 'var(--accent-ink)',
                   fontWeight: 500,
                   fontStyle: 'italic',
-                  fontVariationSettings: "'opsz' 144",
                 }}
               >
                 {dropChar}
@@ -95,25 +89,21 @@ export function About() {
             </div>
 
 <figure
-              data-fade-up
               className="my-12 border-l-[3px] pl-6 md:my-16 md:pl-10"
               style={{ borderColor: 'var(--fg)' }}
             >
               <blockquote className="display hang text-2xl leading-[1.25] md:text-[34px]" style={{ fontWeight: 400, fontStyle: 'italic' }}>
-                &ldquo;Eu não aprendi a programar para mudar de carreira —
-                <span className="hl"> aprendi para construir o software </span>
-                que eu sempre quis ter.&rdquo;
+                {t.quoteBefore}
+                <span className="hl">{t.quoteHl}</span>
+                {t.quoteAfter}
               </blockquote>
-              <figcaption className="kicker mt-4">— {site.shortName}, 2026</figcaption>
+              <figcaption className="kicker mt-4">{t.quoteAttribution}</figcaption>
             </figure>
 
 <div className="mt-10 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-[0.18em]" style={{ color: 'var(--fg-muted)' }}>
-              <span>◇ React</span>
-              <span>◇ TypeScript</span>
-              <span>◇ Next.js</span>
-              <span>◇ REST APIs</span>
-              <span>◇ Generative AI</span>
-              <span>◇ AI Integration</span>
+              {t.chips.map((chip) => (
+                <span key={chip}>{chip}</span>
+              ))}
             </div>
           </div>
         </div>

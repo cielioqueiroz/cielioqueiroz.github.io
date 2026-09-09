@@ -11,8 +11,9 @@ export default function manifest(): MetadataRoute.Manifest {
     description: site.tagline,
     start_url: '/',
     display: 'standalone',
-    background_color: palette.light['--bg'],
-    theme_color: palette.light['--fg'],
+    // Identidade padrão do site é o tema escuro (Fumaça Grafite)
+    background_color: palette.dark['--bg'],
+    theme_color: palette.dark['--bg'],
     lang: 'pt-BR',
     icons: [
       { src: '/icon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any' },

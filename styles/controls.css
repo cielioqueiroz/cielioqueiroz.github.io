@@ -1,0 +1,101 @@
+/* Elementos acionáveis: pills, botões e o atalho de acessibilidade. */
+@layer components {
+  .pill {
+    @apply inline-flex cursor-pointer items-center gap-2 px-5 py-2 font-mono text-[12px] uppercase tracking-[0.18em] transition-all duration-200;
+    border: 1.5px solid var(--fg);
+    color: var(--fg);
+    border-radius: 999px;
+  }
+
+  .pill:hover {
+    background: var(--accent);
+    color: var(--accent-contrast);
+    border-color: var(--accent);
+  }
+
+  .pill-solid {
+    @apply inline-flex cursor-pointer items-center gap-2 px-6 py-2.5 font-mono text-[12px] uppercase tracking-[0.18em] transition-all duration-200;
+    background: var(--fg);
+    color: var(--bg);
+    border: 1.5px solid var(--fg);
+    border-radius: 999px;
+  }
+
+  .pill-solid:hover {
+    background: var(--accent);
+    color: var(--accent-contrast);
+    border-color: var(--accent);
+  }
+
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 200;
+    padding: 0.75rem 1rem;
+    background: var(--accent);
+    color: var(--accent-contrast);
+    border: 1.5px solid var(--fg);
+    border-radius: var(--r-sm);
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+  }
+
+  .skip-link:focus {
+    left: 0.5rem;
+    top: 0.5rem;
+  }
+
+  /* Slider de cenário da DRE. Estilizado à mão porque o controle nativo herda
+     a cor de destaque do sistema operacional — a única cor não-acromática que
+     apareceria num tema monocromático inteiro. */
+  .dre-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 2px;
+    background: var(--rule);
+    border-radius: 999px;
+    cursor: pointer;
+    touch-action: none;
+  }
+
+  .dre-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    box-shadow: 0 2px 10px -2px color-mix(in srgb, var(--fg) 50%, transparent);
+    transition: transform 0.2s ease;
+  }
+
+  .dre-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    box-shadow: 0 2px 10px -2px color-mix(in srgb, var(--fg) 50%, transparent);
+    transition: transform 0.2s ease;
+  }
+
+  .dre-slider:hover::-webkit-slider-thumb,
+  .dre-slider:active::-webkit-slider-thumb {
+    transform: scale(1.15);
+  }
+
+  .dre-slider:hover::-moz-range-thumb,
+  .dre-slider:active::-moz-range-thumb {
+    transform: scale(1.15);
+  }
+
+  .dre-slider:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 6px;
+  }
+}

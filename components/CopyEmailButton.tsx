@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Copy, Check } from 'lucide-react';
 import { site } from '@/config/site';
+import { getDict, type Locale } from '@/config/i18n';
 
 type Props = {
   /** Tamanho do ícone (px) */
@@ -11,10 +12,12 @@ type Props = {
   label?: boolean;
   /** Classe extra aplicada ao botão */
   className?: string;
+  locale?: Locale;
 };
 
-export function CopyEmailButton({ size = 14, label = false, className }: Props) {
+export function CopyEmailButton({ size = 14, label = false, className, locale = 'pt' }: Props) {
   const [copied, setCopied] = useState(false);
+  const t = getDict(locale).copyEmail;
 
   const copy = async () => {
     try {
@@ -43,13 +46,13 @@ export function CopyEmailButton({ size = 14, label = false, className }: Props) 
     <button
       type="button"
       onClick={copy}
-      aria-label={copied ? 'E-mail copiado' : 'Copiar e-mail'}
+      aria-label={copied ? t.ariaCopied : t.ariaCopy}
       className={className}
     >
       {copied ? <Check size={size} /> : <Copy size={size} />}
-      {label && <span>{copied ? 'Copiado' : 'Copiar'}</span>}
+      {label && <span>{copied ? t.copied : t.copy}</span>}
       <span className="sr-only" role="status" aria-live="polite">
-        {copied ? 'E-mail copiado para a área de transferência' : ''}
+        {copied ? t.srCopied : ''}
       </span>
     </button>
   );

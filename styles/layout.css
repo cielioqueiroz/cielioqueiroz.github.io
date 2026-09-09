@@ -1,0 +1,45 @@
+/* Grade, respiro vertical e réguas — o esqueleto editorial das seções. */
+@layer components {
+  .frame {
+    @apply mx-auto w-full max-w-[1320px] px-6 md:px-10;
+  }
+
+  .section {
+    @apply py-24 md:py-36;
+  }
+
+  /* Seção em largura total, sem o `frame`: usada para quebrar o ritmo do
+     grid 3/9 que se repete na home. */
+  .section-bleed {
+    @apply py-24 md:py-36;
+    position: relative;
+    width: 100%;
+  }
+
+  .rule {
+    height: 1px;
+    background: var(--rule);
+    width: 100%;
+  }
+
+  .rule-thick {
+    height: 3px;
+    background: var(--fg);
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+@layer utilities {
+  .stagger-1 { animation-delay: 0.05s; }
+  .stagger-2 { animation-delay: 0.15s; }
+  .stagger-3 { animation-delay: 0.25s; }
+  .stagger-4 { animation-delay: 0.35s; }
+  .stagger-5 { animation-delay: 0.45s; }
+  .stagger-6 { animation-delay: 0.55s; }
+
+  .hang {
+    hanging-punctuation: first last;
+    text-indent: -0.04em;
+  }
+}

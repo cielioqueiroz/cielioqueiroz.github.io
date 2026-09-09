@@ -9,21 +9,26 @@ import {
 import type { Site } from '@/config/site';
 
 /* ---- Fontes (instâncias estáticas servidas de /public/fonts/cv) ----
-   Alinhadas às grotescas do site: Schibsted Grotesk (display),
-   Hanken Grotesk (corpo) e Geist Mono (mono). */
+   Alinhadas ao tema "Fumaça Grafite" do site: Newsreader (display),
+   Karla (corpo) e Geist Mono (mono). O currículo tem que sair na mesma voz
+   do site — é a mesma pessoa se apresentando duas vezes.
+
+   NOTA: a família Karla continua registrada sob o nome 'HankenGrotesk', resto
+   de uma fonte anterior. Não renomeei junto para não misturar com esta troca. */
 Font.register({
-  family: 'SchibstedGrotesk',
+  family: 'Newsreader',
   fonts: [
-    { src: '/fonts/cv/SchibstedGrotesk-Regular.ttf' },
-    { src: '/fonts/cv/SchibstedGrotesk-Medium.ttf', fontWeight: 500 },
+    { src: '/fonts/cv/Newsreader-Regular.ttf' },
+    { src: '/fonts/cv/Newsreader-SemiBold.ttf', fontWeight: 500 },
+    { src: '/fonts/cv/Newsreader-Italic.ttf', fontStyle: 'italic' },
   ],
 });
 Font.register({
   family: 'HankenGrotesk',
   fonts: [
-    { src: '/fonts/cv/HankenGrotesk-Regular.ttf' },
-    { src: '/fonts/cv/HankenGrotesk-Medium.ttf', fontWeight: 500 },
-    { src: '/fonts/cv/HankenGrotesk-Italic.ttf', fontStyle: 'italic' },
+    { src: '/fonts/cv/Karla-Regular.ttf' },
+    { src: '/fonts/cv/Karla-Medium.ttf', fontWeight: 500 },
+    { src: '/fonts/cv/Karla-Italic.ttf', fontStyle: 'italic' },
   ],
 });
 Font.register({
@@ -34,12 +39,12 @@ Font.register({
 // Sem hifenização automática — evita quebras feias em palavras longas.
 Font.registerHyphenationCallback((word) => [word]);
 
-/* ---- Paleta (verde-petróleo do site, otimizada p/ impressão e ATS) ---- */
+/* ---- Paleta (grafite monocromático do site, otimizada p/ impressão e ATS) ---- */
 const C = {
   ink: '#111214',
   soft: '#3A3C40',
   muted: '#76797F',
-  accent: '#1F4D3D',
+  accent: '#2B2B2E',
   rule: '#DADBDD',
   paper: '#FFFFFF',
 };
@@ -95,8 +100,8 @@ const styles = StyleSheet.create({
   },
 
   /* Header */
-  name: { fontFamily: 'SchibstedGrotesk', fontWeight: 500, fontSize: 28, lineHeight: 1, letterSpacing: -0.6 },
-  nameAccent: { fontFamily: 'SchibstedGrotesk', fontWeight: 500, color: C.accent },
+  name: { fontFamily: 'Newsreader', fontWeight: 500, fontSize: 28, lineHeight: 1, letterSpacing: -0.6 },
+  nameAccent: { fontFamily: 'Newsreader', fontWeight: 500, color: C.accent },
   role: { fontSize: 11, color: C.soft, marginTop: 6 },
   headerRule: { height: 1.5, backgroundColor: C.accent, marginTop: 12, marginBottom: 10 },
   contactLine: { fontFamily: 'GeistMono', fontSize: 8, color: C.muted },
@@ -116,7 +121,7 @@ const styles = StyleSheet.create({
 
   /* Experiência */
   job: { marginBottom: 12 },
-  jobHead: { fontFamily: 'SchibstedGrotesk', fontWeight: 500, fontSize: 12, color: C.ink },
+  jobHead: { fontFamily: 'Newsreader', fontWeight: 500, fontSize: 12, color: C.ink },
   jobCompany: { fontFamily: 'HankenGrotesk', fontWeight: 400, fontStyle: 'italic', color: C.soft },
   jobPeriod: {
     fontFamily: 'GeistMono',
@@ -145,7 +150,7 @@ const styles = StyleSheet.create({
   /* Credenciais */
   certGroup: { marginBottom: 10 },
   certHead: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 },
-  certCat: { fontFamily: 'SchibstedGrotesk', fontWeight: 500, fontSize: 11, color: C.ink },
+  certCat: { fontFamily: 'Newsreader', fontWeight: 500, fontSize: 11, color: C.ink },
   certCount: { fontFamily: 'GeistMono', fontSize: 8, color: C.accent },
   certItem: { color: C.soft, marginBottom: 1.5 },
   certClose: { fontStyle: 'italic', color: C.muted, marginTop: 2 },
@@ -201,7 +206,7 @@ export function CVDocument({ site }: { site: Site }) {
           <Text style={styles.role}>{site.title}</Text>
           <View style={styles.headerRule} />
           <Text style={styles.contactLine}>{contacts}</Text>
-          <Text style={styles.portfolioLine}>Portfólio: cielioqueiroz.github.io</Text>
+          <Text style={styles.portfolioLine}>Portfólio: {site.domain}</Text>
         </View>
 
         <View style={styles.section}>
@@ -273,7 +278,7 @@ export function CVDocument({ site }: { site: Site }) {
             </View>
           ))}
           <Text style={styles.certClose}>
-            Lista completa dos {site.certificates.length} certificados em cielioqueiroz.github.io
+            Lista completa dos {site.certificates.length} certificados em {site.domain}
           </Text>
         </View>
 

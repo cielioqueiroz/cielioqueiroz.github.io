@@ -1,0 +1,19 @@
+/**
+ * Entrada única de CSS.
+ *
+ * Era um arquivo de 810 linhas onde o design system convivia com ~310 linhas
+ * do splash screen. O splash saiu (custava ~2,4s de LCP na primeira visita) e
+ * o que sobrou está separado por domínio. Os `@import` vêm antes das diretivas
+ * do Tailwind porque `postcss-import` exige que imports precedam qualquer
+ * outra regra; o Tailwind processa os `@layer` já achatados.
+ */
+@import './base.css';
+@import './layout.css';
+@import './typography.css';
+@import './surfaces.css';
+@import './controls.css';
+@import './motion.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

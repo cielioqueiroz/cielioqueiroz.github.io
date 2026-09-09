@@ -1,23 +1,27 @@
 import { site } from '@/config/site';
+import { getDict, type Locale } from '@/config/i18n';
 import { SkillIcon } from './SkillIcon';
 
-export function Skills() {
+export function Skills({ locale = 'pt' }: { locale?: Locale }) {
+  const t = getDict(locale).skills;
+  const totalItems = site.skills.reduce((a, g) => a + g.items.length, 0);
+
   return (
     <section id="skills" className="section" style={{ background: 'color-mix(in srgb, var(--bg-deep) 60%, var(--bg))' }}>
       <div className="frame">
-        
+
         <div className="reveal grid items-end gap-y-3 md:grid-cols-12 md:gap-x-8">
           <div className="md:col-span-3">
-            <p className="marker">§ 04</p>
+            <p className="marker">{t.marker}</p>
           </div>
           <div className="md:col-span-9">
             <div className="rule-thick mb-6" />
             <div className="flex flex-wrap items-baseline justify-between gap-4">
               <h2 className="display text-display-md" style={{ fontWeight: 500 }}>
-                Ferramentas <span className="italic" style={{ color: 'var(--accent-ink)' }}>&amp;</span> ofício.
+                {t.headingA} <span className="italic" style={{ color: 'var(--accent-ink)' }}>&amp;</span> {t.headingB}
               </h2>
               <p className="font-mono text-[11px] uppercase tracking-[0.22em] tabular" style={{ color: 'var(--fg-muted)' }}>
-                Índice · {site.skills.reduce((a, g) => a + g.items.length, 0)} itens
+                {t.index(totalItems)}
               </p>
             </div>
           </div>
@@ -29,70 +33,39 @@ export function Skills() {
               key={group.category}
               className="reveal grid gap-y-8 md:grid-cols-12 md:gap-x-8"
             >
-              
+
               <div className="md:col-span-3">
                 <p className="font-mono text-[11px] uppercase tracking-[0.22em] tabular" style={{ color: 'var(--accent-ink)' }}>
                   {String(gIndex + 1).padStart(2, '0')} / {String(site.skills.length).padStart(2, '0')}
                 </p>
                 <h3 className="display mt-3 text-2xl leading-[1.1] md:text-[28px]" style={{ fontWeight: 500 }}>
-                  {group.category}
+                  {t.categories[group.category] ?? group.category}
                 </h3>
                 <p className="mt-3 text-[13px]" style={{ color: 'var(--fg-muted)' }}>
-                  {group.items.length} tecnologias
+                  {t.tech(group.items.length)}
                 </p>
               </div>
 
-<ul data-stagger className="md:col-span-9">
-                <li className="rule mb-2" aria-hidden />
-                {group.items.map((skill, i) => (
+              {/* Grade em vez de uma linha por item: 22 tecnologias em lista
+                  corrida gastavam mais de mil pixels de altura para dizer o que
+                  cabe em nove fileiras. O ícone e o nome bastam — a numeração e
+                  o rótulo de hover eram moldura que só existia porque a linha
+                  era larga demais. */}
+              <ul className="md:col-span-9 grid grid-cols-2 gap-x-6 sm:grid-cols-3 md:gap-x-8">
+                {group.items.map((skill) => (
                   <li
                     key={skill.name}
-                    className="group relative flex items-center justify-between border-b py-4 transition-all duration-500 hover:[transform:translateX(6px)]"
-                    style={{ borderColor: 'var(--rule)', perspective: '700px' }}
+                    className="group flex items-center gap-3 border-b py-3"
+                    style={{ borderColor: 'var(--rule)' }}
                   >
-
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center text-[color:var(--fg-soft)] transition-colors duration-300 group-hover:text-[color:var(--accent-ink)]">
+                      <SkillIcon iconName={skill.icon} label={skill.name} size={18} />
+                    </span>
                     <span
-                      aria-hidden
-                      className="pointer-events-none absolute inset-y-0 left-0 origin-left scale-x-0 transition-transform duration-500 group-hover:scale-x-100"
-                      style={{
-                        width: '100%',
-                        background: `linear-gradient(90deg, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%)`,
-                      }}
-                    />
-
-                    <div className="relative flex items-center gap-5">
-                      <span
-                        className="font-mono text-[10px] uppercase tracking-[0.18em] tabular w-6"
-                        style={{ color: 'var(--fg-muted)' }}
-                      >
-                        {String(i + 1).padStart(2, '0')}
-                      </span>
-                      <span
-                        className="flex h-8 w-8 items-center justify-center text-[color:var(--fg-soft)] transition-all duration-500 group-hover:text-[color:var(--accent-ink)] group-hover:[transform:translateZ(12px)_rotateY(-12deg)_scale(1.2)]"
-                        style={{
-                          transformStyle: 'preserve-3d',
-                          filter: 'drop-shadow(0 4px 10px color-mix(in srgb, var(--accent) 25%, transparent))',
-                        }}
-                      >
-                        <SkillIcon
-                          iconName={skill.icon}
-                          label={skill.name}
-                          size={22}
-                        />
-                      </span>
-                      <span
-                        className="body-serif text-lg transition-colors md:text-xl"
-                        style={{ color: 'var(--fg)' }}
-                      >
-                        {skill.name}
-                      </span>
-                    </div>
-
-                    <span
-                      className="relative font-mono text-[10px] uppercase tracking-[0.22em] opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 translate-x-2"
-                      style={{ color: 'var(--accent-ink)' }}
+                      className="body-serif truncate text-[15px] leading-tight transition-colors duration-300 md:text-[17px]"
+                      style={{ color: 'var(--fg)' }}
                     >
-                      ◆ em uso
+                      {skill.name}
                     </span>
                   </li>
                 ))}

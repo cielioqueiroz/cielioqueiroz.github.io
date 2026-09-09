@@ -1,0 +1,84 @@
+/* Vozes tipográficas: metadado (mono), display e realces inline. */
+@layer components {
+  .kicker {
+    @apply font-mono text-[11px] uppercase tracking-[0.22em];
+    color: var(--fg-muted);
+  }
+
+  /* Numeração de seção como marca-texto (texto por cima) */
+  .marker {
+    @apply inline-flex items-center font-mono text-[11px] font-medium uppercase tracking-[0.22em];
+    background: var(--accent);
+    color: var(--accent-contrast);
+    padding: 0.22rem 0.6rem;
+    border-radius: var(--r-xs);
+  }
+
+  /* Rótulo de seção — usado em <h2> dentro de artigos. Mantém a voz mono do
+     design, mas com tamanho e cor de título: o `.kicker` (11px, --fg-muted)
+     deixava h2 menores e mais apagados que o corpo que introduzem. */
+  .section-label {
+    @apply font-mono text-[13px] uppercase tracking-[0.2em];
+    color: var(--fg);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  /* Marca-texto inline (realça palavras) */
+  .hl {
+    background: var(--accent);
+    color: var(--accent-contrast);
+    padding: 0.06em 0.24em;
+    border-radius: var(--r-xs);
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  /* Newsreader tem eixo óptico: `font-optical-sizing: auto` já ajusta o
+     desenho ao tamanho. O tracking fica com as classes de tamanho
+     (text-display-*), que sabem em que corpo o texto está. */
+  .display {
+    font-family: var(--font-display), Georgia, 'Times New Roman', serif;
+    font-optical-sizing: auto;
+    letter-spacing: 0;
+    text-wrap: balance;
+  }
+
+  /* A voz de leitura editorial: nomes próprios, títulos de certificado,
+     descrições. Aponta para a fonte de display — o que só passou a fazer
+     sentido quando ela virou uma serifa de verdade. */
+  .body-serif {
+    font-family: var(--font-display), Georgia, 'Times New Roman', serif;
+    font-optical-sizing: auto;
+    letter-spacing: 0.005em;
+    text-wrap: pretty;
+  }
+
+  .underline-grow {
+    position: relative;
+    display: inline-block;
+  }
+  .underline-grow::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  .underline-grow:hover::after {
+    transform: scaleX(1);
+  }
+}

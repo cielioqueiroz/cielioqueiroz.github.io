@@ -30,6 +30,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: isDefault ? 0.7 : 0.6,
     }));
 
+    // As seções que saíram da home. Ficam acima dos estudos de caso na
+    // prioridade: são a porta de entrada de cada assunto, e o caso é o
+    // aprofundamento de um deles.
+    const sections = ['/sobre', '/projetos', '/skills', '/credenciais', '/dados'].map(
+      (path) => ({
+        url: `${site.url}${localePath(locale, path)}`,
+        lastModified,
+        changeFrequency: 'monthly' as const,
+        priority: isDefault ? 0.8 : 0.7,
+      })
+    );
+
     const style = {
       url: `${site.url}${localePath(locale, '/estilo')}`,
       lastModified,
@@ -37,6 +49,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: isDefault ? 0.5 : 0.4,
     };
 
-    return [home, ...projects, style];
+    return [home, ...sections, ...projects, style];
   });
 }

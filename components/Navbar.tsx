@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { site } from '@/config/site';
 import { LOCALES, getDict, localePath, type Locale } from '@/config/i18n';
 import { ThemeToggle } from './ThemeToggle';
@@ -13,13 +14,14 @@ export function Navbar({ locale = 'pt' }: { locale?: Locale }) {
   const home = localePath(locale);
   const otherLocale = LOCALES.find((l) => l !== locale) ?? locale;
 
-  // Âncoras com o caminho da home na frente: assim a navbar funciona igual na
-  // home (rolagem no mesmo documento) e nas páginas de projeto (volta e rola).
-  const links = t.links.map((l) => ({ ...l, hash: l.href, href: `${home}${l.href}` }));
+  // Cada item aponta para a rota da seção. O ativo sai do pathname, e não mais
+  // de observar a rolagem: com uma seção por página, quem está aberto é fato,
+  // não estimativa.
+  const pathname = usePathname();
+  const links = t.links.map((l) => ({ ...l, href: localePath(locale, l.href) }));
 
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState<string>('');
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -27,27 +29,6 @@ export function Navbar({ locale = 'pt' }: { locale?: Locale }) {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
-
-  useEffect(() => {
-    const ids = links.map((l) => l.hash.slice(1));
-    const sections = ids
-      .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => el !== null);
-    if (sections.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible[0]) setActive(`#${visible[0].target.id}`);
-      },
-      { rootMargin: '-45% 0px -45% 0px', threshold: [0, 0.25, 0.5, 1] }
-    );
-
-    sections.forEach((s) => observer.observe(s));
-    return () => observer.disconnect();
-  }, [links]);
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
@@ -104,12 +85,12 @@ export function Navbar({ locale = 'pt' }: { locale?: Locale }) {
 
 <nav className="hidden items-center gap-5 md:flex lg:gap-7">
             {links.map((l) => {
-              const isActive = active === l.hash;
+              const isActive = pathname === l.href;
               return (
-                <a
+                <TransitionLink
                   key={l.href}
                   href={l.href}
-                  aria-current={isActive ? 'true' : undefined}
+                  aria-current={isActive ? 'page' : undefined}
                   className="group inline-flex items-baseline gap-1.5 text-sm transition-colors"
                 >
                   <span
@@ -133,7 +114,7 @@ export function Navbar({ locale = 'pt' }: { locale?: Locale }) {
                       transform: isActive ? 'scale(1)' : 'scale(0)',
                     }}
                   />
-                </a>
+                </TransitionLink>
               );
             })}
           </nav>
@@ -193,7 +174,7 @@ export function Navbar({ locale = 'pt' }: { locale?: Locale }) {
                   open ? 'translate-x-0 opacity-100' : '-translate-x-4 opacity-0'
                 }`}
               >
-                <a
+                <TransitionLink
                   href={l.href}
                   onClick={() => setOpen(false)}
                   className="group flex items-baseline justify-between border-b py-5"
@@ -216,7 +197,7 @@ export function Navbar({ locale = 'pt' }: { locale?: Locale }) {
                   >
                     →
                   </span>
-                </a>
+                </TransitionLink>
               </li>
             ))}
           </ul>

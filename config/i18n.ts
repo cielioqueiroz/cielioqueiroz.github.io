@@ -62,11 +62,11 @@ const pt = {
 
   nav: {
     links: [
-      { href: '#sobre', label: 'Sobre', n: '02' },
-      { href: '#projetos', label: 'Projetos', n: '03' },
-      { href: '#skills', label: 'Skills', n: '04' },
-      { href: '#certificados', label: 'Credenciais', n: '05' },
-      { href: '#dados', label: 'Dados', n: '06' },
+      { href: '/sobre', label: 'Sobre', n: '02' },
+      { href: '/projetos', label: 'Projetos', n: '03' },
+      { href: '/skills', label: 'Skills', n: '04' },
+      { href: '/credenciais', label: 'Credenciais', n: '05' },
+      { href: '/dados', label: 'Dados', n: '06' },
     ],
     edition: '· Edição 2026',
     indexTitle: 'Índice da edição',
@@ -320,6 +320,41 @@ const pt = {
     failedMailSubject: 'Currículo — Ciélio Queiroz',
   },
 
+  /** Título e descrição próprios de cada seção que virou rota. */
+  pages: {
+    sobre: {
+      title: 'Sobre — Ciélio Queiroz',
+      description:
+        'Frontend Developer com React, TypeScript e Next.js, e quinze anos de gestão administrativa e financeira como bagagem de negócio.',
+    },
+    projetos: {
+      title: 'Projetos — Ciélio Queiroz',
+      description:
+        'Cinco casos com código publicado e demo no ar: agro, finanças pessoais, IA aplicada a currículo e a estudo, e projeção de investimentos.',
+    },
+    skills: {
+      title: 'Skills — Ciélio Queiroz',
+      description:
+        'React, Next.js, TypeScript, REST APIs, integração com Claude e OpenAI, automação com n8n, Power BI e SQL.',
+    },
+    credenciais: {
+      title: 'Credenciais — Ciélio Queiroz',
+      description:
+        'Bacharelado em Administração pela UNOPAR e mais de quarenta certificados em programação, dados, IA e automação.',
+    },
+    dados: {
+      title: 'Dados — Ciélio Queiroz',
+      description:
+        'Modelos financeiros construídos em Excel e recriados aqui em HTML: DRE empresarial com cenário simulável e fluxo de caixa familiar.',
+    },
+  },
+
+  /** Índice na capa — o caminho para cada seção. */
+  index: {
+    kicker: 'Nesta edição',
+    read: 'Ler',
+  },
+
   motion: {
     pause: 'Pausar movimento',
     resume: 'Ativar movimento',
@@ -391,11 +426,11 @@ const en: Dict = {
 
   nav: {
     links: [
-      { href: '#sobre', label: 'About', n: '02' },
-      { href: '#projetos', label: 'Projects', n: '03' },
-      { href: '#skills', label: 'Skills', n: '04' },
-      { href: '#certificados', label: 'Credentials', n: '05' },
-      { href: '#dados', label: 'Data', n: '06' },
+      { href: '/sobre', label: 'About', n: '02' },
+      { href: '/projetos', label: 'Projects', n: '03' },
+      { href: '/skills', label: 'Skills', n: '04' },
+      { href: '/credenciais', label: 'Credentials', n: '05' },
+      { href: '/dados', label: 'Data', n: '06' },
     ],
     edition: '· 2026 Edition',
     indexTitle: 'Table of contents',
@@ -655,6 +690,39 @@ const en: Dict = {
     failed: 'Could not generate the PDF here.',
     failedCta: 'Ask for it by e-mail',
     failedMailSubject: 'Résumé — Ciélio Queiroz',
+  },
+
+  pages: {
+    sobre: {
+      title: 'About — Ciélio Queiroz',
+      description:
+        'Frontend Developer with React, TypeScript and Next.js, and fifteen years of administrative and financial management as business background.',
+    },
+    projetos: {
+      title: 'Projects — Ciélio Queiroz',
+      description:
+        'Five cases with published code and a live demo: agribusiness, personal finance, AI applied to CVs and to studying, and investment projections.',
+    },
+    skills: {
+      title: 'Skills — Ciélio Queiroz',
+      description:
+        'React, Next.js, TypeScript, REST APIs, integration with Claude and OpenAI, automation with n8n, Power BI and SQL.',
+    },
+    credenciais: {
+      title: 'Credentials — Ciélio Queiroz',
+      description:
+        "Bachelor's in Business Administration from UNOPAR and more than forty certificates in programming, data, AI and automation.",
+    },
+    dados: {
+      title: 'Data — Ciélio Queiroz',
+      description:
+        'Financial models built in Excel and recreated here in HTML: a corporate income statement with a simulable scenario, and household cash flow.',
+    },
+  },
+
+  index: {
+    kicker: 'In this edition',
+    read: 'Read',
   },
 
   motion: {

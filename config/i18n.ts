@@ -315,6 +315,9 @@ const pt = {
   cv: {
     download: 'Baixar CV',
     generating: 'Gerando…',
+    failed: 'Não consegui gerar o PDF aqui.',
+    failedCta: 'Peça por e-mail',
+    failedMailSubject: 'Currículo — Ciélio Queiroz',
   },
 
   copyEmail: {
@@ -602,6 +605,9 @@ const en: Dict = {
   cv: {
     download: 'Download CV (PT-BR)',
     generating: 'Generating…',
+    failed: 'Could not generate the PDF here.',
+    failedCta: 'Ask for it by e-mail',
+    failedMailSubject: 'Résumé — Ciélio Queiroz',
   },
 
   copyEmail: {

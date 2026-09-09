@@ -9,10 +9,12 @@ import { site } from '@/config/site';
  */
 export function useCVDownload() {
   const [generating, setGenerating] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   const download = async () => {
     if (generating) return;
     setGenerating(true);
+    setFailed(false);
     try {
       const [{ pdf }, { CVDocument }] = await Promise.all([
         import('@react-pdf/renderer'),
@@ -22,17 +24,21 @@ export function useCVDownload() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'Cielio_Queiroz_CV.pdf';
+      // O nome do arquivo é a primeira coisa que o recrutador vê na pasta.
+      a.download = 'Cielio-Queiroz-Frontend-Developer.pdf';
       document.body.appendChild(a);
       a.click();
       a.remove();
       URL.revokeObjectURL(url);
     } catch (err) {
+      // Sem isto a falha só existia no console: o botão parava de girar e o
+      // visitante ficava sem currículo e sem explicação.
       console.error('Falha ao gerar o PDF do currículo:', err);
+      setFailed(true);
     } finally {
       setGenerating(false);
     }
   };
 
-  return { generating, download };
+  return { generating, failed, download };
 }

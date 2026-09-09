@@ -7,6 +7,7 @@ import {
   StyleSheet,
 } from '@react-pdf/renderer';
 import type { Site } from '@/config/site';
+import { getCaseStudies } from '@/content/case-studies';
 
 /* ---- Fontes (instâncias estáticas servidas de /public/fonts/cv) ----
    Alinhadas ao tema "Fumaça Grafite" do site: Newsreader (display),
@@ -49,37 +50,28 @@ const C = {
   paper: '#FFFFFF',
 };
 
-/* ---- Curadoria editorial dos certificados (decisão do CV, não do site) ---- */
+/* ---- Curadoria editorial dos certificados (decisão do CV, não do site) ----
+   Só as duas categorias que sustentam a vaga. As outras continuam contadas na
+   linha de fecho, que manda o leitor para a lista completa no site — currículo
+   de três páginas perde o leitor antes de chegar nelas. */
 const CERT_HIGHLIGHTS: Record<string, string[]> = {
   Programação: [
     'Formação Full Stack JavaScript (50h) — Thiago M. Medeiros',
     'Santander Bootcamp Dev 2024 — Santander / DIO',
     'Responsive Web Design — freeCodeCamp',
-    'Cibersegurança · Nivelamento (80h) — Hackers do Bem',
-  ],
-  'Dados & BI': [
-    'Power BI para Business Intelligence e Data Science — Preditiva',
-    'Analista de Dados com Power BI — EduLiv',
-    'Power BI · Dashboard de Fluxo de Caixa — LinkedIn Learning',
   ],
   'IA & Automação': [
-    'n8n em 1 hora — Hora de Codar',
-    'Agente de IA no n8n — Hora de Codar',
     'ChatGPT para Desenvolvedores — Hora de Codar',
-    'Power Apps Expert — Viscari',
-  ],
-  Administração: [
-    'Analista Financeiro',
-    'Fluxo de Caixa',
-    'Inglês para Negócios — LinkedIn Learning',
+    'Agente de IA no n8n — Hora de Codar',
+    'Fundamentos de Data Science e IA — Preditiva',
   ],
 };
 
 const PROFILE =
-  'Administrador formado com mais de 15 anos em gestão administrativa e financeira ' +
-  '(contas a pagar/receber, fluxo de caixa, conciliações), agora desenvolvedor front-end ' +
-  'com React, Next.js e TypeScript. Visão de negócio aplicada a interfaces e dashboards ' +
-  'que geram decisão.';
+  'Frontend Developer com React, Next.js e TypeScript, focado em interfaces que consomem ' +
+  'APIs REST e em integração de IA generativa — da chamada ao modelo à validação da ' +
+  'resposta por schema antes de virar tela. Antes do código, quinze anos de gestão ' +
+  'administrativa e financeira: a bagagem que sustenta as decisões de produto.';
 
 const MESES = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
 const fmt = (iso: string) => {
@@ -133,6 +125,13 @@ const styles = StyleSheet.create({
   bulletRow: { flexDirection: 'row', marginBottom: 2 },
   bulletDot: { color: C.accent, marginRight: 6 },
   bulletText: { flex: 1, color: C.soft },
+
+  /* Projetos */
+  project: { marginBottom: 9 },
+  projectHead: { fontFamily: 'Newsreader', fontWeight: 500, fontSize: 11, color: C.ink },
+  projectLink: { fontFamily: 'GeistMono', fontSize: 7.5, color: C.muted },
+  projectSummary: { color: C.soft, marginTop: 1 },
+  projectStack: { fontFamily: 'GeistMono', fontSize: 7.5, color: C.accent, marginTop: 2 },
 
   /* Formação / Stack — linhas label + valor */
   defRow: { flexDirection: 'row', marginBottom: 5 },
@@ -191,6 +190,9 @@ export function CVDocument({ site }: { site: Site }) {
   const certCount = (cat: string) =>
     site.certificates.filter((c) => c.category === cat).length;
 
+  // O CV sai só em PT-BR (ver `cvMeta` no dicionário), então resolve em 'pt'.
+  const projects = getCaseStudies('pt');
+
   return (
     <Document
       title={`${site.name} — Currículo`}
@@ -214,8 +216,31 @@ export function CVDocument({ site }: { site: Site }) {
           <Text style={styles.profile}>{PROFILE}</Text>
         </View>
 
+        {/* Projetos vêm antes da experiência: numa vaga de frontend, é o código
+            publicado que responde pela senioridade — os cargos anteriores
+            explicam a visão de negócio, não a técnica. */}
         <View style={styles.section}>
-          <Text style={styles.marker}>§ 02 — Experiência</Text>
+          <Text style={styles.marker}>§ 02 — Projetos</Text>
+          {projects.map((p) => (
+            <View key={p.slug} style={styles.project} wrap={false}>
+              <Text style={styles.projectHead}>
+                {p.name}{' '}
+                <Text style={styles.projectLink}>
+                  · {(p.demo ?? p.repo).replace(/^https?:\/\//, '')}
+                </Text>
+              </Text>
+              <Text style={styles.projectSummary}>{p.summary}</Text>
+              <Text style={styles.projectStack}>{p.stack.join(' · ')}</Text>
+            </View>
+          ))}
+        </View>
+
+      </Page>
+
+      {/* ---------------- Página 2 ---------------- */}
+      <Page size="A4" style={styles.page}>
+        <View style={styles.section}>
+          <Text style={styles.marker}>§ 03 — Experiência anterior</Text>
           {site.experience.map((job) => (
             <View key={`${job.company}-${job.start}`} style={styles.job} wrap={false}>
               <Text style={styles.jobHead}>
@@ -235,7 +260,7 @@ export function CVDocument({ site }: { site: Site }) {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.marker}>§ 03 — Formação</Text>
+          <Text style={styles.marker}>§ 04 — Formação</Text>
           {site.education.map((ed) => (
             <View key={ed.degree} style={styles.defRow}>
               <Text style={styles.defLabel}>Graduação</Text>
@@ -245,12 +270,8 @@ export function CVDocument({ site }: { site: Site }) {
             </View>
           ))}
         </View>
-      </Page>
-
-      {/* ---------------- Página 2 ---------------- */}
-      <Page size="A4" style={styles.page}>
         <View style={styles.section}>
-          <Text style={styles.marker}>§ 04 — Stack &amp; Ferramentas</Text>
+          <Text style={styles.marker}>§ 05 — Stack &amp; Ferramentas</Text>
           {site.skills.map((group) => (
             <View key={group.category} style={styles.defRow}>
               <Text style={styles.defLabel}>{group.category}</Text>
@@ -262,7 +283,7 @@ export function CVDocument({ site }: { site: Site }) {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.marker}>§ 05 — Credenciais</Text>
+          <Text style={styles.marker}>§ 06 — Credenciais</Text>
           {Object.entries(CERT_HIGHLIGHTS).map(([cat, items]) => (
             <View key={cat} style={styles.certGroup} wrap={false}>
               <View style={styles.certHead}>

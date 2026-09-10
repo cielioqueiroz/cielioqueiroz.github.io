@@ -1,8 +1,15 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { Pause, Play } from 'lucide-react';
 import { getDict, type Locale } from '@/config/i18n';
-import { useMediaQuery, useMotionPaused, setMotionPaused } from '@/lib/client-state';
+
+const STORAGE_KEY = 'motion-paused';
+
+/** Sinaliza a escolha no <html>, de onde o CSS e o ScrollFX a leem. */
+function apply(paused: boolean) {
+  document.documentElement.dataset.motion = paused ? 'paused' : 'on';
+}
 
 /**
  * Pausa as cenas de rolagem.
@@ -17,18 +24,42 @@ import { useMediaQuery, useMotionPaused, setMotionPaused } from '@/lib/client-st
  */
 export function MotionToggle({ locale = 'pt' }: { locale?: Locale }) {
   const t = getDict(locale).motion;
-  const reduced = useMediaQuery('(prefers-reduced-motion: reduce)');
-  const paused = useMotionPaused();
+  const [paused, setPaused] = useState(false);
+  const [visible, setVisible] = useState(false);
 
-  // No servidor `reduced` é `false`, então o botão sai no HTML e some na
-  // hidratação de quem pediu menos movimento — o contrário deixaria quem quer
-  // o controle sem ele até o JavaScript chegar.
-  if (reduced) return null;
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    setVisible(true);
+
+    let stored = false;
+    try {
+      stored = localStorage.getItem(STORAGE_KEY) === 'true';
+    } catch {
+      // Navegação privada ou cookies bloqueados: segue com o padrão.
+    }
+    setPaused(stored);
+    apply(stored);
+  }, []);
+
+  if (!visible) return null;
+
+  const toggle = () => {
+    const next = !paused;
+    setPaused(next);
+    apply(next);
+    try {
+      localStorage.setItem(STORAGE_KEY, String(next));
+    } catch {
+      // A escolha vale para esta visita; não poder guardar não é motivo de erro.
+    }
+    // O ScrollFX ouve isto para montar ou desmontar as cenas na hora.
+    window.dispatchEvent(new CustomEvent('motionpreferencechange', { detail: { paused: next } }));
+  };
 
   return (
     <button
       type="button"
-      onClick={() => setMotionPaused(!paused)}
+      onClick={toggle}
       aria-pressed={paused}
       className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] transition-colors hover:text-[color:var(--accent-ink)]"
       style={{ color: 'var(--fg-muted)' }}

@@ -2,6 +2,8 @@ import type { MetadataRoute } from 'next';
 import { site } from '@/config/site';
 import { palette } from '@/config/theme';
 
+export const dynamic = 'force-static';
+
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: `${site.name} — ${site.title}`,

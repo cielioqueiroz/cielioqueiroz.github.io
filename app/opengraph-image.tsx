@@ -4,6 +4,7 @@ import path from 'node:path';
 import { site } from '@/config/site';
 import { banner } from '@/config/theme';
 
+export const dynamic = 'force-static';
 export const alt = `${site.name} — ${site.title}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';

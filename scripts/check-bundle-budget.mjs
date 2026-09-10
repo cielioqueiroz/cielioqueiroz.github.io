@@ -5,9 +5,14 @@
  * repetida no estudo de caso deste portfólio. Sem um limite automático, essa
  * promessa depende de alguém lembrar de olhar o output do build.
  *
- * Lê o app-build-manifest do Next, soma os chunks carregados em toda página e
+ * Lê o build-manifest do Next, soma os chunks carregados em toda página e
  * compara com o teto. Para atualizar o teto: mude BUDGET_KB e explique no
  * commit por que o aumento vale a pena.
+ *
+ * Até o Next 15 a conta era a interseção dos chunks de cada rota, tirada do
+ * `app-build-manifest.json`. O Turbopack, que virou padrão no 16, não gera
+ * esse arquivo — em compensação declara em `rootMainFiles` exatamente o
+ * conjunto que toda rota carrega, que é o que queríamos calcular.
  */
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
@@ -35,26 +40,22 @@ async function sizeOf(file) {
 }
 
 async function main() {
-  const manifestPath = path.join(NEXT_DIR, 'app-build-manifest.json');
+  const manifestPath = path.join(NEXT_DIR, 'build-manifest.json');
 
   let manifest;
   try {
     manifest = JSON.parse(await fs.readFile(manifestPath, 'utf8'));
   } catch {
-    console.error('[budget] .next/app-build-manifest.json não encontrado. Rode `npm run build` antes.');
+    console.error('[budget] .next/build-manifest.json não encontrado. Rode `npm run build` antes.');
     process.exit(1);
   }
 
-  const pages = Object.entries(manifest.pages ?? {});
-  if (pages.length === 0) {
-    console.error('[budget] Nenhuma página no manifest — build incompleto?');
+  // O custo que todo visitante paga, qualquer que seja a rota de entrada.
+  const shared = (manifest.rootMainFiles ?? []).filter((f) => f.endsWith('.js'));
+  if (shared.length === 0) {
+    console.error('[budget] `rootMainFiles` vazio no manifest — build incompleto?');
     process.exit(1);
   }
-
-  // Chunks presentes em TODAS as páginas = o custo que todo visitante paga.
-  const shared = pages
-    .map(([, files]) => new Set(files.filter((f) => f.endsWith('.js'))))
-    .reduce((acc, set) => new Set([...acc].filter((f) => set.has(f))));
 
   let total = 0;
   for (const file of shared) total += await sizeOf(file);
@@ -63,7 +64,7 @@ async function main() {
   const verdict = kb <= BUDGET_KB ? 'OK' : 'ESTOUROU';
 
   console.log(`[budget] JS compartilhado: ${kb.toFixed(1)} kB / teto ${BUDGET_KB} kB — ${verdict}`);
-  console.log(`[budget] ${shared.size} chunk(s) em ${pages.length} rota(s).`);
+  console.log(`[budget] ${shared.length} chunk(s) carregados em toda rota.`);
 
   if (kb > BUDGET_KB) {
     console.error(

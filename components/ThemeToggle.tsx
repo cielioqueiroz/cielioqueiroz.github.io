@@ -1,18 +1,18 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
 import { Moon, Sun } from 'lucide-react';
 import { getDict, type Locale } from '@/config/i18n';
+import { useHydrated } from '@/lib/client-state';
 
 export function ThemeToggle({ locale = 'pt' }: { locale?: Locale }) {
-  const [mounted, setMounted] = useState(false);
+  // O tema real só é conhecido no cliente; até lá, o espaço fica reservado
+  // para o botão não empurrar a navbar ao aparecer.
+  const hydrated = useHydrated();
   const { resolvedTheme, setTheme } = useTheme();
   const t = getDict(locale).nav;
 
-  useEffect(() => setMounted(true), []);
-
-  if (!mounted) {
+  if (!hydrated) {
     return <div className="h-10 w-10" aria-hidden />;
   }
 

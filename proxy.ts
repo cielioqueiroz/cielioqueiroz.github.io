@@ -14,6 +14,10 @@ import { DEFAULT_LOCALE, LOCALES } from '@/config/i18n';
  *
  * Sem isso, ou o português mudaria de endereço (quebrando os links já
  * indexados) ou a árvore de componentes teria que ser copiada por idioma.
+ *
+ * O arquivo se chamava `middleware.ts` até o Next 16, que renomeou a convenção
+ * para `proxy`. Só o nome mudou — a função, o matcher e o comportamento são os
+ * mesmos.
  */
 
 const PREFIXED = LOCALES.filter((l) => l !== DEFAULT_LOCALE);
@@ -48,7 +52,7 @@ function redirect(request: NextRequest, pathname: string): NextResponse {
   return NextResponse.redirect(url, 308);
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // /pt e /pt/... não são endereços válidos: o padrão mora na raiz. Já
@@ -82,7 +86,7 @@ export const config = {
    *
    * Aqui havia uma lista de nomes de arquivo — favicon, icon.svg, robots.txt,
    * portrait — que alguém precisava lembrar de estender a cada asset novo.
-   * Esquecer custa caro e em silêncio: o middleware reescreve o caminho do
+   * Esquecer custa caro e em silêncio: o proxy reescreve o caminho do
    * arquivo para dentro de `[locale]`, onde não existe rota, e o arquivo some.
    * Pior quando é imagem servida pelo `next/image`: o otimizador busca o
    * original pela própria rota HTTP, leva o 404 e devolve 400 — a página

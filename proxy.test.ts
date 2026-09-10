@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { NextRequest } from 'next/server';
-import { config, middleware } from '@/middleware';
+import { config, proxy } from '@/proxy';
 import { caseStudies } from '@/content/case-studies';
 
 /**
- * O middleware é a peça mais silenciosamente perigosa do projeto: erra e o
+ * O proxy é a peça mais silenciosamente perigosa do projeto: erra e o
  * site inteiro muda de endereço ou responde 404 — e nada disso aparece em
  * desenvolvimento, onde a gente digita sempre a mesma URL certa.
  *
@@ -27,7 +27,7 @@ const BASE = 'https://cielio-portfolio.vercel.app';
  * isso o teste mediria um comportamento que não existe no site publicado.
  */
 const run = (path: string) =>
-  middleware(new NextRequest(new URL(path, BASE), { nextConfig: { trailingSlash: true } }));
+  proxy(new NextRequest(new URL(path, BASE), { nextConfig: { trailingSlash: true } }));
 
 /** Para onde o Next foi mandado internamente, sem mudar a URL do visitante. */
 const rewriteTarget = (res: Response) => {
@@ -125,7 +125,7 @@ describe('o matcher separa página de arquivo', () => {
   /**
    * Este bloco existe por causa de um bug que chegou em produção: os prints dos
    * estudos de caso ficaram invisíveis porque o matcher mandava
-   * `/projetos/x.webp` para o roteamento de idioma. Testar `middleware()` não
+   * `/projetos/x.webp` para o roteamento de idioma. Testar `proxy()` não
    * pegaria — a função nunca é chamada para esses caminhos, e é exatamente aí
    * que mora o erro. Quem decide é a configuração, então é ela que é testada.
    */
@@ -138,7 +138,7 @@ describe('o matcher separa página de arquivo', () => {
     '/projetos/praca-araguaia/',
     '/en/projetos/buscador-de-cv/',
     '/qualquer-coisa/',
-  ])('%s é página e passa pelo middleware', (path) => {
+  ])('%s é página e passa pelo proxy', (path) => {
     expect(matcher.test(path)).toBe(true);
   });
 

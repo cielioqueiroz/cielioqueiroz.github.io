@@ -15,7 +15,6 @@ import {
   SiMui,
   SiVite,
   SiJupyter,
-  SiOpenai,
   SiClaude,
   SiN8N,
 } from 'react-icons/si';
@@ -27,7 +26,8 @@ import type { IconType } from 'react-icons';
  * declarado em `config/site.ts` existe aqui, sem arrastar JSX para o teste.
  *
  * O que NÃO está aqui é decisão, não esquecimento: o Simple Icons removeu as
- * marcas da Microsoft (Power BI, Excel, SQL Server, Power Apps, VS Code) e o
+ * marcas da Microsoft (Power BI, Excel, SQL Server, Power Apps, VS Code) e,
+ * depois, a da OpenAI — todas por política de marca do próprio titular. O
  * `react-icons` não as expõe mais. Essas skills caem no bloco de iniciais do
  * componente, e o teste mantém a lista de exceções explícita — um nome de
  * ícone digitado errado não se disfarça de escolha de design.
@@ -47,7 +47,6 @@ export const iconMap: Record<string, IconType> = {
   SiMui,
   SiVite,
   SiJupyter,
-  SiOpenai,
   SiClaude,
   SiN8N,
 };

@@ -11,10 +11,12 @@ import { SKILL_ICON_NAMES } from '@/components/skill-icons';
 
 /**
  * Skills sem ícone disponível — decisão, não esquecimento: o Simple Icons
- * removeu as marcas da Microsoft, e o componente desenha as iniciais no lugar.
- * Se um nome sair daqui e também não existir no mapa, o teste acusa.
+ * removeu as marcas da Microsoft e, depois, a da OpenAI, e o componente
+ * desenha as iniciais no lugar. Se um nome sair daqui e também não existir no
+ * mapa, o teste acusa.
  */
 const SEM_ICONE_DISPONIVEL = [
+  'SiOpenai',
   'SiPowerbi',
   'SiMicrosoftsqlserver',
   'SiMicrosoftexcel',
